@@ -39,6 +39,35 @@ const partials = {
   "page-disclaimer": read("partials/page-disclaimer.html"),
 };
 
+/* ---- base path ----------------------------------------------------------
+ * The site is authored with root-relative URLs ("/contact/"), which is what a
+ * site served from its own domain wants. A GitHub Pages project site is served
+ * from <user>.github.io/<repo>/ instead, so those URLs resolve to the domain
+ * root and 404 — assets included, which is why an unbased build renders with no
+ * CSS at all. Every internal href/src is therefore rewritten at build time.
+ *
+ * Precedence: BASE_PATH env var, then site.basePath, then none.
+ * ------------------------------------------------------------------------ */
+
+const BASE = (process.env.BASE_PATH ?? site.basePath ?? "")
+  .trim()
+  .replace(/\/+$/, "")
+  .replace(/^(?!\/)(.+)/, "/$1");
+
+/**
+ * Idempotent: strips an already-applied prefix before re-applying, so running
+ * the build twice — or running it after changing basePath — converges instead
+ * of stacking prefixes. Absolute URLs (canonical, og:url), fragments, tel: and
+ * mailto: links are all left alone.
+ */
+function applyBase(html) {
+  if (!BASE) return html;
+  const attr = "(?:href|src)=\"";
+  return html
+    .replace(new RegExp(`(${attr})${BASE}/`, "g"), "$1/")
+    .replace(new RegExp(`(${attr})/(?!/)`, "g"), `$1${BASE}/`);
+}
+
 /* ---- helpers ------------------------------------------------------------ */
 
 const esc = (s = "") =>
@@ -511,7 +540,7 @@ for (const route of allRoutes) {
   }
 
   const source = isNew ? render(templateFor(route), ctx) : readFileSync(abs, "utf8");
-  const next = stitch(source, regionsFor(route, ctx, source));
+  const next = applyBase(stitch(source, regionsFor(route, ctx, source)));
 
   if (isNew) {
     mkdirSync(dirname(abs), { recursive: true });
@@ -553,6 +582,11 @@ if (CHECK) {
 } else {
   console.log(
     `\n  ${allRoutes.length} routes · ${created} created · ${updated} updated · ${indexable.length} indexable in sitemap.xml`
+  );
+  console.log(
+    BASE
+      ? `  Base path: ${BASE} — internal links are prefixed for a sub-directory deploy.`
+      : `  Base path: none — internal links are root-relative (own-domain deploy).`
   );
   if (!indexable.length) {
     const drafts = [...routes.values()].filter((r) => r.draft).length;

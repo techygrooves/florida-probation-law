@@ -13,7 +13,7 @@
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:placeholders": "node scripts/check-placeholders.mjs",
     "check:launch": "node scripts/check-placeholders.mjs --strict",
-    "serve": "python3 -m http.server 8000"
+    "serve": "node scripts/serve.mjs"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",

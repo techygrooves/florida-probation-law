@@ -33,10 +33,34 @@ npm run serve     # http://127.0.0.1:8000
 | `npm run check:contrast` | Every colour pair against WCAG 2.2 AA |
 | `npm run check:placeholders` | Reports outstanding firm details and empty routes |
 | `npm run check:launch` | Same, but **fails** — run before going live |
-| `npm run serve` | Static server on port 8000 |
+| `npm run serve` | Preview server, mounted at the configured base path |
 
-Serve over HTTP rather than opening files directly. Pages use root-relative
-paths, and browsers block `@font-face` over `file://`.
+Serve over HTTP rather than opening files directly — browsers block
+`@font-face` over `file://`. Use `npm run serve` rather than a plain static
+server, so the site is served under the same base path it was built for.
+
+## Where the site is served from
+
+Pages are authored with root-relative URLs (`/contact/`), which is what a site
+on its own domain wants. A **GitHub Pages project site** is served from
+`<user>.github.io/<repo>/` instead, so those URLs resolve to the domain root
+and 404 — including the stylesheet, which is why an unbased build renders as
+raw unstyled HTML.
+
+`data/site.json` therefore carries a `basePath`, applied to every internal
+`href` and `src` at build time:
+
+| Deploy target | `basePath` |
+| --- | --- |
+| GitHub Pages project site (current) | `/florida-probation-law` |
+| floridaprobationlaw.com, or Pages with a `CNAME` | `""` |
+
+Change it and re-run `npm run build`; the rewrite is idempotent, so switching
+back and forth converges rather than stacking prefixes. A one-off build can
+override it: `BASE_PATH= npm run build`.
+
+Canonical and `og:url` are absolute and always use `url` from `site.json`, so
+a preview deploy never canonicalises to itself.
 
 ## How pages are assembled
 
