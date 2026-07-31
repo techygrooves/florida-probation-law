@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- @include:head -->
+<!-- @end:head -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- @include:header -->
+<!-- @end:header -->
+
+<main id="main">
+  <article class="section">
+    <div class="container-narrow">
+
+      <!-- @include:breadcrumbs -->
+      <!-- @end:breadcrumbs -->
+
+      <!-- Page heading and introductory summary -->
+      <div class="section-heading heading-rule" style="margin-top:1.5rem">
+        <p class="eyebrow">{{page.eyebrow}}</p>
+        <h1 class="h1">{{page.h1}}</h1>
+        <p class="lede">{{page.description}}</p>
+      </div>
+
+      <!-- Table of contents. Generated from headings marked data-toc;
+           suppressed automatically on pages with fewer than three. -->
+      <div style="margin-top:2rem">
+        <!-- @include:toc -->
+        <!-- @end:toc -->
+      </div>
+
+      <!-- Main content. Hand-authored; the build never touches this. -->
+      <div class="prose-legal" style="margin-top:2.5rem;max-width:none">
+        <p>Content for this page has not been written yet.</p>
+      </div>
+
+      <!-- Contextual internal links to the rest of this cluster -->
+      <div style="margin-top:3rem">
+        <!-- @include:siblings -->
+        <!-- @end:siblings -->
+      </div>
+
+    </div>
+  </article>
+</main>
+
+<!-- @include:cta -->
+<!-- @end:cta -->
+
+<!-- @include:page-disclaimer -->
+<!-- @end:page-disclaimer -->
+
+<!-- @include:footer -->
+<!-- @end:footer -->
+
+<!-- @include:call-bar -->
+<!-- @end:call-bar -->
+
+<script src="/js/main.js" defer></script>
+</body>
+</html>

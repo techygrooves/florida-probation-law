@@ -35,6 +35,8 @@ const partials = {
   header: read("partials/header.html"),
   footer: read("partials/footer.html"),
   "call-bar": read("partials/call-bar.html"),
+  cta: read("partials/cta.html"),
+  "page-disclaimer": read("partials/page-disclaimer.html"),
 };
 
 /* ---- helpers ------------------------------------------------------------ */
@@ -278,6 +280,77 @@ ${items}
       </nav>`;
 }
 
+/* ---- table of contents --------------------------------------------------
+ * Generated from the page's own headings rather than hand-written, so a
+ * renamed or reordered section can never leave a stale entry behind. Only
+ * headings explicitly marked `data-toc` are collected, which keeps the
+ * headings inside generated regions (the CTA, the footer) out of it.
+ * ------------------------------------------------------------------------ */
+
+function renderToc(html) {
+  const items = [];
+  for (const [, attrs, inner] of html.matchAll(/<h2([^>]*)>([\s\S]*?)<\/h2>/g)) {
+    if (!/\bdata-toc\b/.test(attrs)) continue;
+    const id = /id="([^"]+)"/.exec(attrs)?.[1];
+    if (!id) continue;
+    const text = inner.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+    items.push({ id, text });
+  }
+
+  // Short pages do not need one; a two-entry contents list is just noise.
+  if (items.length < 3) return "";
+
+  const links = items
+    .map((i) => `          <li><a href="#${i.id}">${esc(i.text)}</a></li>`)
+    .join("\n");
+
+  return `      <nav class="toc" aria-labelledby="toc-heading">
+        <p class="toc-heading" id="toc-heading">On this page</p>
+        <ol class="toc-list">
+${links}
+        </ol>
+      </nav>`;
+}
+
+/* ---- sibling links ------------------------------------------------------
+ * Every page in a cluster links to the rest of it, generated from nav.json so
+ * adding a page to the section wires it into all the others automatically.
+ * ------------------------------------------------------------------------ */
+
+function renderSiblings(route) {
+  const parent = nav.primary.find(
+    (p) => p.children && p.href !== "/" && route.href.startsWith(p.href)
+  );
+  if (!parent) return "";
+
+  const seen = new Set([route.href]);
+  const items = [];
+  for (const child of parent.children) {
+    if (seen.has(child.href)) continue;
+    seen.add(child.href);
+    items.push(child);
+  }
+  if (!items.length) return "";
+
+  const cards = items
+    .map(
+      (i) => `        <li>
+          <a class="related-item" href="${i.href}">
+            <span class="related-item-title">${esc(i.label)}</span>
+            <svg class="related-item-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"/></svg>
+          </a>
+        </li>`
+    )
+    .join("\n");
+
+  return `    <nav class="related" aria-labelledby="related-heading">
+      <p class="related-heading" id="related-heading">More on ${esc(parent.label.toLowerCase())}</p>
+      <ul class="related-list">
+${cards}
+      </ul>
+    </nav>`;
+}
+
 /* ---- HTML sitemap -------------------------------------------------------- */
 
 function renderSitemap() {
@@ -359,13 +432,18 @@ function contextFor(route) {
   };
 }
 
-function regionsFor(route, ctx) {
+function regionsFor(route, ctx, source) {
   return {
     head: render(partials.head, ctx),
     header: render(partials.header, ctx),
     footer: render(partials.footer, ctx),
     "call-bar": render(partials["call-bar"], ctx),
+    cta: render(partials.cta, ctx),
+    "page-disclaimer": render(partials["page-disclaimer"], ctx),
     breadcrumbs: renderBreadcrumbs(route),
+    // Depend on the page's own content, so they are derived from `source`.
+    toc: renderToc(source),
+    siblings: renderSiblings(route),
     sitemap: route.href === "/sitemap/" ? renderSitemap() : null,
   };
 }
@@ -387,11 +465,21 @@ function stitch(html, regions) {
 const templates = {
   page: read("templates/page.html"),
   sitemap: read("templates/sitemap.html"),
+  interior: read("templates/interior.html"),
 };
 
-/** The HTML sitemap carries a generated listing, so it needs its own shell. */
-const templateFor = (route) =>
-  route.href === "/sitemap/" ? templates.sitemap : templates.page;
+/**
+ * The HTML sitemap carries a generated listing, so it needs its own shell.
+ * Content pages inside a nav section use the interior template — contents,
+ * cluster links, CTA and disclaimer — rather than the bare placeholder shell.
+ */
+const templateFor = (route) => {
+  if (route.href === "/sitemap/") return templates.sitemap;
+  const inCluster = nav.primary.some(
+    (p) => p.children && p.href !== "/" && route.href.startsWith(p.href)
+  );
+  return inCluster ? templates.interior : templates.page;
+};
 
 let created = 0;
 let updated = 0;
@@ -423,7 +511,7 @@ for (const route of allRoutes) {
   }
 
   const source = isNew ? render(templateFor(route), ctx) : readFileSync(abs, "utf8");
-  const next = stitch(source, regionsFor(route, ctx));
+  const next = stitch(source, regionsFor(route, ctx, source));
 
   if (isNew) {
     mkdirSync(dirname(abs), { recursive: true });
