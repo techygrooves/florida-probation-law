@@ -2054,6 +2054,380 @@
   }
 
   /* ======================================================================
+     5.19 Announcement bar
+     ====================================================================== */
+
+  .announce-bar {
+    background-color: var(--color-mist-100);
+    border-bottom: 1px solid var(--color-line-200);
+  }
+
+  .announce-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem 1rem;
+    padding-block: 0.75rem;
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-ink-600);
+  }
+
+  .announce-inner strong {
+    font-weight: 600;
+    color: var(--color-navy-900);
+  }
+
+  /* ======================================================================
+     5.20 Hero
+     ====================================================================== */
+
+  .hero {
+    padding-block: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero { padding-block: 4.5rem; }
+  }
+
+  @media (min-width: 1024px) {
+    .hero { padding-block: 5.5rem; }
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 4rem;
+    }
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: var(--text-display-1);
+    line-height: 1.06;
+    letter-spacing: -0.024em;
+    font-weight: 700;
+    color: var(--color-navy-900);
+    text-wrap: balance;
+  }
+
+  .hero-lede {
+    margin-top: 1.25rem;
+    max-width: 34rem;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-ink-600);
+  }
+
+  @media (min-width: 768px) {
+    .hero-lede { font-size: 1.1875rem; }
+  }
+
+  .hero-actions { margin-top: 2rem; }
+
+  .hero-note {
+    margin-top: 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--color-ink-500);
+    max-width: 32rem;
+  }
+
+  /* ---- Hero visual -----------------------------------------------------
+     Drawn entirely in CSS. No stock photography of an attorney who does not
+     work here, and no gavel: the motif is architectural hairlines plus the
+     statute that governs the length of a probation term.
+     --------------------------------------------------------------------- */
+
+  .hero-visual {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    min-height: 20rem;
+    padding: 1.75rem;
+    border: 1px solid var(--color-line-200);
+    border-radius: var(--radius-2xl);
+    background-color: var(--color-mist-50);
+    isolation: isolate;
+  }
+
+  @media (min-width: 768px) {
+    .hero-visual { min-height: 24rem; padding: 2rem; }
+  }
+
+  /* Colonnade: evenly spaced hairlines fading out toward the base. */
+  .hero-visual::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgb(28 58 99 / 0.07) 0 1px,
+      transparent 1px 30px
+    );
+    -webkit-mask-image: linear-gradient(to bottom, #000 15%, transparent 85%);
+    mask-image: linear-gradient(to bottom, #000 15%, transparent 85%);
+  }
+
+  /* A single arch, outlined not filled. */
+  .hero-visual::after {
+    content: "";
+    position: absolute;
+    top: 2.25rem;
+    left: 50%;
+    z-index: -2;
+    width: 15rem;
+    height: 15rem;
+    transform: translateX(-50%);
+    border: 1px solid rgb(28 58 99 / 0.14);
+    border-bottom: 0;
+    border-radius: 50% 50% 0 0 / 62% 62% 0 0;
+  }
+
+  .hero-visual-mark {
+    position: absolute;
+    top: 4.25rem;
+    left: 50%;
+    z-index: -1;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-size: 2.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: rgb(28 58 99 / 0.13);
+    white-space: nowrap;
+  }
+
+  @media (min-width: 768px) {
+    .hero-visual-mark { font-size: 3.25rem; }
+  }
+
+  .hero-visual-card {
+    width: 100%;
+    padding: 1.375rem;
+    background-color: #fff;
+    border: 1px solid var(--color-line-200);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ---- Term meter -------------------------------------------------------
+     Illustrates the halfway point of a supervision term. Decorative, and
+     labelled as an image so it is announced once rather than read as a
+     meaningless run of empty elements.
+     --------------------------------------------------------------------- */
+
+  .term-meter-track {
+    position: relative;
+    height: 0.5rem;
+    margin-top: 0.875rem;
+    border-radius: 999px;
+    background-color: var(--color-mist-200);
+  }
+
+  .term-meter-fill {
+    position: absolute;
+    inset: 0 50% 0 0;
+    border-radius: 999px;
+    background-color: var(--color-teal-500);
+  }
+
+  .term-meter-marker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.875rem;
+    height: 0.875rem;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: #fff;
+    border: 3px solid var(--color-teal-600);
+  }
+
+  .term-meter-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.625rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-ink-500);
+  }
+
+  /* ======================================================================
+     5.20b Two-column layouts
+     ====================================================================== */
+
+  /* Prose beside a supporting panel. */
+  .split-grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 1024px) {
+    .split-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 3.5rem;
+    }
+  }
+
+  /* Message on the left, buttons on the right, stacking on small screens. */
+  .cta-split {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.75rem;
+  }
+
+  /* ======================================================================
+     5.21 Numbered process steps
+     ====================================================================== */
+
+  .steps {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+    counter-reset: step;
+  }
+
+  @media (min-width: 768px) {
+    .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+  }
+
+  .step {
+    position: relative;
+    padding-top: 1.25rem;
+    border-top: 2px solid var(--color-line-200);
+  }
+
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: var(--color-navy-800);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-title {
+    margin-top: 0.875rem;
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-navy-900);
+  }
+
+  .step-text {
+    margin-top: 0.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-ink-600);
+  }
+
+  /* ======================================================================
+     5.22 Checklist
+     ====================================================================== */
+
+  .checklist {
+    display: grid;
+    gap: 0.875rem 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .checklist { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-ink-700);
+  }
+
+  .checklist-icon {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-top: 0.2rem;
+    color: var(--color-teal-600);
+  }
+
+  /* ======================================================================
+     5.23 Attorney introduction
+     ====================================================================== */
+
+  .attorney-intro {
+    display: grid;
+    gap: 1.75rem;
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .attorney-intro { grid-template-columns: 14rem minmax(0, 1fr); gap: 2.5rem; }
+  }
+
+  /* Deliberately not a photograph. Using stock imagery of someone who does
+     not work at the firm would misrepresent who the client would be hiring. */
+  .attorney-portrait {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    aspect-ratio: 4 / 5;
+    max-width: 14rem;
+    padding: 1.25rem;
+    text-align: center;
+    background-color: var(--color-mist-50);
+    border: 1px dashed var(--color-line-300);
+    border-radius: var(--radius-xl);
+    color: var(--color-ink-500);
+  }
+
+  .attorney-portrait-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-ink-400);
+  }
+
+  .attorney-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+  }
+
+  /* ======================================================================
      5.18 Mobile sticky call bar
      ====================================================================== */
 

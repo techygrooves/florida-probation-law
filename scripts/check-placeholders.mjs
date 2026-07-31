@@ -43,14 +43,26 @@ if (!site.bar.admission) pending.push(["bar", "Florida Bar membership details no
 /* ---- placeholder routes -------------------------------------------------- */
 
 const placeholderRoutes = [];
+const draftRoutes = [];
 const walk = (items) => {
   for (const item of items || []) {
-    if (item.placeholder && item.href) placeholderRoutes.push(item.href);
+    if (item.href && item.placeholder) placeholderRoutes.push(item.href);
+    if (item.href && item.draft) draftRoutes.push(item.href);
     walk(item.children);
   }
 };
 walk(nav.primary);
 walk(nav.legal);
+
+// County coverage was flagged as a blocking unknown from the start: publishing
+// a location page for a county the firm does not serve is both a doorway-page
+// risk and, under Fla. Bar Rule 4-7.12, a misleading implication of presence.
+const counties = (nav.primary.find((p) => p.href === "/locations/")?.children || [])
+  .filter((c) => c.href !== "/locations/").length;
+pending.push([
+  "coverage",
+  `${counties} county pages exist but Hoffman Legal has not confirmed which counties it serves.`,
+]);
 
 /* ---- stray TODO markers in shipped HTML ---------------------------------- */
 
@@ -81,14 +93,14 @@ if (pending.length) {
 }
 
 console.log(
-  `\n    routes    ${placeholderRoutes.length} of ${placeholderRoutes.length} routes still have no content; ` +
-    `all carry noindex\n`
+  `\n    routes    ${placeholderRoutes.length} with no content, ` +
+    `${draftRoutes.length} written but awaiting Florida attorney review; all carry noindex\n`
 );
 
-if (STRICT && (pending.length || placeholderRoutes.length)) {
+if (STRICT && (pending.length || placeholderRoutes.length || draftRoutes.length)) {
   console.error(
-    `  Refusing a production build: ${pending.length} unresolved item(s) and ` +
-      `${placeholderRoutes.length} empty route(s).\n`
+    `  Refusing a production build: ${pending.length} unresolved item(s), ` +
+      `${placeholderRoutes.length} empty route(s), ${draftRoutes.length} unreviewed route(s).\n`
   );
   process.exit(1);
 }
