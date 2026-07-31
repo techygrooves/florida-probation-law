@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design System — FloridaProbationLaw.com</title>
+<meta name="description" content="Internal reference for the FloridaProbationLaw.com design system: tokens, typography, and reusable component styles.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="preload" href="../fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/source-serif-4-latin-600.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ====================================================================
+     Page header
+     ==================================================================== -->
+<header class="section-sm" style="border-bottom:1px solid var(--color-line-200)">
+  <div class="container-page">
+    <p class="eyebrow">Internal reference</p>
+    <h1 class="h2" style="margin-top:.5rem">Design System</h1>
+    <p class="lede" style="margin-top:.75rem;max-width:46rem">
+      Tokens and reusable component styles for FloridaProbationLaw.com.
+      This page is <code>noindex</code> and is not part of the public site.
+    </p>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ==================================================================
+       Colour
+       ================================================================== -->
+  <section class="section" aria-labelledby="colour">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">01 — Foundations</p>
+        <h2 class="h3" id="colour">Colour</h2>
+        <p class="lede">
+          White dominates. Navy carries authority, azure carries interaction,
+          teal appears only as a small accent. Every pair below is verified
+          against WCAG 2.2 AA by <code>npm run check:contrast</code>.
+        </p>
+      </div>
+
+      <div class="stack-lg" style="margin-top:2.5rem">
+
+        <div>
+          <h3 class="h5">Navy — primary</h3>
+          <div class="swatches" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:.5rem;margin-top:.75rem">
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-50);border:1px solid var(--color-line-200)"></div><p class="text-meta" style="margin-top:.375rem">50</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-100)"></div><p class="text-meta" style="margin-top:.375rem">100</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-200)"></div><p class="text-meta" style="margin-top:.375rem">200</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-300)"></div><p class="text-meta" style="margin-top:.375rem">300</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-400)"></div><p class="text-meta" style="margin-top:.375rem">400</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-500)"></div><p class="text-meta" style="margin-top:.375rem">500</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-600)"></div><p class="text-meta" style="margin-top:.375rem">600</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-700)"></div><p class="text-meta" style="margin-top:.375rem">700</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-800)"></div><p class="text-meta" style="margin-top:.375rem"><strong>800</strong> brand</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-900)"></div><p class="text-meta" style="margin-top:.375rem">900</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-navy-950)"></div><p class="text-meta" style="margin-top:.375rem">950</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="h5">Azure — secondary</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:.5rem;margin-top:.75rem">
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-azure-50);border:1px solid var(--color-line-200)"></div><p class="text-meta" style="margin-top:.375rem">50</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-azure-200)"></div><p class="text-meta" style="margin-top:.375rem">200</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-azure-400)"></div><p class="text-meta" style="margin-top:.375rem">400</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-azure-500)"></div><p class="text-meta" style="margin-top:.375rem">500 focus</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-azure-700)"></div><p class="text-meta" style="margin-top:.375rem"><strong>700</strong> links</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-azure-900)"></div><p class="text-meta" style="margin-top:.375rem">900</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="h5">Teal — accent, and gold — optional</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:.5rem;margin-top:.75rem">
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-teal-50);border:1px solid var(--color-line-200)"></div><p class="text-meta" style="margin-top:.375rem">teal 50</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-teal-300)"></div><p class="text-meta" style="margin-top:.375rem">teal 300</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-teal-500)"></div><p class="text-meta" style="margin-top:.375rem">teal 500 rule</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-teal-700)"></div><p class="text-meta" style="margin-top:.375rem"><strong>teal 700</strong> text</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-gold-100);border:1px solid var(--color-line-200)"></div><p class="text-meta" style="margin-top:.375rem">gold 100</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-gold-500)"></div><p class="text-meta" style="margin-top:.375rem">gold 500</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-gold-700)"></div><p class="text-meta" style="margin-top:.375rem">gold 700</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="h5">Ink, mist and line</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:.5rem;margin-top:.75rem">
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-ink-900)"></div><p class="text-meta" style="margin-top:.375rem">ink 900</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-ink-700)"></div><p class="text-meta" style="margin-top:.375rem"><strong>ink 700</strong> body</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-ink-500)"></div><p class="text-meta" style="margin-top:.375rem">ink 500 meta</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-ink-400)"></div><p class="text-meta" style="margin-top:.375rem">ink 400 placeholder</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-mist-100);border:1px solid var(--color-line-200)"></div><p class="text-meta" style="margin-top:.375rem">mist 100 sections</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-line-200)"></div><p class="text-meta" style="margin-top:.375rem">line 200 borders</p></div>
+            <div><div style="height:56px;border-radius:var(--radius-md);background:var(--color-line-400)"></div><p class="text-meta" style="margin-top:.375rem">line 400 fields</p></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Typography
+       ================================================================== -->
+  <section class="section section-mist" aria-labelledby="type">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">02 — Foundations</p>
+        <h2 class="h3" id="type">Typography</h2>
+        <p class="lede">
+          Two families. Source Serif 4 for headings, Inter for everything
+          else. Display sizes are fluid and scale with the viewport.
+        </p>
+      </div>
+
+      <div class="stack-lg" style="margin-top:2.5rem">
+        <div>
+          <p class="text-meta">.h1 — Source Serif 4 700</p>
+          <p class="h1" style="margin-top:.25rem">Facing a probation violation in Florida</p>
+        </div>
+        <div>
+          <p class="text-meta">.h2 — Source Serif 4 600</p>
+          <p class="h2" style="margin-top:.25rem">How a violation hearing works</p>
+        </div>
+        <div>
+          <p class="text-meta">.h3 — Source Serif 4 600</p>
+          <p class="h3" style="margin-top:.25rem">Technical violations vs. new law violations</p>
+        </div>
+        <div>
+          <p class="text-meta">.h4 — Source Serif 4 600</p>
+          <p class="h4" style="margin-top:.25rem">What the judge must find</p>
+        </div>
+        <div>
+          <p class="text-meta">.h5 — Inter 600, for card titles and sidebars</p>
+          <p class="h5" style="margin-top:.25rem">Related statutes</p>
+        </div>
+        <div>
+          <p class="text-meta">.lede</p>
+          <p class="lede" style="margin-top:.25rem;max-width:46rem">
+            An arrest warrant for a probation violation is often issued without
+            bond, which means the clock starts before you ever see a judge.
+          </p>
+        </div>
+        <div>
+          <p class="text-meta">.text-body / .text-muted / .text-meta</p>
+          <p class="text-body" style="margin-top:.25rem;max-width:46rem">Body copy sits at 1rem with a 1.7 line height for comfortable reading on long statutory explainers.</p>
+          <p class="text-muted" style="margin-top:.5rem">Muted text for secondary detail and supporting captions.</p>
+          <p class="text-meta" style="margin-top:.5rem">Meta text for dates, bylines and small labels.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Buttons
+       ================================================================== -->
+  <section class="section" aria-labelledby="buttons">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">03 — Components</p>
+        <h2 class="h3" id="buttons">Buttons</h2>
+        <p class="lede">
+          Every button is at least 44&nbsp;px tall — comfortably past the
+          WCAG 2.2 minimum, and sized for a thumb.
+        </p>
+      </div>
+
+      <div class="stack-lg" style="margin-top:2.5rem">
+
+        <div>
+          <p class="text-meta">Default</p>
+          <div class="btn-group" style="margin-top:.75rem">
+            <a class="btn btn-primary" href="#buttons">Request a Consultation</a>
+            <a class="btn btn-secondary" href="#buttons">Check Your Eligibility</a>
+            <a class="btn-link" href="#buttons">
+              Learn More
+              <svg class="btn-link-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-meta">Large — hero and primary CTA bands</p>
+          <div class="btn-group" style="margin-top:.75rem">
+            <a class="btn btn-primary btn-lg" href="#buttons">Request a Consultation</a>
+            <a class="btn btn-secondary btn-lg" href="#buttons">Check Your Eligibility</a>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-meta">Small, accent, and disabled</p>
+          <div class="btn-group" style="margin-top:.75rem">
+            <a class="btn btn-primary btn-sm" href="#buttons">Call now</a>
+            <a class="btn btn-accent" href="#buttons">Start your case review</a>
+            <button class="btn btn-primary" type="button" disabled>Submitting…</button>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-meta">Full width — mobile forms</p>
+          <div style="margin-top:.75rem;max-width:24rem">
+            <a class="btn btn-primary btn-block" href="#buttons">Request a Consultation</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Compact navy band — the only dark surface in the system
+       ================================================================== -->
+  <section class="section-sm section-navy on-navy" aria-labelledby="navyband">
+    <div class="container-page">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem">
+        <div style="max-width:36rem">
+          <p class="eyebrow eyebrow-on-navy">Compact band only</p>
+          <h2 class="h4" id="navyband" style="margin-top:.5rem">Speak with a Florida probation violation attorney</h2>
+          <p style="margin-top:.5rem;color:var(--color-navy-100);font-size:.9375rem">
+            Navy surfaces are reserved for short CTA strips and the footer —
+            never for large stretches of content.
+          </p>
+        </div>
+        <div class="btn-group">
+          <a class="btn btn-on-navy" href="#navyband">Request a Consultation</a>
+          <a class="btn btn-ghost-on-navy" href="#navyband">Check Your Eligibility</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Cards + badges
+       ================================================================== -->
+  <section class="section" aria-labelledby="cards">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">04 — Components</p>
+        <h2 class="h3" id="cards">Cards and badges</h2>
+        <p class="lede">
+          Interactive cards use a stretched link, so the whole card is
+          clickable but there is still only one tab stop.
+        </p>
+      </div>
+
+      <div class="card-grid card-grid-3" style="margin-top:2.5rem">
+
+        <article class="card card-interactive">
+          <div class="card-body">
+            <span class="card-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4v5c0 4.4-3.4 8.3-8 9-4.6-.7-8-4.6-8-9V7l8-4z"/></svg>
+            </span>
+            <h3 class="card-title"><a class="card-link" href="#cards">Violation of Probation</a></h3>
+            <p class="card-text">
+              Defending technical and new-law violations under Fla. Stat.
+              § 948.06, from warrant through disposition.
+            </p>
+            <p class="card-footer">
+              <span class="btn-link" aria-hidden="true">
+                Learn More
+                <svg class="btn-link-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h11M11 6l4 4-4 4"/></svg>
+              </span>
+            </p>
+          </div>
+        </article>
+
+        <article class="card card-feature">
+          <div class="card-body">
+            <span class="card-icon card-icon-accent" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>
+            </span>
+            <h3 class="card-title">Early Termination</h3>
+            <p class="card-text">
+              A feature card, marked with a navy top rule for the lead item
+              in a grid.
+            </p>
+            <p class="card-footer">
+              <span class="badge badge-statute">Fla. Stat. § 948.04</span>
+            </p>
+          </div>
+        </article>
+
+        <article class="card card-muted">
+          <div class="card-body">
+            <h3 class="card-title">Muted card</h3>
+            <p class="card-text">
+              A flat, tinted variant for supporting content that should sit
+              back from the primary grid.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <div style="margin-top:2.5rem">
+        <p class="text-meta">Badges — informational labels only. Never awards, ratings, or credentials.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem">
+          <span class="badge badge-navy">Practice area</span>
+          <span class="badge badge-teal">Statewide</span>
+          <span class="badge badge-neutral">Updated July 2026</span>
+          <span class="badge badge-gold">Attorney reviewed</span>
+          <span class="badge badge-outline">Felony</span>
+          <span class="badge badge-statute">Fla. Stat. § 948.06</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Callouts
+       ================================================================== -->
+  <section class="section section-mist" aria-labelledby="callouts">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">05 — Components</p>
+        <h2 class="h3" id="callouts">Callout panels</h2>
+      </div>
+
+      <div class="stack" style="margin-top:2.5rem;max-width:52rem">
+
+        <div class="callout callout-info">
+          <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+          <div>
+            <p class="callout-title">The standard of proof is lower</p>
+            <p>A violation need only be proven by a preponderance of the evidence — not beyond a reasonable doubt.</p>
+          </div>
+        </div>
+
+        <div class="callout callout-accent">
+          <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+          <div>
+            <p class="callout-title">You may qualify for early termination</p>
+            <p>Florida law allows a court to terminate probation early once conditions have been satisfied.</p>
+          </div>
+        </div>
+
+        <div class="callout callout-urgent">
+          <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3l9-16z"/><path d="M12 10v4M12 17h.01"/></svg>
+          <div>
+            <p class="callout-title">Time-sensitive</p>
+            <p>Violation warrants are frequently issued without bond. Act before the arrest, not after.</p>
+          </div>
+        </div>
+
+        <div class="callout callout-neutral">
+          <div>
+            <p class="callout-title">Neutral</p>
+            <p>For supporting notes that carry no urgency.</p>
+          </div>
+        </div>
+
+        <div class="statute-quote">
+          <strong>Fla. Stat. § 948.06(1)</strong> — quoted statutory text uses
+          its own treatment so a reader can always tell the statute's words
+          from ours.
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Form fields
+       ================================================================== -->
+  <section class="section" aria-labelledby="forms">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">06 — Components</p>
+        <h2 class="h3" id="forms">Form fields</h2>
+        <p class="lede">
+          Every field has a real label. Error state is driven by
+          <code>aria-invalid</code>, so the visual and accessible states
+          cannot disagree.
+        </p>
+      </div>
+
+      <form style="margin-top:2.5rem;max-width:36rem" class="stack" novalidate>
+        <div class="field-row field-row-2">
+          <div class="field">
+            <label class="label label-required" for="sg-name">Full name</label>
+            <input class="input" id="sg-name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label class="label label-required" for="sg-phone">Phone</label>
+            <input class="input" id="sg-phone" name="phone" type="tel" autocomplete="tel" aria-describedby="sg-phone-hint" required>
+            <p class="field-hint" id="sg-phone-hint">The fastest way to reach you.</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="sg-email">Email <span class="label-optional">(optional)</span></label>
+          <input class="input" id="sg-email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
+        </div>
+
+        <div class="field">
+          <label class="label label-required" for="sg-county">County</label>
+          <select class="select" id="sg-county" name="county" required>
+            <option value="">Select a county</option>
+            <option>Broward</option>
+            <option>Hillsborough</option>
+            <option>Miami-Dade</option>
+            <option>Orange</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="label label-required" for="sg-error">Error state</label>
+          <input class="input" id="sg-error" name="error-demo" type="text" aria-invalid="true" aria-describedby="sg-error-msg" value="">
+          <p class="field-error" id="sg-error-msg">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="flex:none;margin-top:.15rem" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6.5v4M10 13.5h.01"/></svg>
+            Please enter your county so we can check for conflicts.
+          </p>
+        </div>
+
+        <div class="field">
+          <label class="label" for="sg-message">How can we help?</label>
+          <textarea class="textarea" id="sg-message" name="message" aria-describedby="sg-message-hint" placeholder="A brief summary is enough."></textarea>
+          <p class="field-hint" id="sg-message-hint">
+            Please do not include confidential details until we have confirmed there is no conflict of interest.
+          </p>
+        </div>
+
+        <label class="choice" for="sg-consent">
+          <input class="choice-control" id="sg-consent" name="consent" type="checkbox">
+          <span class="choice-label">I understand that submitting this form does not create an attorney-client relationship.</span>
+        </label>
+
+        <div class="honeypot" aria-hidden="true">
+          <label for="sg-company">Company</label>
+          <input id="sg-company" name="company" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div>
+          <button class="btn btn-primary btn-block" type="submit">Request a Consultation</button>
+          <p class="disclaimer disclaimer-inline" style="margin-top:.75rem">
+            Submitting this form does not create an attorney-client
+            relationship and does not make your message confidential.
+          </p>
+        </div>
+
+        <p class="form-status" role="alert">
+          Form status region — announced to screen readers when submission fails.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Breadcrumbs + FAQ
+       ================================================================== -->
+  <section class="section section-mist" aria-labelledby="nav-patterns">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">07 — Components</p>
+        <h2 class="h3" id="nav-patterns">Breadcrumbs and FAQ accordions</h2>
+        <p class="lede">
+          Accordions are native <code>&lt;details&gt;</code> elements — keyboard
+          operable and screen-reader correct with no JavaScript.
+        </p>
+      </div>
+
+      <nav class="breadcrumbs" aria-label="Breadcrumb" style="margin-top:2.5rem">
+        <ol>
+          <li class="breadcrumb-item"><a href="#nav-patterns">Home</a></li>
+          <li class="breadcrumb-item"><a href="#nav-patterns">Florida Law</a></li>
+          <li class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">Fla. Stat. § 948.06</span></li>
+        </ol>
+      </nav>
+
+      <div class="faq" style="margin-top:2rem;max-width:52rem">
+        <details class="faq-item">
+          <summary class="faq-question">
+            Can I get a bond on a violation of probation?
+            <svg class="faq-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>Not automatically. A violation warrant is frequently issued without bond, and setting one usually requires a motion and a hearing.</p>
+          </div>
+        </details>
+        <details class="faq-item" open>
+          <summary class="faq-question">
+            What does the state have to prove?
+            <svg class="faq-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>That the violation was both willful and substantial, by a preponderance of the evidence. Hearsay alone is not enough to revoke.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">
+            How long does a violation hearing take to schedule?
+            <svg class="faq-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <p>It varies by county. Scheduling practice differs between circuits, which is covered on each location page.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Location cards
+       ================================================================== -->
+  <section class="section" aria-labelledby="locations">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">08 — Components</p>
+        <h2 class="h3" id="locations">Location cards</h2>
+        <p class="lede">
+          Structured to carry real local detail — courthouse, circuit, and
+          probation office — rather than interchangeable filler.
+        </p>
+      </div>
+
+      <div class="card-grid card-grid-3" style="margin-top:2.5rem">
+
+        <article class="location-card">
+          <h3 class="location-card-county"><a href="#locations">Miami-Dade County</a></h3>
+          <p class="location-card-seat">Eleventh Judicial Circuit · Miami</p>
+          <div class="location-card-meta">
+            <p class="location-card-meta-row">
+              <svg class="location-card-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V9l7-5 7 5v12M10 21v-5h4v5"/></svg>
+              <span>Richard E. Gerstein Justice Building</span>
+            </p>
+            <p class="location-card-meta-row">
+              <svg class="location-card-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span>FDC Probation &amp; Parole — Miami Circuit</span>
+            </p>
+          </div>
+          <p class="location-card-footer">
+            <span class="btn-link" aria-hidden="true">
+              Learn More
+              <svg class="btn-link-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h11M11 6l4 4-4 4"/></svg>
+            </span>
+          </p>
+        </article>
+
+        <article class="location-card">
+          <h3 class="location-card-county"><a href="#locations">Broward County</a></h3>
+          <p class="location-card-seat">Seventeenth Judicial Circuit · Fort Lauderdale</p>
+          <div class="location-card-meta">
+            <p class="location-card-meta-row">
+              <svg class="location-card-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V9l7-5 7 5v12M10 21v-5h4v5"/></svg>
+              <span>Broward County Courthouse</span>
+            </p>
+            <p class="location-card-meta-row">
+              <svg class="location-card-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span>FDC Probation &amp; Parole — Broward Circuit</span>
+            </p>
+          </div>
+          <p class="location-card-footer">
+            <span class="btn-link" aria-hidden="true">
+              Learn More
+              <svg class="btn-link-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h11M11 6l4 4-4 4"/></svg>
+            </span>
+          </p>
+        </article>
+
+        <article class="location-card">
+          <h3 class="location-card-county"><a href="#locations">Hillsborough County</a></h3>
+          <p class="location-card-seat">Thirteenth Judicial Circuit · Tampa</p>
+          <div class="location-card-meta">
+            <p class="location-card-meta-row">
+              <svg class="location-card-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V9l7-5 7 5v12M10 21v-5h4v5"/></svg>
+              <span>Edgecomb Courthouse</span>
+            </p>
+            <p class="location-card-meta-row">
+              <svg class="location-card-meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 10-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <span>FDC Probation &amp; Parole — Tampa Circuit</span>
+            </p>
+          </div>
+          <p class="location-card-footer">
+            <span class="btn-link" aria-hidden="true">
+              Learn More
+              <svg class="btn-link-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h11M11 6l4 4-4 4"/></svg>
+            </span>
+          </p>
+        </article>
+
+      </div>
+      <p class="text-meta" style="margin-top:1rem">
+        Courthouse and circuit values above are illustrative markup, not
+        confirmed firm coverage. Real values arrive with the county data.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Testimonial placeholders + disclaimers
+       ================================================================== -->
+  <section class="section section-mist" aria-labelledby="placeholders">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">09 — Components</p>
+        <h2 class="h3" id="placeholders">Testimonial placeholders and disclaimers</h2>
+        <p class="lede">
+          Testimonials ship as visible empty states. Nothing here invents a
+          client, a review, or a result.
+        </p>
+      </div>
+
+      <div class="card-grid" style="margin-top:2.5rem">
+
+        <div class="testimonial-placeholder">
+          <p class="testimonial-placeholder-label">Awaiting content</p>
+          <p class="testimonial-placeholder-text">
+            Client testimonial slot. Requires verified, attributable feedback
+            and the disclaimers required by Fla. Bar Rule 4-7.13 before it
+            can be populated.
+          </p>
+        </div>
+
+        <div class="testimonial">
+          <p class="testimonial-quote">
+            &ldquo;Structure of a populated testimonial, shown for layout
+            only — this is not a real client statement.&rdquo;
+          </p>
+          <div class="testimonial-attribution">
+            <div>
+              <p class="testimonial-name">Name withheld</p>
+              <p class="testimonial-meta">County · Matter type</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack" style="margin-top:2.5rem;max-width:52rem">
+        <div class="disclaimer">
+          <p class="disclaimer-title">Legal disclaimer</p>
+          <p>
+            The information on this website is for general informational
+            purposes only and is not legal advice. Viewing this site or
+            contacting Hoffman Legal does not create an attorney-client
+            relationship. Results depend on the specific facts of each case.
+          </p>
+        </div>
+
+        <p class="disclaimer disclaimer-inline">
+          Inline variant, for use directly beneath a form submit button.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       Layout primitives
+       ================================================================== -->
+  <section class="section" aria-labelledby="layout">
+    <div class="container-page">
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">10 — Foundations</p>
+        <h2 class="h3" id="layout">Containers and spacing</h2>
+      </div>
+
+      <div class="stack" style="margin-top:2.5rem">
+        <div class="callout callout-neutral">
+          <div>
+            <p class="callout-title">Containers</p>
+            <p><code>.container-narrow</code> 760px · <code>.container-page</code> 1200px · <code>.container-wide</code> 1360px. All centre themselves and carry responsive inline padding.</p>
+          </div>
+        </div>
+        <div class="callout callout-neutral">
+          <div>
+            <p class="callout-title">Section spacing</p>
+            <p><code>.section-sm</code> 40/56px · <code>.section</code> 64/96px · <code>.section-lg</code> 80/128px, mobile then desktop. Tint with <code>.section-mist</code>; reserve <code>.section-navy</code> for compact bands.</p>
+          </div>
+        </div>
+        <div class="callout callout-neutral">
+          <div>
+            <p class="callout-title">Stacks</p>
+            <p><code>.stack-sm</code> · <code>.stack</code> · <code>.stack-lg</code> · <code>.stack-xl</code> apply consistent vertical rhythm between siblings without utility soup.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="section-sm section-navy on-navy">
+  <div class="container-page">
+    <p style="font-size:.875rem;color:var(--color-navy-100)">
+      Design system reference — FloridaProbationLaw.com
+    </p>
+    <div class="disclaimer disclaimer-on-navy" style="margin-top:1rem">
+      <p class="disclaimer-title">Placeholder</p>
+      <p>
+        Firm identification, bona fide office location, and responsible
+        attorney name required by Fla. Bar Rule 4-7.12 are pending real
+        firm data and are not shown here.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

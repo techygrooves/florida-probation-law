@@ -239,9 +239,11 @@ Manual pre-launch: real iOS/Android devices, click-to-call verified, screen-read
   robots.txt  sitemap.xml  site.webmanifest  _headers  favicon.svg
   .github/workflows/ci.yml
 
-src/input.css                   Tailwind source: @theme tokens + @apply classes
+src/input.css                   Tailwind source: @theme tokens + component classes
 css/styles.css                  generated, committed — site works with no build
 js/main.js                      ~3KB: nav toggle, form validation
+fonts/                          self-hosted woff2, latin subset (92 KB total)
+styleguide/index.html           every reusable style rendered; noindex
 images/.gitkeep
 
 data/
@@ -258,6 +260,7 @@ templates/
 scripts/
   build.mjs                     stitch includes, generate sitemap, --check mode
   new-page.mjs                  scaffold a page from a template
+  check-contrast.mjs            WCAG AA contrast gate, parses tokens from source
   check-seo.mjs  check-links.mjs  check-placeholders.mjs
 
 about/index.html
