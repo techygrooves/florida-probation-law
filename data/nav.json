@@ -1,15 +1,15 @@
 {
   "_readme": "Navigation is the source of truth for site structure. build.mjs walks this tree to render the header, the mobile menu, the footer, the HTML sitemap, and sitemap.xml, and to scaffold any page file that does not exist yet. Add a route here, run `npm run build`, and the page and every link to it appear together — there is no second place to update.",
 
-  "_placeholder": "`\"placeholder\": true` marks a route that exists but has no real content yet. Those pages are served with `noindex, follow` and are kept out of sitemap.xml, so a set of empty pages cannot be indexed and drag down the domain's quality signals before launch.",
+  "_placeholder": "`\"placeholder\": true` marks a route that exists but has no real content yet. `\"draft\": true` marks a page that has been written but not yet reviewed by a Florida attorney. Both are served with `noindex, follow` and kept out of sitemap.xml — empty pages must not drag down the domain's quality signals, and unreviewed legal content must not be published on a YMYL site. Remove the flag to make a page indexable.",
 
   "primary": [
     {
       "label": "Home",
       "href": "/",
-      "title": "Florida Probation Law",
-      "description": "Florida probation guidance from Hoffman Legal: early termination, probation modification, transfers and violation defense.",
-      "placeholder": true
+      "title": "Early Termination of Probation Attorneys in Florida",
+      "description": "Hoffman Legal helps eligible people in Florida seek early termination, modification or conversion of probation. Request a consultation to review your eligibility.",
+      "draft": true
     },
     {
       "label": "Early Termination",

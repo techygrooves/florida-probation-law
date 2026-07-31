@@ -70,6 +70,7 @@ function addRoute(item, section) {
     title: item.title || item.label,
     description: item.description || "",
     placeholder: item.placeholder === true,
+    draft: item.draft === true,
     section,
   });
 }
@@ -343,11 +344,14 @@ function contextFor(route) {
       canonical,
       eyebrow: route.section === route.label ? site.siteName : route.section,
       h1: route.title,
-      // Empty routes are kept out of the index until they carry real
-      // content — 37 thin pages would be a liability, not an asset.
-      robots: route.placeholder
-        ? '<meta name="robots" content="noindex, follow">'
-        : '<meta name="robots" content="index, follow">',
+      // Empty routes stay out of the index because 37 thin pages would be a
+      // liability, not an asset. Draft routes stay out because publishing
+      // legal content no Florida attorney has reviewed is worse than
+      // publishing nothing.
+      robots:
+        route.placeholder || route.draft
+          ? '<meta name="robots" content="noindex, follow">'
+          : '<meta name="robots" content="index, follow">',
     },
     nav: { desktop: renderDesktopNav(route.href), mobile: renderMobileNav(route.href) },
     footer: { columns: renderFooterColumns(), facts: renderFooterFacts() },
@@ -436,7 +440,7 @@ for (const route of allRoutes) {
 
 /* ---- sitemap.xml --------------------------------------------------------- */
 
-const indexable = [...routes.values()].filter((r) => !r.placeholder);
+const indexable = [...routes.values()].filter((r) => !r.placeholder && !r.draft);
 
 if (!CHECK) {
   const urls = indexable
@@ -463,9 +467,10 @@ if (CHECK) {
     `\n  ${allRoutes.length} routes · ${created} created · ${updated} updated · ${indexable.length} indexable in sitemap.xml`
   );
   if (!indexable.length) {
+    const drafts = [...routes.values()].filter((r) => r.draft).length;
     console.log(
-      `  Note: every route is still marked "placeholder", so sitemap.xml is\n` +
-        `  intentionally empty and all pages carry noindex.`
+      `  Note: no route is publishable yet — ${routes.size - drafts} empty, ${drafts} awaiting\n` +
+        `  attorney review — so every page carries noindex and sitemap.xml is empty.`
     );
   }
   console.log("");
