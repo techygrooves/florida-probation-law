@@ -6,6 +6,9 @@
   "firm": "Hoffman Legal",
   "url": "https://floridaprobationlaw.com",
 
+  "basePath": "/florida-probation-law",
+  "_basePath": "Sub-directory the site is served from. GitHub Pages project sites live at <user>.github.io/<repo>/, so every root-relative link needs this prefix or it resolves to the domain root and 404s. Set to \"\" when the site moves to floridaprobationlaw.com (or when a CNAME is added, which serves from the root), then re-run `npm run build`. Can also be overridden per-build with BASE_PATH=... npm run build. Canonical and og:url are absolute and always use `url` above, so previews never canonicalise to themselves.",
+
   "disclosure": "FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal.",
 
   "phone": {
