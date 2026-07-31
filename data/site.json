@@ -1,0 +1,47 @@
+{
+  "_readme": "Single source of truth for firm details. Every TODO below is a real business fact that must be supplied by Hoffman Legal. scripts/check-placeholders.mjs fails the build if any survive into a production build.",
+
+  "siteName": "Florida Probation Law",
+  "tagline": "A Hoffman Legal Website",
+  "firm": "Hoffman Legal",
+  "url": "https://floridaprobationlaw.com",
+
+  "disclosure": "FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal.",
+
+  "phone": {
+    "display": "(000) 000-0000",
+    "tel": "",
+    "_todo": "TODO: replace with Hoffman Legal's main line. Leave `tel` empty until confirmed — build.mjs renders the number as plain text rather than a live tel: link while it is blank, so no visitor can dial a wrong number."
+  },
+
+  "email": {
+    "display": "",
+    "_todo": "TODO: replace with the intake inbox address."
+  },
+
+  "attorney": {
+    "name": "",
+    "barNumber": "",
+    "_todo": "TODO: responsible attorney name and Florida Bar number. Fla. Bar Rule 4-7.12 requires the name of at least one lawyer or the law firm responsible for the content of this site."
+  },
+
+  "office": {
+    "street": "",
+    "city": "",
+    "state": "FL",
+    "zip": "",
+    "_todo": "TODO: bona fide office address. Fla. Bar Rule 4-7.12 requires disclosing the city, town or county of at least one bona fide office location."
+  },
+
+  "hours": {
+    "weekday": "",
+    "weekend": "",
+    "note": "",
+    "_todo": "TODO: business hours, plus whether after-hours intake is available. Violation warrants are frequently issued without bond, so out-of-hours availability is a genuine differentiator if it exists."
+  },
+
+  "bar": {
+    "admission": "",
+    "_todo": "TODO: Florida Bar membership details as they should be publicly stated."
+  }
+}

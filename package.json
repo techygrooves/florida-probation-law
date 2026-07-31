@@ -5,10 +5,15 @@
   "description": "FloridaProbationLaw.com — static site for Hoffman Legal",
   "type": "module",
   "scripts": {
-    "build": "npm run build:css && npm run check:contrast",
+    "build": "npm run build:html && npm run build:css && npm run check:contrast && npm run check:placeholders",
+    "build:html": "node scripts/build.mjs",
     "build:css": "tailwindcss -i ./src/input.css -o ./css/styles.css --minify",
     "dev": "tailwindcss -i ./src/input.css -o ./css/styles.css --watch",
-    "check:contrast": "node scripts/check-contrast.mjs"
+    "check": "node scripts/build.mjs --check && npm run check:contrast",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check:placeholders": "node scripts/check-placeholders.mjs",
+    "check:launch": "node scripts/check-placeholders.mjs --strict",
+    "serve": "python3 -m http.server 8000"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",

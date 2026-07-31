@@ -16,19 +16,12 @@
 @import "tailwindcss";
 
 /* -- 1. Sources ---------------------------------------------------------- */
-/* Explicit globs (not bare auto-detection) so node_modules is never scanned. */
-@source "../*.html";
-@source "../partials/**/*.html";
-@source "../templates/**/*.html";
-@source "../styleguide/**/*.html";
-@source "../about/**/*.html";
-@source "../contact/**/*.html";
-@source "../thank-you/**/*.html";
-@source "../legal/**/*.html";
-@source "../practice-areas/**/*.html";
-@source "../florida-law/**/*.html";
-@source "../locations/**/*.html";
+/* Scan the whole project rather than listing section directories: routes are
+   added in data/nav.json, and a per-directory list here would be a second
+   place to remember to update. node_modules is excluded explicitly. */
+@source "../**/*.html";
 @source "../js/**/*.js";
+@source not "../node_modules/**";
 
 /* -- 2. Fonts ------------------------------------------------------------ *
  * Two families only. Source Serif 4 for headings (elegant, authoritative,
@@ -1561,4 +1554,544 @@
   .stack    > * + * { margin-top: 1.25rem; }
   .stack-lg > * + * { margin-top: 2rem; }
   .stack-xl > * + * { margin-top: 3rem; }
+
+  /* ======================================================================
+     5.16 Site header
+     Two rows on desktop: identity and contact on top, navigation below.
+     Eight primary items do not fit comfortably beside a logo and a CTA
+     on one line without shrinking everything.
+     ====================================================================== */
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: #fff;
+    border-bottom: 1px solid var(--color-line-200);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.875rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    flex-direction: column;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--color-navy-900);
+  }
+
+  @media (min-width: 640px) {
+    .brand-name { font-size: 1.375rem; }
+  }
+
+  .brand-tagline {
+    margin-top: 0.175rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--color-ink-500);
+  }
+
+  @media (min-width: 640px) {
+    .brand-tagline { font-size: 0.6875rem; }
+  }
+
+  .brand:hover .brand-name { color: var(--color-azure-800); }
+
+  .header-actions {
+    display: none;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .header-actions { display: flex; }
+  }
+
+  .header-phone {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-height: 2.75rem;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .header-phone-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-ink-500);
+  }
+
+  .header-phone-number {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--color-navy-900);
+    font-variant-numeric: tabular-nums;
+  }
+
+  a.header-phone:hover .header-phone-number { color: var(--color-azure-700); }
+
+  /* ---- Desktop navigation ---------------------------------------------
+     Each item with a submenu is a link plus a separate toggle button. The
+     link reaches the section page; the button opens the menu. Collapsing
+     both roles into one control would make the section page unreachable
+     by keyboard, which is why the two are kept apart.
+     --------------------------------------------------------------------- */
+
+  .nav-bar {
+    display: none;
+    border-top: 1px solid var(--color-line-100);
+  }
+
+  @media (min-width: 1024px) {
+    .nav-bar { display: block; }
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: stretch;
+    gap: 0.125rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0.5rem 0.6875rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-ink-700);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: color 150ms ease, background-color 150ms ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-navy-900);
+    background-color: var(--color-navy-50);
+  }
+
+  .nav-link[aria-current="page"] { color: var(--color-navy-900); }
+
+  /* Teal underline marks the section the visitor is in. */
+  .nav-item-active::after {
+    content: "";
+    position: absolute;
+    left: 0.6875rem;
+    right: 0.6875rem;
+    bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background-color: var(--color-teal-500);
+  }
+
+  .nav-item-has-menu .nav-link { padding-right: 0.25rem; }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    min-height: 3rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-ink-500);
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: color 150ms ease;
+  }
+
+  .nav-toggle:hover { color: var(--color-navy-800); }
+
+  .nav-toggle-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    transition: transform 150ms ease;
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 60;
+    min-width: 16.5rem;
+    margin: 0;
+    padding: 0.5rem;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid var(--color-line-200);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Explicit, so nothing in the cascade can leave a closed menu visible. */
+  .nav-menu[hidden] { display: none; }
+
+  /* Right-align menus that would otherwise run off the viewport. */
+  .nav-menu-right { left: auto; right: 0; }
+
+  .nav-menu-link {
+    display: block;
+    min-height: 2.25rem;
+    padding: 0.4375rem 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--color-ink-700);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: color 150ms ease, background-color 150ms ease;
+  }
+
+  .nav-menu-link:hover {
+    background-color: var(--color-navy-50);
+    color: var(--color-navy-900);
+  }
+
+  .nav-menu-link[aria-current="page"] {
+    color: var(--color-navy-900);
+    font-weight: 600;
+    background-color: var(--color-navy-50);
+  }
+
+  /* ---- Mobile navigation ----------------------------------------------
+     Submenus are native <details>, so the panel is fully operable even if
+     main.js fails to load — only the panel toggle itself needs script.
+     --------------------------------------------------------------------- */
+
+  .menu-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.875rem;
+    background-color: #fff;
+    border: 1px solid var(--color-line-400);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-navy-800);
+    cursor: pointer;
+  }
+
+  @media (min-width: 1024px) {
+    .menu-button { display: none; }
+  }
+
+  /* Icon follows aria-expanded, so the glyph and the announced state are
+     driven by the same attribute and cannot fall out of sync. */
+  .menu-icon-close { display: none; }
+  .menu-button[aria-expanded="true"] .menu-icon-open { display: none; }
+  .menu-button[aria-expanded="true"] .menu-icon-close { display: inline; }
+
+  .mobile-nav {
+    display: none;
+    background-color: #fff;
+    border-top: 1px solid var(--color-line-200);
+    max-height: calc(100dvh - 4.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .mobile-nav.is-open { display: block; }
+
+  @media (min-width: 1024px) {
+    .mobile-nav { display: none !important; }
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0 0;
+  }
+
+  .mobile-nav-item { border-bottom: 1px solid var(--color-line-100); }
+
+  /* The panel footer supplies its own top rule; keeping this one would
+     stack two lines and read as an empty menu row. */
+  .mobile-nav-item:last-child { border-bottom: 0; }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.625rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-navy-900);
+    text-decoration: none;
+  }
+
+  .mobile-nav-link[aria-current="page"] { color: var(--color-azure-700); }
+
+  .mobile-nav-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 2.75rem;
+    padding: 0.625rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-navy-900);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .mobile-nav-summary::-webkit-details-marker { display: none; }
+  .mobile-nav-summary::marker { content: ""; }
+
+  .mobile-nav-summary-icon {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--color-navy-500);
+    transition: transform 150ms ease;
+  }
+
+  .mobile-nav-group[open] .mobile-nav-summary-icon { transform: rotate(180deg); }
+
+  .mobile-nav-sub {
+    list-style: none;
+    margin: 0 0 0.75rem;
+    padding-left: 0.875rem;
+    border-left: 2px solid var(--color-line-200);
+  }
+
+  .mobile-nav-sub a {
+    display: flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.375rem 0;
+    font-size: 0.9375rem;
+    color: var(--color-ink-600);
+    text-decoration: none;
+  }
+
+  .mobile-nav-sub a:hover { color: var(--color-azure-700); }
+  .mobile-nav-sub a[aria-current="page"] {
+    color: var(--color-azure-700);
+    font-weight: 600;
+  }
+
+  .mobile-nav-footer {
+    padding: 1.25rem 0 1.5rem;
+    border-top: 1px solid var(--color-line-200);
+  }
+
+  /* ======================================================================
+     5.17 Site footer
+     ====================================================================== */
+
+  .site-footer {
+    background-color: var(--color-navy-900);
+    color: var(--color-navy-100);
+  }
+
+  .footer-disclosure { padding-block: 2.5rem; }
+
+  .footer-brand-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .footer-disclosure-text {
+    margin-top: 0.75rem;
+    max-width: 46rem;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-navy-100);
+  }
+
+  .footer-facts {
+    display: grid;
+    gap: 1.25rem 1.5rem;
+    margin-top: 2rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .footer-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  .footer-fact-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-teal-300);
+  }
+
+  .footer-fact-value {
+    margin-top: 0.3125rem;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: #fff;
+  }
+
+  .footer-fact-value a { color: #fff; text-decoration: none; }
+  .footer-fact-value a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+
+  /* Unsupplied firm details render as an explicit pending marker rather
+     than an invented value or a silently blank line. */
+  .footer-fact-pending {
+    margin-top: 0.3125rem;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--color-navy-200);
+    font-style: italic;
+  }
+
+  .footer-columns {
+    display: grid;
+    gap: 2rem 1.5rem;
+    padding-block: 2.5rem;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .footer-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 1024px) {
+    .footer-columns { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  }
+
+  .footer-heading {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    list-style: none;
+    margin: 0.875rem 0 0;
+    padding: 0;
+  }
+
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    padding-block: 0.1875rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--color-navy-200);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .footer-links a:hover {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  .footer-copyright {
+    font-size: 0.8125rem;
+    color: var(--color-navy-200);
+  }
+
+  /* ======================================================================
+     5.18 Mobile sticky call bar
+     ====================================================================== */
+
+  .call-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.625rem;
+    padding: 0.625rem 0.875rem;
+    padding-bottom: calc(0.625rem + env(safe-area-inset-bottom, 0px));
+    background-color: #fff;
+    border-top: 1px solid var(--color-line-200);
+    box-shadow: 0 -4px 16px -6px rgb(20 43 74 / 0.14);
+  }
+
+  @media (min-width: 1024px) {
+    .call-bar { display: none; }
+  }
+}
+
+/* Content must never sit underneath the fixed call bar — otherwise a
+   focused control at the end of the page can be covered by it, which is
+   exactly what WCAG 2.2 SC 2.4.11 prohibits. */
+@media (max-width: 1023.98px) {
+  body {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  html {
+    scroll-padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Locks background scrolling while the mobile menu panel is open. */
+body.nav-open {
+  overflow: hidden;
 }
