@@ -1,0 +1,43 @@
+<header class="site-header">
+  <div class="container-page">
+    <div class="header-top">
+      <a class="brand" href="/">
+        <span class="brand-name">{{site.siteName}}</span>
+        <span class="brand-tagline">{{site.tagline}}</span>
+      </a>
+
+      <div class="header-actions">
+        {{phone.header}}
+        <a class="btn btn-primary" href="/contact/">Request a Consultation</a>
+      </div>
+
+      <button class="menu-button" type="button" id="menu-button" aria-expanded="false" aria-controls="mobile-nav">
+        <svg class="menu-icon-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="menu-icon-close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        <span>Menu</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="nav-bar" aria-label="Main">
+    <div class="container-page">
+      <ul class="nav-list">
+{{nav.desktop}}
+      </ul>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <div class="container-page">
+      <nav aria-label="Main, mobile">
+        <ul class="mobile-nav-list">
+{{nav.mobile}}
+        </ul>
+      </nav>
+      <div class="mobile-nav-footer">
+        {{phone.mobile}}
+        <a class="btn btn-primary btn-block" href="/contact/">Request a Consultation</a>
+      </div>
+    </div>
+  </div>
+</header>

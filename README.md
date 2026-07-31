@@ -7,43 +7,67 @@ Full build plan: [`docs/IMPLEMENTATION-PLAN.md`](docs/IMPLEMENTATION-PLAN.md)
 
 ## Status
 
-Stage 1 of 7 — **global design system**. Page templates and site content
-have not been built yet.
+Stages 1–2 of 7 — **design system** and the **shared shell** (header,
+navigation, footer, mobile call bar). All 37 routes exist and resolve, but
+every one is an empty placeholder carrying `noindex`. Page content has not
+been written yet.
 
 ## Getting started
 
 ```bash
 npm install
-npm run build     # compile CSS + verify colour contrast
-npm run dev       # rebuild CSS on change
+npm run build     # assemble pages, compile CSS, run checks
+npm run serve     # http://127.0.0.1:8000
 ```
 
 | Script | What it does |
 | --- | --- |
-| `npm run build` | `build:css` then `check:contrast` |
+| `npm run build` | Full build: HTML, CSS, then both checks |
+| `npm run build:html` | Stitch shared regions, scaffold new routes, write `sitemap.xml` |
 | `npm run build:css` | Tailwind CLI → `css/styles.css`, minified |
-| `npm run dev` | Same, in watch mode |
-| `npm run check:contrast` | Verifies every colour pair against WCAG 2.2 AA |
+| `npm run dev` | CSS in watch mode |
+| `npm run check` | CI gate: pages in sync with partials, contrast passes |
+| `npm run check:contrast` | Every colour pair against WCAG 2.2 AA |
+| `npm run check:placeholders` | Reports outstanding firm details and empty routes |
+| `npm run check:launch` | Same, but **fails** — run before going live |
+| `npm run serve` | Static server on port 8000 |
 
-### Viewing pages locally
+Serve over HTTP rather than opening files directly. Pages use root-relative
+paths, and browsers block `@font-face` over `file://`.
 
-Serve over HTTP rather than opening files directly — browsers block
-`@font-face` requests over `file://`, so the self-hosted fonts silently fall
-back to system defaults:
+## How pages are assembled
 
-```bash
-python3 -m http.server 8000
-# then open http://127.0.0.1:8000/styleguide/
+There is no template engine, so shared chrome would otherwise be copy-pasted
+into 37 files and drift apart — and the footer carries Bar-required firm
+identification, which makes drift a compliance problem rather than a cosmetic
+one. Instead, each page marks regions the build owns:
+
+```html
+<!-- @include:header -->  …generated…  <!-- @end:header -->
 ```
+
+`npm run build:html` rewrites those regions from `partials/`. Everything
+outside them is hand-authored and never touched. `npm run check` re-runs the
+stitcher and fails if any page has drifted, so a hand-edit to generated chrome
+cannot ship.
+
+**Adding a route:** add it to `data/nav.json` and run the build. The page file
+is scaffolded, and the header, mobile menu, footer and sitemap all pick it up —
+there is no second place to update.
 
 ## Layout
 
 ```
-src/input.css     design tokens + component classes — the source of truth
+data/site.json    firm details — one source of truth, seeded with TODOs
+data/nav.json     site structure; drives nav, footer, sitemap, page scaffolding
+partials/         shared chrome: head, header, footer, call bar
+templates/        scaffolds for newly created pages
+src/input.css     design tokens + component classes — the styling source of truth
 css/styles.css    generated and committed, so the site renders with no tooling
+js/main.js        ~2 KB: mobile panel, desktop dropdowns. Enhancement only
 fonts/            self-hosted, latin subset (92 KB total)
 styleguide/       every reusable style, rendered. noindex, not part of the site
-scripts/          build-time checks
+scripts/          build and pre-launch checks
 docs/             implementation plan
 ```
 

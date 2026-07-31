@@ -1,0 +1,297 @@
+{
+  "_readme": "Navigation is the source of truth for site structure. build.mjs walks this tree to render the header, the mobile menu, the footer, the HTML sitemap, and sitemap.xml, and to scaffold any page file that does not exist yet. Add a route here, run `npm run build`, and the page and every link to it appear together — there is no second place to update.",
+
+  "_placeholder": "`\"placeholder\": true` marks a route that exists but has no real content yet. Those pages are served with `noindex, follow` and are kept out of sitemap.xml, so a set of empty pages cannot be indexed and drag down the domain's quality signals before launch.",
+
+  "primary": [
+    {
+      "label": "Home",
+      "href": "/",
+      "title": "Florida Probation Law",
+      "description": "Florida probation guidance from Hoffman Legal: early termination, probation modification, transfers and violation defense.",
+      "placeholder": true
+    },
+    {
+      "label": "Early Termination",
+      "href": "/early-termination/",
+      "title": "Early Termination of Probation in Florida",
+      "description": "How early termination of probation works in Florida, who may qualify, and how a motion is presented to the court.",
+      "placeholder": true,
+      "children": [
+        {
+          "label": "Overview",
+          "href": "/early-termination/",
+          "description": "Overview of early termination of probation in Florida."
+        },
+        {
+          "label": "Eligibility Requirements",
+          "href": "/early-termination/eligibility-requirements/",
+          "title": "Early Termination Eligibility Requirements",
+          "description": "The conditions a Florida court considers when deciding whether probation may be terminated early.",
+          "placeholder": true
+        },
+        {
+          "label": "Florida 50% Rule",
+          "href": "/early-termination/florida-50-percent-rule/",
+          "title": "The Florida 50% Rule for Probation",
+          "description": "What the 50% mark means for early termination of probation in Florida, and where it comes from.",
+          "placeholder": true
+        },
+        {
+          "label": "Benefits",
+          "href": "/early-termination/benefits/",
+          "title": "Benefits of Early Termination of Probation",
+          "description": "What ending probation early changes for supervision, travel, employment and reporting obligations.",
+          "placeholder": true
+        },
+        {
+          "label": "Reasons for Denial",
+          "href": "/early-termination/reasons-for-denial/",
+          "title": "Why Early Termination Requests Are Denied",
+          "description": "Common reasons a Florida court denies a motion to terminate probation early.",
+          "placeholder": true
+        },
+        {
+          "label": "Frequently Asked Questions",
+          "href": "/early-termination/faq/",
+          "title": "Early Termination of Probation: FAQ",
+          "description": "Answers to common questions about ending Florida probation early.",
+          "placeholder": true
+        }
+      ]
+    },
+    {
+      "label": "Probation Services",
+      "href": "/probation-services/",
+      "title": "Florida Probation Services",
+      "description": "Probation matters handled by Hoffman Legal, including modification, transfers, travel permission and violations.",
+      "placeholder": true,
+      "children": [
+        {
+          "label": "Administrative Probation",
+          "href": "/probation-services/administrative-probation/",
+          "title": "Administrative Probation in Florida",
+          "description": "How administrative probation differs from standard supervision in Florida.",
+          "placeholder": true
+        },
+        {
+          "label": "Modification of Probation",
+          "href": "/probation-services/modification-of-probation/",
+          "title": "Modification of Probation in Florida",
+          "description": "Changing the conditions of Florida probation by motion to the court.",
+          "placeholder": true
+        },
+        {
+          "label": "Travel Permission",
+          "href": "/probation-services/travel-permission/",
+          "title": "Travel Permission While on Probation",
+          "description": "How travel is authorised while under Florida probation supervision.",
+          "placeholder": true
+        },
+        {
+          "label": "Relocation",
+          "href": "/probation-services/relocation/",
+          "title": "Relocating While on Probation in Florida",
+          "description": "Moving residence within Florida while under supervision.",
+          "placeholder": true
+        },
+        {
+          "label": "Interstate Transfer",
+          "href": "/probation-services/interstate-transfer/",
+          "title": "Interstate Transfer of Florida Probation",
+          "description": "Transferring Florida probation supervision to another state.",
+          "placeholder": true
+        },
+        {
+          "label": "Community Control",
+          "href": "/probation-services/community-control/",
+          "title": "Community Control in Florida",
+          "description": "How community control differs from probation, and what it requires.",
+          "placeholder": true
+        },
+        {
+          "label": "Probation Violations",
+          "href": "/probation-services/probation-violations/",
+          "title": "Florida Probation Violations",
+          "description": "What happens after an alleged violation of probation in Florida.",
+          "placeholder": true
+        }
+      ]
+    },
+    {
+      "label": "Florida Law",
+      "href": "/florida-law/",
+      "title": "Florida Probation Law",
+      "description": "Plain-language explanations of the Florida statutes that govern probation and community control.",
+      "placeholder": true,
+      "children": [
+        {
+          "label": "Florida Probation Law Guide",
+          "href": "/florida-law/probation-law-guide/",
+          "title": "Florida Probation Law Guide",
+          "description": "A guide to how probation is imposed, supervised and ended under Florida law.",
+          "placeholder": true
+        },
+        {
+          "label": "Florida Statute 948.04",
+          "href": "/florida-law/statute-948-04/",
+          "title": "Florida Statute 948.04",
+          "description": "Fla. Stat. § 948.04 — period of probation and the duty of the probationer.",
+          "placeholder": true
+        },
+        {
+          "label": "Florida Statute 948.05",
+          "href": "/florida-law/statute-948-05/",
+          "title": "Florida Statute 948.05",
+          "description": "Fla. Stat. § 948.05 — the court's authority over probationers and offenders in community control.",
+          "placeholder": true
+        },
+        {
+          "label": "948.04 versus 948.05",
+          "href": "/florida-law/948-04-vs-948-05/",
+          "title": "Florida Statute 948.04 vs. 948.05",
+          "description": "How Fla. Stat. §§ 948.04 and 948.05 differ, and when each applies.",
+          "placeholder": true
+        },
+        {
+          "label": "Probation Glossary",
+          "href": "/florida-law/probation-glossary/",
+          "title": "Florida Probation Glossary",
+          "description": "Definitions of the terms used in Florida probation orders and hearings.",
+          "placeholder": true
+        }
+      ]
+    },
+    {
+      "label": "Locations",
+      "href": "/locations/",
+      "title": "Florida Locations",
+      "description": "Counties across Florida where Hoffman Legal handles probation matters.",
+      "placeholder": true,
+      "children": [
+        {
+          "label": "Broward County",
+          "href": "/locations/broward-county/",
+          "title": "Broward County Probation Attorney",
+          "description": "Probation matters in Broward County and the Seventeenth Judicial Circuit.",
+          "placeholder": true
+        },
+        {
+          "label": "Miami-Dade County",
+          "href": "/locations/miami-dade-county/",
+          "title": "Miami-Dade County Probation Attorney",
+          "description": "Probation matters in Miami-Dade County and the Eleventh Judicial Circuit.",
+          "placeholder": true
+        },
+        {
+          "label": "Palm Beach County",
+          "href": "/locations/palm-beach-county/",
+          "title": "Palm Beach County Probation Attorney",
+          "description": "Probation matters in Palm Beach County and the Fifteenth Judicial Circuit.",
+          "placeholder": true
+        },
+        {
+          "label": "Orange County",
+          "href": "/locations/orange-county/",
+          "title": "Orange County Probation Attorney",
+          "description": "Probation matters in Orange County and the Ninth Judicial Circuit.",
+          "placeholder": true
+        },
+        {
+          "label": "Hillsborough County",
+          "href": "/locations/hillsborough-county/",
+          "title": "Hillsborough County Probation Attorney",
+          "description": "Probation matters in Hillsborough County and the Thirteenth Judicial Circuit.",
+          "placeholder": true
+        },
+        {
+          "label": "Duval County",
+          "href": "/locations/duval-county/",
+          "title": "Duval County Probation Attorney",
+          "description": "Probation matters in Duval County and the Fourth Judicial Circuit.",
+          "placeholder": true
+        },
+        {
+          "label": "All Locations",
+          "href": "/locations/",
+          "description": "All Florida counties covered."
+        }
+      ]
+    },
+    {
+      "label": "Resources",
+      "href": "/resources/",
+      "title": "Florida Probation Resources",
+      "description": "Guides, checklists and reference material for people on probation in Florida.",
+      "placeholder": true
+    },
+    {
+      "label": "About",
+      "href": "/about/",
+      "title": "About Hoffman Legal",
+      "description": "About Hoffman Legal and the attorneys handling Florida probation matters.",
+      "placeholder": true
+    },
+    {
+      "label": "Contact",
+      "href": "/contact/",
+      "title": "Contact Hoffman Legal",
+      "description": "Request a consultation about a Florida probation matter.",
+      "placeholder": true
+    }
+  ],
+
+  "legal": [
+    {
+      "label": "Privacy Policy",
+      "href": "/legal/privacy-policy/",
+      "title": "Privacy Policy",
+      "description": "How FloridaProbationLaw.com handles information submitted through this website.",
+      "placeholder": true
+    },
+    {
+      "label": "Terms of Use",
+      "href": "/legal/terms-of-use/",
+      "title": "Terms of Use",
+      "description": "Terms governing use of FloridaProbationLaw.com.",
+      "placeholder": true
+    },
+    {
+      "label": "Legal Disclaimer",
+      "href": "/legal/disclaimer/",
+      "title": "Legal Disclaimer",
+      "description": "Information on this site is not legal advice and does not create an attorney-client relationship.",
+      "placeholder": true
+    },
+    {
+      "label": "Accessibility",
+      "href": "/legal/accessibility/",
+      "title": "Accessibility Statement",
+      "description": "Our approach to accessibility on FloridaProbationLaw.com and how to report a barrier.",
+      "placeholder": true
+    },
+    {
+      "label": "HTML Sitemap",
+      "href": "/sitemap/",
+      "title": "Sitemap",
+      "description": "Every page on FloridaProbationLaw.com.",
+      "placeholder": true
+    }
+  ],
+
+  "footerColumns": [
+    { "heading": "Early Termination", "source": "/early-termination/" },
+    { "heading": "Probation Services", "source": "/probation-services/" },
+    { "heading": "Florida Locations", "source": "/locations/" },
+    {
+      "heading": "Firm",
+      "items": [
+        { "label": "About", "href": "/about/" },
+        { "label": "Contact", "href": "/contact/" },
+        { "label": "Resources", "href": "/resources/" },
+        { "label": "Florida Law", "href": "/florida-law/" }
+      ]
+    },
+    { "heading": "Legal", "source": "legal" }
+  ]
+}
