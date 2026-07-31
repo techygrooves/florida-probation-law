@@ -1,6 +1,7 @@
 # FloridaProbationLaw.com — Implementation Plan
 
 Operated by Hoffman Legal. Status: greenfield.
+Stack: **static HTML + Tailwind CSS**, entry point `index.html`, WCAG 2.2 AA.
 
 ---
 
@@ -8,263 +9,295 @@ Operated by Hoffman Legal. Status: greenfield.
 
 | Item | Finding |
 | --- | --- |
-| Tracked files | `README.md` only (one line) |
-| Commits | 1 (`f93a33b Initial commit`) |
-| Branch | `claude/florida-probation-law-plan-bu7wml` (tracks origin) |
+| Tracked files | `README.md`, `docs/IMPLEMENTATION-PLAN.md` |
+| Commits | 2, on `claude/florida-probation-law-plan-bu7wml` |
 | Build tooling | None — no `package.json`, config, CI, or `.gitignore` |
 | Runtime available | Node 22.22.2 / npm 10.9.7, Python 3.11.15 |
 
-Nothing to migrate or preserve. All decisions are open.
+Nothing to migrate. All decisions are open.
 
-### Stack recommendation
+---
 
-**Astro 5 + TypeScript + Tailwind CSS 4 + MDX content collections, static output.**
+## 1. Stack — and the one problem it creates
 
-Rationale: this is a content/SEO property, not an app. Astro ships zero JS by default (wins Core Web Vitals against competing firm sites), MDX content collections give type-safe legal content with editable frontmatter, and static output deploys anywhere (Cloudflare Pages recommended). React/Next adds a hydration cost with no payoff here.
+The site is hand-authored HTML styled with Tailwind. No framework, no component runtime, no hydration. Every file in the repo is a complete, openable HTML document.
 
-### Blocking unknowns — needed before content is written
+That is a good fit for a content site — but at ~47 pages it has one serious failure mode, and the plan is built around solving it.
 
-These are business facts I must not invent. Every one is centralized in `src/site.config.ts` and seeded with clearly-marked `TODO` placeholders so the build runs, but **no page ships to production until they are replaced with verified data**:
+### The duplication problem
+
+Header, nav, footer, disclaimer, and CTA markup would otherwise be copy-pasted into 47 files. Changing the firm's phone number would mean 47 edits, and the 48th file someone forgets is the one showing a dead number to a prospective client. Three ways to handle it:
+
+| Option | Verdict |
+| --- | --- |
+| Hand-copy chrome into every page | Rejected — guaranteed drift, and drift on Bar-required footer text is a compliance problem, not a cosmetic one |
+| Client-side `fetch()` injection of partials | Rejected — chrome invisible to crawlers without JS, breaks the no-JS baseline, adds CLS |
+| **Build-time include stitching** | **Recommended** |
+
+**Recommendation: managed regions, rewritten in place.** Shared markup lives once in `partials/`. Each page marks where it goes:
+
+```html
+<!-- @include:header --> ... generated markup ... <!-- @end:header -->
+```
+
+`npm run build` re-stitches every managed region from the partials and regenerates `sitemap.xml`. The script is ~80 lines of Node with no dependencies.
+
+Why in place rather than the conventional `src/` → `dist/`: the repo always contains the finished, working site. Anyone can open `index.html` in a browser or hand the folder to a host with no build step, and there is no source/output confusion for a non-developer maintaining copy later. The tradeoff is that managed regions are generated — they carry a `DO NOT EDIT` comment, and edits go to `partials/`.
+
+### Tailwind: CLI, not CDN
+
+Use the Tailwind CLI, not `<script src="cdn.tailwindcss.com">`. The CDN build is explicitly not for production — it ships ~100KB of JS, generates styles at runtime, and causes a flash of unstyled content, which would sink the Core Web Vitals this site competes on.
+
+```bash
+npx @tailwindcss/cli -i src/input.css -o css/styles.css --minify
+```
+
+Output is a single ~12KB gzipped stylesheet. Tailwind v4 is CSS-first — design tokens live in `@theme` inside `src/input.css`, so there is no `tailwind.config.js`. **`css/styles.css` is committed**, so the site renders with zero tooling installed; the build only needs to run when styles change.
+
+Net JS shipped to visitors: ~3KB (`js/main.js` — nav toggle, form validation). Everything works with JS disabled.
+
+### Blocking unknowns — business facts I will not invent
+
+Centralized in `data/site.json` and injected at build time. Seeded with visible `TODO` markers so the site builds, but **nothing ships until these are verified**:
 
 1. Firm NAP — legal entity name, bona fide office street address, phone, email.
-2. Attorney roster — names, Florida Bar numbers, admission dates, education, real bio copy.
-3. Counties Hoffman Legal actually practices in (drives which location pages may exist at all).
-4. Contact form backend (see §7) and the destination inbox.
+2. Attorney roster — names, Florida Bar numbers, admission dates, education, bio copy.
+3. Counties Hoffman Legal actually practices in (gates which location pages may exist).
+4. Contact form backend and destination inbox.
 5. Hosting/DNS target.
 
-**Hard rule for this build: no fabricated case results, testimonials, reviews, "years of experience," client counts, awards, or attorney credentials.** Placeholder slots render as visible `TODO` markers in dev and fail the build in production mode rather than emitting invented facts.
+**No fabricated case results, testimonials, reviews, "years of experience," client counts, or credentials.** Those slots stay empty; `scripts/check-placeholders.mjs` fails the build if a `TODO` survives to production.
 
-### Compliance constraints shaping the design
+### Compliance constraints
 
-A Florida law firm site is regulated advertising under Florida Bar Rules 4-7.11–4-7.22, and is YMYL content for search purposes. Architectural consequences, not afterthoughts:
+Florida Bar Rules 4-7.11–4-7.22 govern this as attorney advertising, and it is YMYL content for search. Architectural consequences:
 
-- Every page footer carries the responsible firm/lawyer name and the city of a bona fide office (Rule 4-7.12).
-- No guarantees, predictions of outcome, or "specialist"/"expert" phrasing unless board certification is verified (Rules 4-7.13, 4-7.14).
-- Any past-results or testimonial component ships disabled until real, verifiable content plus required disclaimers exist.
-- The contact form must not solicit confidential case detail pre-conflict-check, and carries a "no attorney-client relationship is formed" notice adjacent to the submit button.
-- All substantive legal content requires named-attorney review before publish — tracked as a `reviewedBy` / `reviewedOn` frontmatter field enforced by the content schema.
-- WCAG 2.2 AA is a build gate, not a nice-to-have (ADA demand-letter exposure).
-
----
-
-## 1. Global design
-
-**Positioning:** urgent, credible, plain-language. A VOP warrant is a same-day emergency — the design optimizes for "call now on a phone at 11pm," not brochure browsing.
-
-- **Tokens** (Tailwind 4 `@theme` in `global.css`): navy/slate primary, a single warm accent for CTAs only, 4px spacing scale, `clamp()` fluid type scale, two families max (serif display / system-stack body).
-- **Layout:** 1200px max content width, 68ch measure for article text, 8-col responsive grid, mobile-first.
-- **Conversion furniture:** persistent header phone number; sticky mobile click-to-call bar; CTA band closing every page template.
-- **Accessibility:** WCAG 2.2 AA — visible focus rings, 4.5:1 text contrast, landmark regions, skip link, keyboard-operable accordions, `prefers-reduced-motion` respected.
-- **Performance budget:** ≤ 100KB JS on any route (target 0 on content routes), LCP < 2.0s on 4G, CLS < 0.05. Self-hosted subset fonts, `font-display: swap`, all images via `astro:assets` → AVIF/WebP with explicit dimensions.
-- **Content voice:** 8th-grade reading level, defined terms on first use, no Latin without a gloss.
-
-**Files:** `src/styles/global.css`, `src/site.config.ts`, `astro.config.mjs`, `tsconfig.json`, `package.json`
+- Responsible firm/lawyer name and bona fide office city in every footer (Rule 4-7.12) — which is exactly why the footer is a single partial, not 47 copies.
+- No guarantees, outcome predictions, or "specialist"/"expert" phrasing absent verified board certification (Rules 4-7.13, 4-7.14).
+- Past-results and testimonial components ship disabled until real, verifiable content plus disclaimers exist.
+- Contact form must not solicit confidential detail pre-conflict-check; no-attorney-client-relationship notice sits beside the submit button.
+- Every legal page carries a visible attorney review byline and `data-reviewed-by` / `data-reviewed-on` attributes; `check-seo.mjs` fails any legal page missing them.
 
 ---
 
-## 2. Shared components
+## 2. Global design
 
-Three layouts wrap everything; blocks compose pages; no page defines its own chrome.
+Urgent, credible, plain-language. A VOP warrant is a same-day emergency — the design optimizes for "call now, on a phone, at 11pm," not brochure browsing.
 
-- **Layouts:** `BaseLayout` (html shell, SEO, header/footer, skip link) → `PageLayout` (marketing pages) / `ArticleLayout` (long-form legal content: TOC, breadcrumbs, review byline, last-updated).
-- **Chrome:** `Header`, `MobileNav`, `Footer` (with Bar-required identification), `Breadcrumbs`, `StickyCallBar`.
-- **UI primitives:** `Button`, `Card`, `Section`, `Prose`, `Accordion`, `TableOfContents`, `Badge`, `Icon`, `Alert`.
-- **Blocks:** `Hero`, `CTABand`, `ContactForm`, `FAQSection`, `PracticeAreaGrid`, `LocationGrid`, `StatuteCallout`, `RelatedLinks`, `ProcessSteps`, `DisclaimerBlock`.
-- **SEO:** `SEO.astro` (title/description/canonical/OG/Twitter/robots), `JsonLd.astro` (typed structured-data emitter).
+- **Tokens** (`@theme` in `src/input.css`): navy/slate primary, one warm accent reserved exclusively for CTAs, 4px spacing scale, `clamp()` fluid type, two font families max, self-hosted and subset with `font-display: swap`.
+- **Layout:** 1200px max width, 68ch measure for article text, mobile-first, CSS Grid via Tailwind utilities.
+- **Repeated patterns** get `@apply` component classes in `input.css` (`.btn-primary`, `.card`, `.prose-legal`) so partials stay readable and utility strings don't sprawl across 47 files.
+- **Conversion furniture:** phone number in the header on every page; sticky mobile click-to-call bar; CTA band closing every page.
+- **Performance budget:** ~12KB CSS, ~3KB JS, LCP < 2.0s on 4G, CLS < 0.05. All images AVIF/WebP with explicit `width`/`height` and `loading="lazy"` below the fold.
 
-Interactivity is progressive enhancement only — `<details>`-based accordions and native anchors mean every page works with JS off.
+**Files:** `src/input.css`, `css/styles.css`, `js/main.js`, `data/site.json`
 
 ---
 
-## 3. Homepage
+## 3. Accessibility (WCAG 2.2 AA)
 
-Single-scroll conversion page; every section links deeper.
+Called out explicitly, and it carries real ADA demand-letter exposure for law firm sites. Hand-written HTML means no framework guardrails, so this is enforced by linting and tests rather than assumed.
 
-1. Hero — "Facing a Florida probation violation?" + click-to-call + secondary "Request a case review."
-2. Urgency strip — three plain-language facts (VOP warrants are often no-bond; the standard is preponderance, not reasonable doubt; time is short).
-3. Practice-area grid — 6 top areas, each linking to its pillar page.
-4. How we defend a VOP — 4-step `ProcessSteps` (arrest/warrant → bond motion → hearing prep → disposition).
-5. Florida law explainer teaser — 3 statute cards → `/florida-law/`.
+**Structure**
+- `lang="en"` on `<html>`; landmarks `<header> <nav> <main> <footer>`; skip link as the first focusable element.
+- Exactly one `<h1>` per page, no skipped heading levels — asserted in CI.
+
+**Interaction**
+- FAQ accordions use native `<details>/<summary>` — keyboard-accessible with zero JS and zero ARIA.
+- Mobile nav toggle is the only scripted control: `aria-expanded`, `aria-controls`, Esc to close, focus returned to the trigger. Falls back to a `<details>` nav when JS is off.
+- Visible focus on everything — `focus-visible:` rings, never a bare `outline: none`.
+
+**WCAG 2.2 additions that specifically bite this design**
+- **2.4.11 Focus Not Obscured** — the sticky call bar can cover a focused element. Mitigated with `scroll-margin-block` on anchor targets and by keeping the bar out of the tab-order path.
+- **2.5.8 Target Size (24×24 CSS px)** — applies to nav links, phone links, and footer links, which trend small on mobile.
+- **3.2.6 Consistent Help** — the phone number must appear in the same relative position on every page; a single header partial gives this for free.
+
+**Forms:** every input has a real `<label for>`, hints via `aria-describedby`, errors via `aria-invalid` plus inline text in an `aria-live="polite"` region. No placeholder-as-label.
+
+**Also:** 4.5:1 text contrast (3:1 for large text and UI boundaries), meaningful `alt` (empty `alt=""` for decorative), `prefers-reduced-motion` respected, no color-only status signals.
+
+---
+
+## 4. Shared components (partials)
+
+Nine partials own everything repeated across pages. Four templates seed new pages so structure never drifts.
+
+**Partials:** `head-meta.html` (charset, viewport, canonical, OG/Twitter, JSON-LD slot) · `header.html` · `mobile-nav.html` · `footer.html` (Bar-required identification) · `breadcrumbs.html` · `cta-band.html` · `sticky-call-bar.html` · `contact-form.html` · `disclaimer.html`
+
+**Templates:** `page.html` · `practice-area.html` · `florida-law.html` · `location.html`
+
+`npm run new-page -- --type=practice-area --slug=...` scaffolds a page from its template with managed regions and metadata already wired.
+
+---
+
+## 5. Homepage — `index.html`
+
+1. Hero — "Facing a Florida probation violation?" + click-to-call + "Request a case review."
+2. Urgency strip — three plain facts: VOP warrants are often no-bond; the standard is preponderance, not beyond a reasonable doubt; time is short.
+3. Practice-area grid — 6 cards into the pillar pages.
+4. How we defend a VOP — 4 steps (warrant/arrest → bond motion → hearing prep → disposition).
+5. Florida law teaser — 3 statute cards → `/florida-law/`.
 6. Locations teaser → `/locations/`.
-7. FAQ — 6 questions, `FAQPage` schema.
-8. CTA band + short-form contact.
+7. FAQ — 6 `<details>` items + `FAQPage` JSON-LD.
+8. CTA band + short intake form.
 
-Trust/results modules are built but rendered only when real data exists in config.
-
-**Files:** `src/pages/index.astro`
+Trust and results modules are built but render only when real data exists in `data/site.json`.
 
 ---
 
-## 4. Practice-area pages
+## 6. Practice-area pages
 
-Index at `/practice-areas/`, detail at `/practice-areas/[slug]`, generated from an MDX collection.
+Directory-index URLs (`/practice-areas/violation-of-probation/`) — no `.html` in the address bar.
 
-**Template:** H1 + one-sentence answer → "what this means" → penalties/exposure → defenses → process timeline → related statutes (`StatuteCallout`) → FAQ → related areas → CTA.
+**Template:** H1 + one-sentence answer → what it means → penalties/exposure → defenses → timeline → related statutes → FAQ → related areas → CTA.
 
-**Launch set (12):** `violation-of-probation` (pillar), `technical-violations`, `new-law-violations`, `absconding-and-failure-to-report`, `failed-drug-test-violations`, `restitution-and-fines-violations`, `community-control-violations`, `dui-probation-violations`, `sex-offender-probation-violations`, `early-termination-of-probation`, `probation-modification`, `out-of-state-probation-transfer`.
-
-Schema enforces: `title`, `slug`, `metaTitle`, `metaDescription`, `summary`, `relatedStatutes[]`, `faqs[]`, `reviewedBy`, `reviewedOn`.
-
-**Files:** `src/pages/practice-areas/index.astro`, `src/pages/practice-areas/[slug].astro`, `src/content/practice-areas/*.mdx` (12), `src/data/practice-areas.ts`
+**12 pages:** `violation-of-probation` (pillar) · `technical-violations` · `new-law-violations` · `absconding-and-failure-to-report` · `failed-drug-test-violations` · `restitution-and-fines-violations` · `community-control-violations` · `dui-probation-violations` · `sex-offender-probation-violations` · `early-termination-of-probation` · `probation-modification` · `out-of-state-probation-transfer`
 
 ---
 
-## 5. Florida law pages
+## 7. Florida law pages
 
-The topical-authority layer: neutral statute and procedure explainers that earn links and rank for research intent, each funneling to the matching practice area.
+The topical-authority layer — neutral statute and procedure explainers that earn links and rank for research intent, each funneling to its matching practice area.
 
-**Template:** what the statute says → plain-English translation → how it plays out in court → key exceptions → related statutes → "how this affects your case" CTA. Statute text is quoted and cited, never paraphrased as if authoritative; each page links to the official Online Sunshine text and carries an "accurate as of" date.
+**Template:** what the statute says → plain-English translation → how it plays out in court → exceptions → related statutes → "how this affects your case" CTA. Statutes are quoted and cited to Online Sunshine with an "accurate as of" date, never paraphrased as authoritative.
 
-**Launch set (12):** `fl-stat-948-01` (when probation may be imposed), `fl-stat-948-03` (terms and conditions), `fl-stat-948-04` (period of probation; early termination), `fl-stat-948-06` (violation, revocation, modification — the anchor), `fl-stat-948-09` (cost of supervision), `fl-stat-948-10` (community control / home confinement), `rule-3-790-revocation-procedure`, `vop-hearing-process`, `vop-burden-of-proof` (preponderance; willful and substantial), `vop-arrest-and-bond`, `vop-sentencing-and-scoresheets` (§ 921.0024, credit for time served), `probation-vs-community-control`.
-
-**Files:** `src/pages/florida-law/index.astro`, `src/pages/florida-law/[slug].astro`, `src/content/florida-law/*.mdx` (12), `src/data/statutes.ts`
+**12 pages:** `fl-stat-948-01` (when probation may be imposed) · `fl-stat-948-03` (terms and conditions) · `fl-stat-948-04` (period; early termination) · `fl-stat-948-06` (violation, revocation, modification — the anchor) · `fl-stat-948-09` (cost of supervision) · `fl-stat-948-10` (community control) · `rule-3-790-revocation-procedure` · `vop-hearing-process` · `vop-burden-of-proof` · `vop-arrest-and-bond` · `vop-sentencing-and-scoresheets` · `probation-vs-community-control`
 
 ---
 
-## 6. Location pages
+## 8. Location pages
 
-**The main SEO risk in this build.** Templated near-duplicate city pages are doorway pages — they get filtered or penalized, and under Bar rules they can imply an office presence that doesn't exist. Two rules govern this section:
+**The largest SEO risk in this build.** Near-duplicate county pages are doorway pages — they get filtered or penalized, and under Bar rules they can imply an office presence that does not exist. Two rules:
 
-1. **Only counties Hoffman Legal actually serves get a page.** The list comes from the firm, not from population rankings.
-2. **Each page carries ≥ 400 words of genuinely local, verifiable substance** — county courthouse name/address, criminal division structure, the local FDC Probation & Parole office, county-specific VOP scheduling practice, local diversion or drug-court programs. Shared boilerplate stays under 30% of the page.
+1. **Only counties Hoffman Legal actually serves get a page** — the list comes from the firm, not from population rankings.
+2. **≥ 400 words of verifiable local substance per page** — county courthouse name and address, criminal division structure, the local FDC Probation & Parole office, county VOP scheduling practice, local diversion or drug-court programs. Shared boilerplate stays under 30% of the page, checked by `scripts/check-links.mjs`'s duplication pass.
 
-`locations.ts` holds structured per-county data; the MDX file holds the unique local narrative. A build-time check fails any location page below the word-count floor or missing courthouse data.
+Each emits `LegalService` + `areaServed` — **not** `LocalBusiness` with an address the firm does not occupy.
 
-**Proposed Tier 1 (12), pending firm confirmation:** Miami-Dade, Broward, Palm Beach, Orange, Hillsborough, Duval, Pinellas, Lee, Polk, Brevard, Seminole, Volusia.
-
-Each emits `LegalService` + `areaServed` schema — **not** `LocalBusiness` with a fake address, unless a real office exists there.
-
-**Files:** `src/pages/locations/index.astro`, `src/pages/locations/[slug].astro`, `src/content/locations/*.mdx` (12), `src/data/locations.ts`
+**Tier 1 (12), pending firm confirmation:** Miami-Dade · Broward · Palm Beach · Orange · Hillsborough · Duval · Pinellas · Lee · Polk · Brevard · Seminole · Volusia
 
 ---
 
-## 7. About and contact pages
+## 9. About and contact pages
 
-**`/about`** — firm story, attorney bio cards (real credentials only, Bar numbers displayed), approach to VOP defense, bona fide office disclosure. Emits `Attorney` / `LegalService` schema.
+**`/about/`** — firm story, attorney cards (real credentials only, Bar numbers shown), approach to VOP defense, bona fide office disclosure. `Attorney` + `LegalService` JSON-LD.
 
-**`/contact`** — office address + map link, click-to-call, hours, and the intake form.
+**`/contact/`** — address, map link, click-to-call, hours, intake form.
 
-**Form design:** name, phone, email, county, urgency (warrant outstanding? in custody?), short message. Explicitly instructs the visitor *not* to send confidential details before a conflict check, with the no-attorney-client-relationship notice beside the submit button. Honeypot + timing check for spam, no third-party CAPTCHA (privacy + CLS). Posts to a Cloudflare Pages Function or Formspree — **decision needed**; recommendation is a Pages Function so no third party holds prospective-client data. Success → `/thank-you` (the conversion-tracking endpoint).
+**Form:** name, phone, email, county, urgency (warrant outstanding? in custody?), short message. Explicitly instructs the visitor *not* to send confidential detail before a conflict check, with the no-attorney-client-relationship notice beside the submit button. Honeypot + submission-timing check rather than third-party CAPTCHA (privacy, and CAPTCHA costs CLS).
 
-**Legal pages:** `/legal/disclaimer`, `/legal/privacy-policy`, `/legal/terms-of-use`, all linked from every footer.
+**Backend — decision needed.** With no framework there is still no server. Recommendation: a Cloudflare Pages Function (a plain `/functions/contact.js`, works with a purely static site) so no third party holds prospective-client intake data. Formspree or Netlify Forms is the zero-infrastructure fallback. Success → `/thank-you/`, which is the conversion-tracking endpoint.
 
-**Files:** `src/pages/about.astro`, `src/pages/contact.astro`, `src/pages/thank-you.astro`, `src/pages/legal/disclaimer.astro`, `src/pages/legal/privacy-policy.astro`, `src/pages/legal/terms-of-use.astro`
-
----
-
-## 8. SEO
-
-- **Technical:** self-referencing canonicals, `@astrojs/sitemap`, `robots.txt`, semantic heading order, descriptive internal anchors, 404 page, trailing-slash consistency, security headers via `public/_headers`.
-- **Metadata:** every page requires `metaTitle` (≤ 60ch) and `metaDescription` (≤ 155ch) at the schema level — the build fails on a missing or duplicate title.
-- **Structured data** (`src/lib/schema.ts`): `LegalService` + `Attorney` sitewide; `BreadcrumbList` on all nested pages; `FAQPage` where FAQs render; `Article` with `datePublished`/`dateModified`/`reviewedBy` on practice-area and Florida-law pages.
-- **Internal linking:** hub-and-spoke — practice area ↔ statute ↔ location, three-way cross-linking generated from the data files so no orphans and no manual link rot.
-- **E-E-A-T:** visible attorney review byline and last-reviewed date on every legal page; citations to Online Sunshine statute text.
-- **Analytics:** privacy-respecting, cookieless (Plausible or Cloudflare Web Analytics) — avoids a cookie banner and the CLS it causes. Call and form-submit conversion events.
-
-**Files:** `src/components/seo/SEO.astro`, `src/components/seo/JsonLd.astro`, `src/lib/schema.ts`, `src/lib/seo.ts`, `src/pages/404.astro`, `public/robots.txt`, `public/_headers`
+**Legal pages:** `/legal/disclaimer/`, `/legal/privacy-policy/`, `/legal/terms-of-use/`, linked from every footer.
 
 ---
 
-## 9. Final testing
+## 10. SEO
+
+Hand-written HTML has no schema layer to enforce metadata, so `scripts/check-seo.mjs` replaces it — scanning every page for a missing or duplicate `<title>`, missing/overlong meta description, missing canonical, multiple `<h1>`, and malformed JSON-LD. Metadata lives in `data/pages.json`, which also drives sitemap generation.
+
+- **Technical:** self-referencing canonicals, generated `sitemap.xml`, `robots.txt`, trailing-slash consistency, `404.html`, security headers via `_headers`.
+- **Structured data:** `LegalService` + `Attorney` sitewide · `BreadcrumbList` on nested pages · `FAQPage` where FAQs render · `Article` with `datePublished`/`dateModified`/`reviewedBy` on practice-area and Florida-law pages.
+- **Internal linking:** hub-and-spoke — practice area ↔ statute ↔ location, three-way. `check-links.mjs` fails on orphans and internal 404s, which matters more without a framework's typed routes.
+- **E-E-A-T:** visible attorney review byline and last-reviewed date on every legal page.
+- **Analytics:** cookieless (Plausible or Cloudflare Web Analytics) — no consent banner, no CLS. Call and form-submit events.
+
+---
+
+## 11. Final testing
 
 | Gate | Tool | Threshold |
 | --- | --- | --- |
-| Build + types | `astro check`, `tsc` | zero errors |
-| Content schema | Zod (content collections) | all required fields, incl. `reviewedBy` |
-| Smoke | Playwright | every route 200s, renders H1, nav works |
+| HTML validity | `html-validate` | zero errors — the compiler this stack doesn't have |
 | Accessibility | `@axe-core/playwright` | zero serious/critical, WCAG 2.2 AA |
-| SEO assertions | Playwright | unique title/description/canonical per page; valid JSON-LD; one H1 |
-| Links | `scripts/check-links.mjs` | zero internal 404s |
+| A11y structure | Playwright | skip link, one `<h1>`, no skipped levels, labeled inputs, focus visible |
+| Keyboard | Playwright | full nav + form completion, no trap, Esc closes mobile nav |
+| SEO | `check-seo.mjs` | unique title/description/canonical, valid JSON-LD |
+| Links | `check-links.mjs` | zero internal 404s, zero orphans |
+| Placeholders | `check-placeholders.mjs` | zero `TODO` in a production build |
+| Includes | `build.mjs --check` | no page drifted from its partials |
 | Performance | Lighthouse CI | Perf ≥ 95, A11y 100, SEO 100 on 4 sampled routes |
-| Placeholders | `scripts/check-placeholders.mjs` | zero `TODO` markers in a production build |
 
-Plus manual pre-launch: real-device iOS/Android check, click-to-call verified, form submission end-to-end to the live inbox, and **attorney sign-off on 100% of legal content**. CI runs all gates on every PR.
+That last gate is specific to this architecture: CI re-runs the stitcher and fails if any page's managed region differs from the partial, catching hand-edits to generated chrome before they ship.
 
-**Files:** `playwright.config.ts`, `tests/smoke.spec.ts`, `tests/a11y.spec.ts`, `tests/seo.spec.ts`, `scripts/check-links.mjs`, `scripts/check-placeholders.mjs`, `lighthouserc.json`, `.github/workflows/ci.yml`
+Manual pre-launch: real iOS/Android devices, click-to-call verified, screen-reader pass (VoiceOver + NVDA) on homepage/contact/one article, form submission end-to-end to the live inbox, and **attorney sign-off on 100% of legal content**.
 
 ---
 
-## Exact file manifest
+## 12. Exact file manifest
 
-`~` = modify, all others new. **111 files.**
+`~` = modify. **87 new, 2 modified.**
 
 ```
 ~ README.md
-  .gitignore  .editorconfig  .prettierrc.json  CLAUDE.md
-  package.json  astro.config.mjs  tsconfig.json
-  playwright.config.ts  lighthouserc.json
+~ docs/IMPLEMENTATION-PLAN.md
+
+  index.html                    homepage / site entry point
+  404.html
+  package.json  .gitignore  .editorconfig  .prettierrc.json
+  .htmlvalidate.json  playwright.config.js  lighthouserc.json  CLAUDE.md
+  robots.txt  sitemap.xml  site.webmanifest  _headers  favicon.svg
   .github/workflows/ci.yml
-  docs/IMPLEMENTATION-PLAN.md          (this file)
-  docs/CONTENT-STYLE-GUIDE.md
 
-src/
-  site.config.ts                       firm NAP, bar info, disclaimers — single source of truth
-  content.config.ts                    collection schemas
-  styles/global.css
+src/input.css                   Tailwind source: @theme tokens + @apply classes
+css/styles.css                  generated, committed — site works with no build
+js/main.js                      ~3KB: nav toggle, form validation
+images/.gitkeep
 
-  data/  nav.ts  practice-areas.ts  locations.ts  statutes.ts  faqs.ts
+data/
+  site.json                     NAP, phone, bar info, disclaimers — one source of truth
+  pages.json                    per-page metadata → drives sitemap + SEO checks
 
-  lib/   seo.ts  schema.ts  urls.ts  format.ts
+partials/
+  head-meta.html  header.html  mobile-nav.html  footer.html  breadcrumbs.html
+  cta-band.html  sticky-call-bar.html  contact-form.html  disclaimer.html
 
-  layouts/  BaseLayout.astro  PageLayout.astro  ArticleLayout.astro
+templates/
+  page.html  practice-area.html  florida-law.html  location.html
 
-  components/
-    seo/     SEO.astro  JsonLd.astro
-    layout/  Header.astro  MobileNav.astro  Footer.astro
-             Breadcrumbs.astro  StickyCallBar.astro
-    ui/      Button.astro  Card.astro  Section.astro  Prose.astro
-             Accordion.astro  TableOfContents.astro  Badge.astro
-             Icon.astro  Alert.astro
-    blocks/  Hero.astro  CTABand.astro  ContactForm.astro  FAQSection.astro
-             PracticeAreaGrid.astro  LocationGrid.astro  StatuteCallout.astro
-             RelatedLinks.astro  ProcessSteps.astro  DisclaimerBlock.astro
-             AttorneyCard.astro
+scripts/
+  build.mjs                     stitch includes, generate sitemap, --check mode
+  new-page.mjs                  scaffold a page from a template
+  check-seo.mjs  check-links.mjs  check-placeholders.mjs
 
-  pages/
-    index.astro  about.astro  contact.astro  thank-you.astro  404.astro
-    practice-areas/index.astro   practice-areas/[slug].astro
-    florida-law/index.astro      florida-law/[slug].astro
-    locations/index.astro        locations/[slug].astro
-    legal/disclaimer.astro  legal/privacy-policy.astro  legal/terms-of-use.astro
+about/index.html
+contact/index.html
+thank-you/index.html
+legal/disclaimer/index.html  legal/privacy-policy/index.html  legal/terms-of-use/index.html
 
-  content/
-    practice-areas/  (12 .mdx)
-      violation-of-probation  technical-violations  new-law-violations
-      absconding-and-failure-to-report  failed-drug-test-violations
-      restitution-and-fines-violations  community-control-violations
-      dui-probation-violations  sex-offender-probation-violations
-      early-termination-of-probation  probation-modification
-      out-of-state-probation-transfer
+practice-areas/index.html
+practice-areas/{violation-of-probation, technical-violations, new-law-violations,
+  absconding-and-failure-to-report, failed-drug-test-violations,
+  restitution-and-fines-violations, community-control-violations,
+  dui-probation-violations, sex-offender-probation-violations,
+  early-termination-of-probation, probation-modification,
+  out-of-state-probation-transfer}/index.html                          (12)
 
-    florida-law/  (12 .mdx)
-      fl-stat-948-01  fl-stat-948-03  fl-stat-948-04  fl-stat-948-06
-      fl-stat-948-09  fl-stat-948-10  rule-3-790-revocation-procedure
-      vop-hearing-process  vop-burden-of-proof  vop-arrest-and-bond
-      vop-sentencing-and-scoresheets  probation-vs-community-control
+florida-law/index.html
+florida-law/{fl-stat-948-01, fl-stat-948-03, fl-stat-948-04, fl-stat-948-06,
+  fl-stat-948-09, fl-stat-948-10, rule-3-790-revocation-procedure,
+  vop-hearing-process, vop-burden-of-proof, vop-arrest-and-bond,
+  vop-sentencing-and-scoresheets, probation-vs-community-control}/index.html   (12)
 
-    locations/  (12 .mdx — pending firm confirmation of served counties)
-      miami-dade  broward  palm-beach  orange  hillsborough  duval
-      pinellas  lee  polk  brevard  seminole  volusia
+locations/index.html
+locations/{miami-dade, broward, palm-beach, orange, hillsborough, duval,
+  pinellas, lee, polk, brevard, seminole, volusia}/index.html          (12)
 
-public/  robots.txt  favicon.svg  site.webmanifest  _headers  images/.gitkeep
-
-scripts/  check-links.mjs  check-placeholders.mjs
-
-tests/  smoke.spec.ts  a11y.spec.ts  seo.spec.ts
+tests/smoke.spec.js  tests/a11y.spec.js
 ```
 
 ---
 
-## Suggested build order
+## 13. Build order
 
 | Stage | Scope | Output |
 | --- | --- | --- |
-| 1 | Scaffold, tokens, layouts, shared components | Styled shell, CI green |
-| 2 | Homepage + SEO/schema layer | Working conversion path |
-| 3 | Practice-area system + 12 MDX pages | Core money pages |
-| 4 | Florida-law system + 12 MDX pages | Authority layer + cross-links |
-| 5 | Location system + confirmed counties | Local reach |
+| 1 | `package.json`, Tailwind CLI, tokens, partials, `build.mjs` | Stitcher working, CSS compiling |
+| 2 | `index.html` end to end + SEO/JSON-LD + a11y baseline | Homepage passing every CI gate |
+| 3 | Templates + `new-page.mjs`, practice-area index + 12 pages | Core money pages |
+| 4 | Florida-law index + 12 pages, cross-linking | Authority layer |
+| 5 | Location index + confirmed counties | Local reach |
 | 6 | About, contact, form backend, legal pages | Intake live |
-| 7 | Test gates, Lighthouse, attorney review, launch | Production |
+| 7 | Full gate suite, Lighthouse, screen-reader pass, attorney review | Production |
 
-Stages 3–5 each depend on real content; stage 5 is blocked until the firm confirms served counties.
+Stage 2 is the reference implementation — once the homepage clears all nine gates, every later page is scaffolded from a template that already satisfies them. Stages 3–5 depend on real content; stage 5 is blocked until the firm confirms which counties it serves.
