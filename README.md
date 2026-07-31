@@ -7,10 +7,13 @@ Full build plan: [`docs/IMPLEMENTATION-PLAN.md`](docs/IMPLEMENTATION-PLAN.md)
 
 ## Status
 
-Stages 1–2 of 7 — **design system** and the **shared shell** (header,
-navigation, footer, mobile call bar). All 37 routes exist and resolve, but
-every one is an empty placeholder carrying `noindex`. Page content has not
-been written yet.
+Design system, shared shell (header, navigation, footer, mobile call bar),
+homepage, and the **early termination content cluster** — six written pages
+under `/early-termination-of-probation/`.
+
+All 37 routes exist and resolve. 29 are still empty placeholders; 7 have
+content but are `draft`, awaiting review by a Florida attorney. Every page
+currently carries `noindex` — see [Publishing gates](#publishing-gates).
 
 ## Getting started
 
@@ -54,6 +57,44 @@ cannot ship.
 **Adding a route:** add it to `data/nav.json` and run the build. The page file
 is scaffolded, and the header, mobile menu, footer and sitemap all pick it up —
 there is no second place to update.
+
+### Managed regions
+
+| Region | Filled with |
+| --- | --- |
+| `head` `header` `footer` `call-bar` | The matching file in `partials/` |
+| `cta` `page-disclaimer` | Shared consultation CTA and legal disclaimer |
+| `breadcrumbs` | Derived from the route's position in `nav.json` |
+| `siblings` | Links to every other page in the same nav section |
+| `toc` | The page's own `<h2 … data-toc>` headings; omitted below three |
+
+`toc` and `siblings` are why cluster pages stay wired together: rename a
+heading and the contents list follows it, add a page to a section and every
+sibling links to it on the next build.
+
+### Publishing gates
+
+A route in `nav.json` may carry either flag, and both force `noindex` and
+exclusion from `sitemap.xml`:
+
+- `placeholder` — the page has no content yet. 37 thin pages indexed would be
+  a liability for a new domain, not an asset.
+- `draft` — the page is written but no Florida attorney has reviewed it.
+  Unreviewed legal content on a YMYL site is worse than no content.
+
+Remove the flag to publish. `npm run check:launch` fails while any remain.
+
+### Content-review markers
+
+Statements that need verification against current Florida law carry a source
+comment beginning `CONTENT REVIEW —`, naming what to confirm. Find them with:
+
+```bash
+grep -rn "CONTENT REVIEW" --include=*.html .
+```
+
+Where the uncertainty affects what a reader might rely on, it is also stated
+on the page in a `.review-notice` block rather than left in the source.
 
 ## Layout
 

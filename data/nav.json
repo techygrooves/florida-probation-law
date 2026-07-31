@@ -13,50 +13,50 @@
     },
     {
       "label": "Early Termination",
-      "href": "/early-termination/",
+      "href": "/early-termination-of-probation/",
       "title": "Early Termination of Probation in Florida",
-      "description": "How early termination of probation works in Florida, who may qualify, and how a motion is presented to the court.",
-      "placeholder": true,
+      "description": "How early termination of probation works in Florida, who may be eligible, and how a motion is presented to the sentencing court.",
+      "draft": true,
       "children": [
         {
           "label": "Overview",
-          "href": "/early-termination/",
+          "href": "/early-termination-of-probation/",
           "description": "Overview of early termination of probation in Florida."
         },
         {
-          "label": "Eligibility Requirements",
-          "href": "/early-termination/eligibility-requirements/",
-          "title": "Early Termination Eligibility Requirements",
-          "description": "The conditions a Florida court considers when deciding whether probation may be terminated early.",
-          "placeholder": true
+          "label": "Eligibility",
+          "href": "/early-termination-of-probation/eligibility/",
+          "title": "Early Termination of Probation: Eligibility",
+          "description": "The factors a Florida court weighs when deciding whether probation may be terminated early, from time served to restitution and plea terms.",
+          "draft": true
         },
         {
           "label": "Florida 50% Rule",
-          "href": "/early-termination/florida-50-percent-rule/",
+          "href": "/early-termination-of-probation/50-percent-rule/",
           "title": "The Florida 50% Rule for Probation",
-          "description": "What the 50% mark means for early termination of probation in Florida, and where it comes from.",
-          "placeholder": true
+          "description": "What the halfway point of a probation term means in Florida, what it does not mean, and why it is not a guarantee of early termination.",
+          "draft": true
         },
         {
           "label": "Benefits",
-          "href": "/early-termination/benefits/",
-          "title": "Benefits of Early Termination of Probation",
-          "description": "What ending probation early changes for supervision, travel, employment and reporting obligations.",
-          "placeholder": true
+          "href": "/early-termination-of-probation/benefits/",
+          "title": "Potential Benefits of Early Termination of Probation",
+          "description": "How ending probation early may affect employment, housing, travel, reporting obligations and exposure to technical violations.",
+          "draft": true
         },
         {
           "label": "Reasons for Denial",
-          "href": "/early-termination/reasons-for-denial/",
+          "href": "/early-termination-of-probation/reasons-for-denial/",
           "title": "Why Early Termination Requests Are Denied",
-          "description": "Common reasons a Florida court denies a motion to terminate probation early.",
-          "placeholder": true
+          "description": "The reasons a Florida court most often denies a motion to terminate probation early, and what can be done about each.",
+          "draft": true
         },
         {
           "label": "Frequently Asked Questions",
-          "href": "/early-termination/faq/",
-          "title": "Early Termination of Probation: FAQ",
-          "description": "Answers to common questions about ending Florida probation early.",
-          "placeholder": true
+          "href": "/early-termination-of-probation/faqs/",
+          "title": "Early Termination of Probation: FAQs",
+          "description": "Answers to common questions about ending Florida probation early, including timing, restitution, records and hearings.",
+          "draft": true
         }
       ]
     },
