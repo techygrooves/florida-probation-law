@@ -54,18 +54,39 @@ const BASE = (process.env.BASE_PATH ?? site.basePath ?? "")
   .replace(/\/+$/, "")
   .replace(/^(?!\/)(.+)/, "/$1");
 
+const BASE_MARKER = /\n?<!-- built-with-base:([^\s>]*) -->/;
+const URL_ATTR = '(?:href|src)="';
+
 /**
- * Idempotent: strips an already-applied prefix before re-applying, so running
- * the build twice — or running it after changing basePath — converges instead
- * of stacking prefixes. Absolute URLs (canonical, og:url), fragments, tel: and
- * mailto: links are all left alone.
+ * Returns a page to canonical root-relative URLs.
+ *
+ * The trailing marker records which prefix was last written, and exactly one
+ * leading occurrence of it is removed. Both halves matter when a route's own
+ * path begins with the base string — /florida-probation-law/ is exactly that
+ * case here. In a based file that route reads
+ * /florida-probation-law/florida-probation-law/…, so removing one occurrence
+ * is correct; guessing without the marker would collapse it to the site root.
  */
-function applyBase(html) {
+function stripBase(html) {
+  const applied = BASE_MARKER.exec(html)?.[1] || "";
+  html = html.replace(BASE_MARKER, "");
+  if (!applied) return html;
+  return html.replace(new RegExp(`(${URL_ATTR})${applied}/`, "g"), "$1/");
+}
+
+/**
+ * Prefixes every internal URL and records what was applied. Absolute URLs
+ * (canonical, og:url), fragments, tel: and mailto: links are left alone.
+ *
+ * Must run on a document that is entirely canonical — see the build loop,
+ * which strips before stitching for exactly that reason.
+ */
+function addBase(html) {
   if (!BASE) return html;
-  const attr = "(?:href|src)=\"";
-  return html
-    .replace(new RegExp(`(${attr})${BASE}/`, "g"), "$1/")
-    .replace(new RegExp(`(${attr})/(?!/)`, "g"), `$1${BASE}/`);
+  return (
+    html.replace(new RegExp(`(${URL_ATTR})/(?!/)`, "g"), `$1${BASE}/`) +
+    `\n<!-- built-with-base:${BASE} -->`
+  );
 }
 
 /* ---- helpers ------------------------------------------------------------ */
@@ -234,7 +255,16 @@ function renderFooterColumns() {
         items = nav.legal;
       } else {
         const parent = nav.primary.find((p) => p.href === col.source);
-        items = parent?.children || [];
+        // A stale source used to render a heading with nothing under it, which
+        // is easy to miss. Renaming a section should break the build instead.
+        if (!parent?.children?.length) {
+          console.error(
+            `\n  Footer column "${col.heading}" points at "${col.source}", which is not a\n` +
+              `  primary nav item with children. Fix data/nav.json.\n`
+          );
+          process.exit(1);
+        }
+        items = parent.children;
       }
 
       const links = items
@@ -540,7 +570,12 @@ for (const route of allRoutes) {
   }
 
   const source = isNew ? render(templateFor(route), ctx) : readFileSync(abs, "utf8");
-  const next = applyBase(stitch(source, regionsFor(route, ctx, source)));
+
+  // Return the page to canonical URLs *before* stitching. Generated regions are
+  // always emitted canonical, so stitching first would leave the document half
+  // based and half not, and the strip would then corrupt the generated half.
+  const canonical = stripBase(source);
+  const next = addBase(stitch(canonical, regionsFor(route, ctx, canonical)));
 
   if (isNew) {
     mkdirSync(dirname(abs), { recursive: true });

@@ -8,10 +8,15 @@ Full build plan: [`docs/IMPLEMENTATION-PLAN.md`](docs/IMPLEMENTATION-PLAN.md)
 ## Status
 
 Design system, shared shell (header, navigation, footer, mobile call bar),
-homepage, and the **early termination content cluster** — six written pages
-under `/early-termination-of-probation/`.
+homepage, and three written content clusters:
 
-All 37 routes exist and resolve. 29 are still empty placeholders; 7 have
+| Cluster | Pages |
+| --- | --- |
+| `/early-termination-of-probation/` | 6 |
+| `/probation-termination-process/` | 6 |
+| `/florida-probation-law/` | 6 |
+
+All 43 routes exist and resolve. 23 are still empty placeholders; 19 have
 content but are `draft`, awaiting review by a Florida attorney. Every page
 currently carries `noindex` — see [Publishing gates](#publishing-gates).
 
@@ -58,6 +63,18 @@ raw unstyled HTML.
 Change it and re-run `npm run build`; the rewrite is idempotent, so switching
 back and forth converges rather than stacking prefixes. A one-off build can
 override it: `BASE_PATH= npm run build`.
+
+Each built page ends with a `<!-- built-with-base:… -->` marker recording the
+prefix that was applied. The build strips exactly one occurrence of that
+recorded prefix before re-applying, which is what makes the round trip safe
+when a **route's own path begins with the base string** — `/florida-probation-law/`
+is exactly that case here. Two consequences worth knowing:
+
+- Never hand-edit those markers, and never apply a bulk find-and-replace to
+  URLs in built pages. Change `data/nav.json` and rebuild instead.
+- Generated regions are always emitted with canonical URLs, so the build
+  strips *before* stitching. Doing it the other way round leaves a document
+  half-based and corrupts the generated half.
 
 Canonical and `og:url` are absolute and always use `url` from `site.json`, so
 a preview deploy never canonicalises to itself.

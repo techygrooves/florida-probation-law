@@ -61,6 +61,55 @@
       ]
     },
     {
+      "label": "Process",
+      "href": "/probation-termination-process/",
+      "title": "The Probation Termination Process in Florida",
+      "description": "What happens between deciding to ask for early termination and a judge ruling on it: review, records, motion, filing, service, objections, hearing and decision.",
+      "draft": true,
+      "children": [
+        {
+          "label": "Overview",
+          "href": "/probation-termination-process/",
+          "description": "Overview of the probation termination process in Florida."
+        },
+        {
+          "label": "Filing a Motion",
+          "href": "/probation-termination-process/filing-a-motion/",
+          "title": "Filing a Motion to Terminate Probation",
+          "description": "How a motion to terminate probation early is prepared, filed in the sentencing court, and served on the State.",
+          "draft": true
+        },
+        {
+          "label": "Documents Required",
+          "href": "/probation-termination-process/documents-required/",
+          "title": "Documents Required to Terminate Probation Early",
+          "description": "The records a Florida court expects to see with a motion to terminate probation early, and where to obtain each one.",
+          "draft": true
+        },
+        {
+          "label": "Court Hearing",
+          "href": "/probation-termination-process/court-hearing/",
+          "title": "The Early Termination Court Hearing",
+          "description": "What happens if a Florida judge sets a hearing on a motion to terminate probation early, and what the court is deciding.",
+          "draft": true
+        },
+        {
+          "label": "Timeline",
+          "href": "/probation-termination-process/timeline/",
+          "title": "Early Termination Timeline",
+          "description": "The sequence of steps in an early termination request, and why the elapsed time cannot be predicted.",
+          "draft": true
+        },
+        {
+          "label": "Possible Outcomes",
+          "href": "/probation-termination-process/possible-outcomes/",
+          "title": "Possible Outcomes of an Early Termination Motion",
+          "description": "The range of rulings a Florida court may make on a motion to terminate probation early, and what follows each.",
+          "draft": true
+        }
+      ]
+    },
+    {
       "label": "Probation Services",
       "href": "/probation-services/",
       "title": "Florida Probation Services",
@@ -120,45 +169,50 @@
     },
     {
       "label": "Florida Law",
-      "href": "/florida-law/",
+      "href": "/florida-probation-law/",
       "title": "Florida Probation Law",
-      "description": "Plain-language explanations of the Florida statutes that govern probation and community control.",
-      "placeholder": true,
+      "description": "Plain-language summaries of the Florida statutes that govern probation and community control, with links to the official text.",
+      "draft": true,
       "children": [
         {
-          "label": "Florida Probation Law Guide",
-          "href": "/florida-law/probation-law-guide/",
-          "title": "Florida Probation Law Guide",
-          "description": "A guide to how probation is imposed, supervised and ended under Florida law.",
-          "placeholder": true
+          "label": "Overview",
+          "href": "/florida-probation-law/",
+          "description": "Guide to the Florida statutes governing probation."
         },
         {
           "label": "Florida Statute 948.04",
-          "href": "/florida-law/statute-948-04/",
+          "href": "/florida-probation-law/statute-948-04/",
           "title": "Florida Statute 948.04",
-          "description": "Fla. Stat. § 948.04 — period of probation and the duty of the probationer.",
-          "placeholder": true
+          "description": "A plain-language summary of Fla. Stat. § 948.04, which addresses the term of probation and the probationer's duties.",
+          "draft": true
         },
         {
           "label": "Florida Statute 948.05",
-          "href": "/florida-law/statute-948-05/",
+          "href": "/florida-probation-law/statute-948-05/",
           "title": "Florida Statute 948.05",
-          "description": "Fla. Stat. § 948.05 — the court's authority over probationers and offenders in community control.",
-          "placeholder": true
+          "description": "A plain-language summary of Fla. Stat. § 948.05, which addresses the court's authority over a person under supervision.",
+          "draft": true
         },
         {
           "label": "948.04 versus 948.05",
-          "href": "/florida-law/948-04-vs-948-05/",
-          "title": "Florida Statute 948.04 vs. 948.05",
-          "description": "How Fla. Stat. §§ 948.04 and 948.05 differ, and when each applies.",
-          "placeholder": true
+          "href": "/florida-probation-law/948-04-vs-948-05/",
+          "title": "Florida Statute 948.04 Compared With 948.05",
+          "description": "A side-by-side comparison of Fla. Stat. §§ 948.04 and 948.05, and which one an early termination request turns on.",
+          "draft": true
         },
         {
-          "label": "Probation Glossary",
-          "href": "/florida-law/probation-glossary/",
+          "label": "Types of Probation",
+          "href": "/florida-probation-law/types-of-probation/",
+          "title": "Types of Probation in Florida",
+          "description": "Standard probation, administrative probation, drug offender probation, sex offender probation and community control, and how they differ.",
+          "draft": true
+        },
+        {
+          "label": "Glossary",
+          "href": "/florida-probation-law/glossary/",
           "title": "Florida Probation Glossary",
-          "description": "Definitions of the terms used in Florida probation orders and hearings.",
-          "placeholder": true
+          "description": "Definitions of the terms used in Florida probation orders, violation reports and hearings.",
+          "draft": true
         }
       ]
     },
@@ -279,8 +333,12 @@
     }
   ],
 
+  "_footerColumns": "A `source` must match the href of a primary nav item that has children, or be the literal \"legal\". build.mjs fails the build on anything else — a mistyped source previously rendered a heading with no links underneath it, which is invisible unless you go looking.",
+
   "footerColumns": [
-    { "heading": "Early Termination", "source": "/early-termination/" },
+    { "heading": "Early Termination", "source": "/early-termination-of-probation/" },
+    { "heading": "The Process", "source": "/probation-termination-process/" },
+    { "heading": "Florida Law", "source": "/florida-probation-law/" },
     { "heading": "Probation Services", "source": "/probation-services/" },
     { "heading": "Florida Locations", "source": "/locations/" },
     {
@@ -288,8 +346,7 @@
       "items": [
         { "label": "About", "href": "/about/" },
         { "label": "Contact", "href": "/contact/" },
-        { "label": "Resources", "href": "/resources/" },
-        { "label": "Florida Law", "href": "/florida-law/" }
+        { "label": "Resources", "href": "/resources/" }
       ]
     },
     { "heading": "Legal", "source": "legal" }
