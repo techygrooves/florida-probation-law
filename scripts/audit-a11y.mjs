@@ -407,9 +407,17 @@ const focusContrast = await page.evaluate(
       ".on-navy .btn-on-navy", ".on-navy .btn-ghost-on-navy", ".site-footer a",
     ];
     for (const sel of samples) {
-      const el = document.querySelector(sel);
+      /* The first match in the DOM is not necessarily one that exists at this
+         viewport — the mobile panel is display:none on desktop, and its
+         buttons carry the same classes. focus() is a no-op on those, which
+         reads as "no focus indicator" when the truth is "not focusable here". */
+      const el = [...document.querySelectorAll(sel)].find((c) => {
+        const r = c.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && getComputedStyle(c).visibility !== "hidden";
+      });
       if (!el) continue;
       el.focus();
+      if (document.activeElement !== el) continue;
       const cs = getComputedStyle(el);
       const ring = cs.outlineColor;
       /* Which background the ring is judged against depends on where it is

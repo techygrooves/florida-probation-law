@@ -1,60 +1,75 @@
 {
-  "_readme": "Single source of truth for firm details. Every TODO below is a real business fact that must be supplied by Hoffman Legal. scripts/check-placeholders.mjs fails the build if any survive into a production build.",
+  "_readme": "Single source of truth for firm details. Every shared component, every page template and the structured-data generator read from here — nothing about the firm is written into a page by hand. scripts/check-placeholders.mjs reports anything still outstanding and fails a production build with --strict.",
 
   "siteName": "Florida Probation Law",
+  "domain": "floridaprobationlaw.com",
   "tagline": "A Hoffman Legal Website",
-  "firm": "Hoffman Legal",
   "url": "https://floridaprobationlaw.com",
+
+  "firm": "Hoffman Legal",
+  "firmLegalName": "Hoffman Legal, PLLC",
+  "_firm": "`firm` is the public name used in running copy. `firmLegalName` is the registered entity and is what appears in firm identification, legal pages, the copyright line and structured data. Florida Probation Law is the name of this website, not a law firm — never write it as one.",
 
   "basePath": "/florida-probation-law",
   "_basePath": "Sub-directory the site is served from. GitHub Pages project sites live at <user>.github.io/<repo>/, so every root-relative link needs this prefix or it resolves to the domain root and 404s. Set to \"\" when the site moves to floridaprobationlaw.com (or when a CNAME is added, which serves from the root), then re-run `npm run build`. Can also be overridden per-build with BASE_PATH=... npm run build. Canonical and og:url are absolute and always use `url` above, so previews never canonicalise to themselves.",
 
-  "disclosure": "FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal.",
+  "disclosure": "FloridaProbationLaw.com is operated by Hoffman Legal, PLLC, a Florida law firm.",
+  "disclosureLong": "FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal, PLLC.",
 
   "formEndpoint": "",
-  "_formEndpoint": "TODO: URL that intake form submissions POST to. No service is configured, and none was signed up for. While this is empty the forms validate client-side but the submit button is disabled behind a visible notice, because a form that silently discards a prospective client's case details is worse than one that plainly says it is not connected yet. Set this and submissions post here, then redirect to /thank-you/. Recommendation: a first-party endpoint (e.g. a Cloudflare Pages Function) rather than a third-party form service, so prospective-client information is not held by an outside processor.",
+  "_formEndpoint": "TODO: URL that intake form submissions POST to. No service is configured and none has been signed up for, so this stays empty rather than being invented. While it is empty both forms validate client-side but the submit control is replaced by a visible notice giving the phone number and email instead, because a form that silently discards a prospective client's case details is worse than one that plainly says it is not connected yet. Set this and submissions post here, then redirect to /thank-you/. Recommendation: a first-party endpoint (e.g. a Cloudflare Pages Function) rather than a third-party form service, so prospective-client information is not held by an outside processor.",
 
   "formRedirect": "/thank-you/",
   "formRedirectField": "_next",
   "_formRedirect": "Where a successful submission lands. The hidden field carrying it is emitted only once formEndpoint is set, since it means nothing without one. `formRedirectField` is the parameter name the endpoint reads: Formspree and Basin use `_next`, Netlify Forms uses `action` on the form itself, and a first-party endpoint can use whatever it likes — set it to match, or the visitor will see the endpoint's own response page instead of /thank-you/.",
 
-  "servedCounties": [],
-  "_servedCounties": "TODO: county slugs Hoffman Legal has confirmed it accepts matters in, e.g. [\"broward-county\"]. Until a county is listed here, its page emits NO areaServed structured data — asserting a service area the firm has not confirmed would be a Fla. Bar Rule 4-7.13 problem as well as a doorway-page signal. Location pages exist and are readable regardless; only the machine-readable claim is gated.",
-
   "phone": {
-    "display": "(000) 000-0000",
-    "tel": "",
-    "_todo": "TODO: replace with Hoffman Legal's main line. Leave `tel` empty until confirmed — build.mjs renders the number as plain text rather than a live tel: link while it is blank, so no visitor can dial a wrong number."
+    "display": "(954) 459-4236",
+    "tel": "+19544594236"
   },
 
   "email": {
-    "display": "",
-    "_todo": "TODO: replace with the intake inbox address."
+    "display": "david@hoffman.legal"
   },
 
   "attorney": {
-    "name": "",
-    "barNumber": "",
-    "_todo": "TODO: responsible attorney name and Florida Bar number. Fla. Bar Rule 4-7.12 requires the name of at least one lawyer or the law firm responsible for the content of this site."
+    "name": "David Hoffman",
+    "displayName": "David Hoffman, Esq.",
+    "legalName": "David Howard Hoffman",
+    "title": "Attorney and Lead Counsel",
+    "background": "Former public defender",
+    "image": "https://floridadepositlaw.com/assets/images/david-hoffman.jpg",
+    "imageAlt": "Attorney David Hoffman of Hoffman Legal",
+    "_image": "TODO: Replace the temporary remote attorney image with a locally hosted optimized copy before final production deployment. It is served from another site the firm operates, which means an outbound dependency on a host this repository does not control — if that URL moves, the attorney page loses its photograph. Nothing else on this site loads a remote asset.",
+    "_credentials": "Only what has been supplied appears here. No law school, graduation year, honours, certification, membership or years-in-practice figure is recorded, because none was provided — and an unverifiable credential on a law firm site is a Fla. Bar Rule 4-7.13 problem, not a gap in the copy."
   },
 
   "office": {
-    "street": "",
-    "city": "",
+    "street": "101 SW 1st Street, Suite CW12",
+    "city": "Dania Beach",
     "state": "FL",
-    "zip": "",
-    "_todo": "TODO: bona fide office address. Fla. Bar Rule 4-7.12 requires disclosing the city, town or county of at least one bona fide office location."
+    "zip": "33004",
+    "_office": "The firm's single bona fide office, satisfying Fla. Bar Rule 4-7.12. Written identically everywhere it appears. There is exactly one office: county pages describe a place the firm practises in, never a location it occupies."
   },
 
-  "hours": {
-    "weekday": "",
-    "weekend": "",
-    "note": "",
-    "_todo": "TODO: business hours, plus whether after-hours intake is available. Violation warrants are frequently issued without bond, so out-of-hours availability is a genuine differentiator if it exists."
+  "availability": {
+    "consultation": "Free initial consultation",
+    "phone": "Telephone enquiries accepted 24/7",
+    "summary": "Free initial consultations. Telephone enquiries accepted 24/7.",
+    "_availability": "Phone intake is 24/7; the office itself is not, and no office-opening hours have been supplied, so none are published or emitted as openingHours structured data. Availability is never phrased as a promise of response time."
   },
+
+  "serviceArea": {
+    "primary": ["Broward County", "Miami-Dade County", "Palm Beach County"],
+    "statement": "Hoffman Legal is based in Dania Beach and primarily serves Broward, Miami-Dade and Palm Beach counties. Representation may be available throughout Florida depending on the matter.",
+    "outsidePrimary": "Hoffman Legal does not maintain an office in this county. Representation may be available depending on the location, facts and procedural requirements of the case."
+  },
+
+  "servedCounties": ["broward-county", "miami-dade-county", "palm-beach-county"],
+  "_servedCounties": "County slugs inside the primary service area. These drive the areaServed values on the single organisation node in the schema graph. County pages outside this list carry the `serviceArea.outsidePrimary` statement instead. No county page emits an organisation, a LocalBusiness or an address of its own — there is one firm at one address.",
 
   "bar": {
-    "admission": "",
-    "_todo": "TODO: Florida Bar membership details as they should be publicly stated."
+    "admission": "Licensed to practice law in the State of Florida",
+    "_bar": "Jurisdiction statement only. No registration identifier is recorded here by instruction."
   }
 }

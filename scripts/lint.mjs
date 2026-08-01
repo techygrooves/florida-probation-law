@@ -63,7 +63,10 @@ for (const file of files.json) {
 }
 
 const REQUIRED = {
-  "data/site.json": ["firm", "siteName", "url", "basePath", "phone", "email", "attorney", "office", "hours", "bar"],
+  "data/site.json": [
+    "firm", "firmLegalName", "siteName", "domain", "url", "basePath", "disclosure",
+    "phone", "email", "attorney", "office", "availability", "serviceArea", "bar",
+  ],
   "data/nav.json": ["primary", "legal", "footerColumns"],
   "data/locations.json": ["counties"],
   "data/redirects.json": ["rules"],

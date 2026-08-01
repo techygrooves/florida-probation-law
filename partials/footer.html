@@ -3,7 +3,12 @@
 
     <div class="footer-disclosure">
       <p class="footer-brand-name">{{site.siteName}}</p>
-      <p class="footer-disclosure-text">{{site.disclosure}}</p>
+      <p class="footer-disclosure-text">{{site.disclosureLong}}</p>
+
+      <div class="firm-identity">
+<!-- @include:firm-identity -->
+<!-- @end:firm-identity -->
+      </div>
 
       <div class="footer-facts">
 {{footer.facts}}
@@ -15,7 +20,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p class="footer-copyright">&copy; {{year}} {{site.firm}}. All rights reserved.</p>
+      <p class="footer-copyright">&copy; {{year}} {{site.firmLegalName}}. All rights reserved.</p>
       <p class="footer-copyright">{{site.attributionLine}}</p>
     </div>
 
@@ -23,11 +28,14 @@
       <div class="disclaimer disclaimer-on-navy">
         <p class="disclaimer-title">Legal disclaimer</p>
         <p>
-          The information on this website is for general informational purposes
-          only and is not legal advice. Viewing this site, or contacting
-          {{site.firm}} through it, does not create an attorney-client
-          relationship. Every case turns on its own facts, and no result is
-          promised or implied.
+          The information on this website is provided for general informational
+          purposes and is not legal advice. Reading this website, calling the
+          firm or submitting an online form does not by itself create an
+          attorney-client relationship. An attorney-client relationship is
+          established only after the firm completes any required conflict
+          review, agrees in writing to provide representation and the client
+          signs an engagement agreement. Past results do not guarantee or
+          predict a similar outcome.
         </p>
       </div>
     </div>

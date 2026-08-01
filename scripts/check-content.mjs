@@ -113,7 +113,7 @@ const RULES = [
   {
     id: "fake-credential",
     why: "Rating and award marks may only appear if genuinely held and verifiable.",
-    re: /\b(super lawyers|avvo|martindale|av[- ]rated|rising stars?|best lawyers|lead counsel|national trial lawyers|top 100|10 best|client'?s choice|badge)\b/gi,
+    re: /\b(super lawyers|avvo|martindale|av[- ]rated|rising stars?|best lawyers|lead counsel rated|national trial lawyers|top 100|10 best|client'?s choice|badge)\b/gi,
   },
   {
     id: "testimonial",
@@ -129,8 +129,27 @@ const RULES = [
   },
   {
     id: "unrelated-practice",
-    why: "This site is about Florida probation. Copy borrowed from a general practice template shows up as an unrelated practice area.",
-    re: /\b(personal injury|car accident|slip and fall|wrongful death|medical malpractice|divorce|child custody|bankruptcy|chapter 7|chapter 13|immigration|green card|estate planning|living trust|workers'? comp\w*|real estate closing|patent|trademark)\b/gi,
+    why: "This site is about Florida probation. Copy borrowed from a general practice template shows up as an unrelated practice area — including from the other niche sites the same firm runs.",
+    re: /\b(personal injury|car accident|slip and fall|wrongful death|medical malpractice|divorce|child custody|bankruptcy|chapter 7|chapter 13|immigration|green card|estate planning|living trust|workers'? comp\w*|real estate closing|patent|trademark|security deposit\w*|tenant right\w*|mugshot|arrest[- ]record removal)\b/gi,
+  },
+  {
+    id: "fee-arrangement",
+    why: "No fee arrangement has been stated for this practice area, and a contingency arrangement is not how probation work is billed. Fla. Bar Rule 4-7.14(a)(3) also requires cost disclosures to be complete rather than partial.",
+    re: /\b(no fee unless we win|no win,? no fee|no recovery,? no fee|contingency fee|contingent fee)\b/gi,
+    /* These slogans contain their own negators — "No win, no fee" would be
+       read as a denial by the sentence-level check and silently pass. They are
+       fixed marketing phrases, so the phrase itself is the claim. */
+    ignoreNegation: true,
+  },
+  {
+    id: "unverified-capability",
+    why: "Capabilities nobody has confirmed. Languages spoken, response times and appearance coverage are all factual claims a prospective client would rely on.",
+    re: /\b(hablamos espa[nñ]ol|se habla espa[nñ]ol|fluent in spanish|bilingual staff|immediate response|instant response|same[- ]day appointment|respond within \d+ (?:minutes|hours)|answer every call|approv(?:al|ed) within \d+ days?)\b/gi,
+  },
+  {
+    id: "office-footprint",
+    why: "There is one office, in Dania Beach. Anything implying more is a Fla. Bar Rule 4-7.12 problem and the signal that turns a county page into a doorway page.",
+    re: /\b(offices throughout|offices across|statewide office|office network|local office in (?:every|each)|office in (?:every|each) county|we appear in every|appear in all florida courts)\b/gi,
   },
   {
     id: "other-business",
@@ -154,7 +173,7 @@ const IDENTITY = [
     id: "site-as-firm",
     why: `"${SITE_NAME}" is a website operated by ${FIRM}, not a law firm. Presenting it as one is a Rule 4-7.12 identification problem.`,
     re: new RegExp(
-      `${SITE_NAME}\\s+(?:is a |is an )?(?:law firm|attorneys?|lawyers?|law office|firm)\\b|\\b(?:at|contact|retain|hire)\\s+${SITE_NAME}\\b(?!\\.com)`,
+      `${SITE_NAME}\\s+(?:is a |is an )?(?:law firm|attorneys?|lawyers?|law office|firm)\\b|\\b(?:retain|hire|engage)\\s+${SITE_NAME}\\b(?!\\.com)`,
       "gi"
     ),
   },
