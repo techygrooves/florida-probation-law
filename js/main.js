@@ -134,4 +134,124 @@
 
   if (desktop.addEventListener) desktop.addEventListener("change", onBreakpoint);
   else if (desktop.addListener) desktop.addListener(onBreakpoint);
+
+  /* ======================================================================
+     Form validation
+     Enhancement over native validation, not a replacement for it: the form
+     still works with this file absent, and every rule here must also be
+     enforced server-side once an endpoint exists. Client-side checks stop
+     honest mistakes; they stop nothing else.
+     ====================================================================== */
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-validate]"), function (form) {
+    var summary = form.querySelector(".form-errors");
+    var summaryList = summary && summary.querySelector("ul");
+    var startedAt = Date.now();
+
+    function fieldLabel(field) {
+      var label = form.querySelector('label[for="' + field.id + '"]');
+      if (!label) return field.name || "This field";
+      return label.textContent.replace(/\*/g, "").replace(/\(optional\)/i, "").trim();
+    }
+
+    function messageFor(field) {
+      if (field.validity.valueMissing) {
+        return field.type === "checkbox"
+          ? fieldLabel(field) + " — please confirm to continue"
+          : fieldLabel(field) + " is required";
+      }
+      if (field.validity.typeMismatch && field.type === "email") {
+        return "Enter an email address in the form name@example.com";
+      }
+      if (field.validity.tooShort) {
+        return fieldLabel(field) + " is too short";
+      }
+      return fieldLabel(field) + " is not valid";
+    }
+
+    function clearError(field) {
+      field.removeAttribute("aria-invalid");
+      var note = document.getElementById(field.id + "-error");
+      if (note) note.textContent = "";
+    }
+
+    function showError(field, message) {
+      field.setAttribute("aria-invalid", "true");
+      var note = document.getElementById(field.id + "-error");
+      if (note) note.textContent = message;
+    }
+
+    // Clear a field's error as soon as it becomes valid, so the form stops
+    // shouting at someone who has already fixed the problem.
+    form.addEventListener(
+      "input",
+      function (event) {
+        var field = event.target;
+        if (field.checkValidity && field.checkValidity()) clearError(field);
+      },
+      true
+    );
+
+    form.addEventListener("submit", function (event) {
+      var fields = Array.prototype.slice.call(
+        form.querySelectorAll("input, select, textarea")
+      );
+      var failed = [];
+
+      fields.forEach(function (field) {
+        if (field.type === "hidden" || field.disabled || !field.willValidate) return;
+        if (field.checkValidity()) {
+          clearError(field);
+        } else {
+          var message = messageFor(field);
+          showError(field, message);
+          failed.push({ field: field, message: message });
+        }
+      });
+
+      // Validation feedback comes first, unconditionally. An earlier version
+      // ran the spam checks before this and returned, which meant anyone who
+      // filled the form quickly — or used autofill — pressed submit and saw
+      // nothing happen at all.
+      if (failed.length) {
+        event.preventDefault();
+      }
+
+      // Spam preparation. A bot that POSTs directly never runs this file, so
+      // blocking client-side on elapsed time only ever penalises fast humans.
+      // The time is recorded for the server to weigh instead; the honeypot is
+      // also re-checked server-side. Neither replaces server-side filtering.
+      var elapsed = form.querySelector("[data-elapsed]");
+      if (elapsed) elapsed.value = String(Date.now() - startedAt);
+
+      var honeypot = form.querySelector("[data-honeypot]");
+      if (honeypot && honeypot.value) {
+        event.preventDefault();
+        return;
+      }
+
+      if (!failed.length) return;
+
+      if (summary && summaryList) {
+        summaryList.innerHTML = "";
+        failed.forEach(function (item) {
+          var li = document.createElement("li");
+          var link = document.createElement("a");
+          link.href = "#" + item.field.id;
+          link.textContent = item.message;
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            item.field.focus();
+          });
+          li.appendChild(link);
+          summaryList.appendChild(li);
+        });
+        summary.hidden = false;
+        summary.setAttribute("tabindex", "-1");
+        summary.focus();
+      } else {
+        failed[0].field.focus();
+      }
+    });
+  });
 })();

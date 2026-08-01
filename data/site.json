@@ -11,6 +11,9 @@
 
   "disclosure": "FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal.",
 
+  "formEndpoint": "",
+  "_formEndpoint": "TODO: URL that intake form submissions POST to. No service is configured, and none was signed up for. While this is empty the forms validate client-side but the submit button is disabled behind a visible notice, because a form that silently discards a prospective client's case details is worse than one that plainly says it is not connected yet. Set this and submissions post here, then redirect to /thank-you/. Recommendation: a first-party endpoint (e.g. a Cloudflare Pages Function) rather than a third-party form service, so prospective-client information is not held by an outside processor.",
+
   "servedCounties": [],
   "_servedCounties": "TODO: county slugs Hoffman Legal has confirmed it accepts matters in, e.g. [\"broward-county\"]. Until a county is listed here, its page emits NO areaServed structured data — asserting a service area the firm has not confirmed would be a Fla. Bar Rule 4-7.13 problem as well as a doorway-page signal. Location pages exist and are readable regardless; only the machine-readable claim is gated.",
 

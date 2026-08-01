@@ -1,8 +1,6 @@
 {
   "_readme": "Navigation is the source of truth for site structure. build.mjs walks this tree to render the header, the mobile menu, the footer, the HTML sitemap, and sitemap.xml, and to scaffold any page file that does not exist yet. Add a route here, run `npm run build`, and the page and every link to it appear together — there is no second place to update.",
-
   "_placeholder": "`\"placeholder\": true` marks a route that exists but has no real content yet. `\"draft\": true` marks a page that has been written but not yet reviewed by a Florida attorney. Both are served with `noindex, follow` and kept out of sitemap.xml — empty pages must not drag down the domain's quality signals, and unreviewed legal content must not be published on a YMYL site. Remove the flag to make a page indexable.",
-
   "primary": [
     {
       "label": "Home",
@@ -286,79 +284,156 @@
       "label": "Resources",
       "href": "/resources/",
       "title": "Florida Probation Resources",
-      "description": "Guides, checklists and reference material for people on probation in Florida.",
-      "placeholder": true
+      "description": "Guides and reference material for people on probation in Florida, organised by the question you are trying to answer.",
+      "draft": true,
+      "children": [
+        {
+          "label": "Overview",
+          "href": "/resources/",
+          "description": "All Florida probation resources."
+        },
+        {
+          "label": "Blog",
+          "href": "/blog/",
+          "title": "Florida Probation Blog",
+          "description": "Notes on Florida probation law and practice. Articles are added as they are written and reviewed.",
+          "draft": true
+        }
+      ]
     },
     {
       "label": "About",
       "href": "/about/",
       "title": "About Hoffman Legal",
-      "description": "About Hoffman Legal and the attorneys handling Florida probation matters.",
-      "placeholder": true
+      "description": "FloridaProbationLaw.com is operated by Hoffman Legal. Who runs the site, and how the firm approaches probation matters.",
+      "draft": true,
+      "children": [
+        {
+          "label": "Overview",
+          "href": "/about/",
+          "description": "About the firm behind this site."
+        },
+        {
+          "label": "Attorney Profile",
+          "href": "/about/attorney-profile/",
+          "title": "Attorney Profile",
+          "description": "The attorney responsible for Florida probation matters at Hoffman Legal, including Bar admission and background.",
+          "draft": true
+        },
+        {
+          "label": "Why Choose Us",
+          "href": "/about/why-choose-us/",
+          "title": "How We Work",
+          "description": "How Hoffman Legal approaches a probation matter, and what we will not tell you about your outcome.",
+          "draft": true
+        }
+      ]
     },
     {
       "label": "Contact",
       "href": "/contact/",
       "title": "Contact Hoffman Legal",
-      "description": "Request a consultation about a Florida probation matter.",
-      "placeholder": true
+      "description": "Request a consultation about a Florida probation matter. Please do not send confidential details before we have confirmed there is no conflict of interest.",
+      "draft": true
     }
   ],
-
   "legal": [
     {
       "label": "Privacy Policy",
-      "href": "/legal/privacy-policy/",
+      "href": "/privacy-policy/",
       "title": "Privacy Policy",
       "description": "How FloridaProbationLaw.com handles information submitted through this website.",
-      "placeholder": true
+      "draft": true
     },
     {
       "label": "Terms of Use",
-      "href": "/legal/terms-of-use/",
+      "href": "/terms-of-use/",
       "title": "Terms of Use",
       "description": "Terms governing use of FloridaProbationLaw.com.",
-      "placeholder": true
+      "draft": true
     },
     {
       "label": "Legal Disclaimer",
-      "href": "/legal/disclaimer/",
+      "href": "/legal-disclaimer/",
       "title": "Legal Disclaimer",
       "description": "Information on this site is not legal advice and does not create an attorney-client relationship.",
-      "placeholder": true
+      "draft": true
     },
     {
       "label": "Accessibility",
-      "href": "/legal/accessibility/",
+      "href": "/accessibility/",
       "title": "Accessibility Statement",
       "description": "Our approach to accessibility on FloridaProbationLaw.com and how to report a barrier.",
-      "placeholder": true
+      "draft": true
     },
     {
       "label": "HTML Sitemap",
       "href": "/sitemap/",
       "title": "Sitemap",
       "description": "Every page on FloridaProbationLaw.com.",
-      "placeholder": true
+      "draft": true
     }
   ],
-
   "_footerColumns": "A `source` must match the href of a primary nav item that has children, or be the literal \"legal\". build.mjs fails the build on anything else — a mistyped source previously rendered a heading with no links underneath it, which is invisible unless you go looking.",
-
   "footerColumns": [
-    { "heading": "Early Termination", "source": "/early-termination-of-probation/" },
-    { "heading": "The Process", "source": "/probation-termination-process/" },
-    { "heading": "Florida Law", "source": "/florida-probation-law/" },
-    { "heading": "Probation Services", "source": "/probation-services/" },
-    { "heading": "Florida Locations", "source": "/locations/" },
+    {
+      "heading": "Early Termination",
+      "source": "/early-termination-of-probation/"
+    },
+    {
+      "heading": "The Process",
+      "source": "/probation-termination-process/"
+    },
+    {
+      "heading": "Florida Law",
+      "source": "/florida-probation-law/"
+    },
+    {
+      "heading": "Probation Services",
+      "source": "/probation-services/"
+    },
+    {
+      "heading": "Florida Locations",
+      "source": "/locations/"
+    },
     {
       "heading": "Firm",
       "items": [
-        { "label": "About", "href": "/about/" },
-        { "label": "Contact", "href": "/contact/" },
-        { "label": "Resources", "href": "/resources/" }
+        {
+          "label": "About",
+          "href": "/about/"
+        },
+        {
+          "label": "Contact",
+          "href": "/contact/"
+        },
+        {
+          "label": "Resources",
+          "href": "/resources/"
+        }
       ]
     },
-    { "heading": "Legal", "source": "legal" }
+    {
+      "heading": "Legal",
+      "source": "legal"
+    }
+  ],
+  "_utility": "Real routes that deliberately do not appear in the primary navigation. `noindex: true` forces noindex permanently, independently of the draft/placeholder gates — a thank-you page should never be indexed even once the site is live.",
+  "utility": [
+    {
+      "label": "Eligibility Assessment",
+      "href": "/probation-eligibility-assessment/",
+      "title": "Probation Eligibility Assessment",
+      "description": "Send us the details of your Florida probation sentence and we will tell you whether an early termination motion is worth filing. No determination is made by this form.",
+      "draft": true
+    },
+    {
+      "label": "Thank You",
+      "href": "/thank-you/",
+      "title": "Thank You",
+      "description": "We have received your case information.",
+      "draft": true,
+      "noindex": true
+    }
   ]
 }

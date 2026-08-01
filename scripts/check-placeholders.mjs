@@ -32,6 +32,11 @@ if (!site.phone.tel) {
   ]);
 }
 if (!site.email.display) pending.push(["email", "Intake inbox address not set."]);
+if (!site.formEndpoint)
+  pending.push([
+    "forms",
+    "No submission endpoint configured. Both intake forms validate but their submit control is replaced by a notice, so nothing can be sent.",
+  ]);
 if (!site.attorney.name)
   pending.push(["attorney", "Responsible attorney name not set — required by Fla. Bar Rule 4-7.12."]);
 if (!site.attorney.barNumber) pending.push(["attorney", "Florida Bar number not set."]);

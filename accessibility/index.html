@@ -4,18 +4,18 @@
 <!-- @include:head -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy Policy | Florida Probation Law</title>
-<meta name="description" content="How FloridaProbationLaw.com handles information submitted through this website.">
-<link rel="canonical" href="https://floridaprobationlaw.com/legal/privacy-policy/">
+<title>Accessibility Statement | Florida Probation Law</title>
+<meta name="description" content="Our approach to accessibility on FloridaProbationLaw.com and how to report a barrier.">
+<link rel="canonical" href="https://floridaprobationlaw.com/accessibility/">
 <meta name="robots" content="noindex, follow">
 <link rel="stylesheet" href="/florida-probation-law/css/styles.css">
 <link rel="preload" href="/florida-probation-law/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/florida-probation-law/fonts/source-serif-4-latin-600.woff2" as="font" type="font/woff2" crossorigin>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Florida Probation Law">
-<meta property="og:title" content="Privacy Policy | Florida Probation Law">
-<meta property="og:description" content="How FloridaProbationLaw.com handles information submitted through this website.">
-<meta property="og:url" content="https://floridaprobationlaw.com/legal/privacy-policy/">
+<meta property="og:title" content="Accessibility Statement | Florida Probation Law">
+<meta property="og:description" content="Our approach to accessibility on FloridaProbationLaw.com and how to report a barrier.">
+<meta property="og:url" content="https://floridaprobationlaw.com/accessibility/">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#1c3a63">
 
@@ -132,8 +132,29 @@
             <li><a class="nav-menu-link" href="/florida-probation-law/locations/">All Locations</a></li>
           </ul>
         </li>
-        <li class="nav-item"><a class="nav-link" href="/florida-probation-law/resources/">Resources</a></li>
-        <li class="nav-item"><a class="nav-link" href="/florida-probation-law/about/">About</a></li>
+        <li class="nav-item nav-item-has-menu">
+          <a class="nav-link" href="/florida-probation-law/resources/">Resources</a>
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-resources">
+            <span class="sr-only">Resources menu</span>
+            <svg class="nav-toggle-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+          </button>
+          <ul class="nav-menu" id="menu-resources" hidden>
+            <li><a class="nav-menu-link" href="/florida-probation-law/resources/">Overview</a></li>
+            <li><a class="nav-menu-link" href="/florida-probation-law/blog/">Blog</a></li>
+          </ul>
+        </li>
+        <li class="nav-item nav-item-has-menu">
+          <a class="nav-link" href="/florida-probation-law/about/">About</a>
+          <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu-about">
+            <span class="sr-only">About menu</span>
+            <svg class="nav-toggle-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+          </button>
+          <ul class="nav-menu" id="menu-about" hidden>
+            <li><a class="nav-menu-link" href="/florida-probation-law/about/">Overview</a></li>
+            <li><a class="nav-menu-link" href="/florida-probation-law/about/attorney-profile/">Attorney Profile</a></li>
+            <li><a class="nav-menu-link" href="/florida-probation-law/about/why-choose-us/">Why Choose Us</a></li>
+          </ul>
+        </li>
         <li class="nav-item"><a class="nav-link" href="/florida-probation-law/contact/">Contact</a></li>
       </ul>
     </div>
@@ -228,8 +249,31 @@
               </ul>
             </details>
           </li>
-          <li class="mobile-nav-item"><a class="mobile-nav-link" href="/florida-probation-law/resources/">Resources</a></li>
-          <li class="mobile-nav-item"><a class="mobile-nav-link" href="/florida-probation-law/about/">About</a></li>
+          <li class="mobile-nav-item">
+            <details class="mobile-nav-group">
+              <summary class="mobile-nav-summary">
+                Resources
+                <svg class="mobile-nav-summary-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+              </summary>
+              <ul class="mobile-nav-sub">
+                <li><a href="/florida-probation-law/resources/">Overview</a></li>
+                <li><a href="/florida-probation-law/blog/">Blog</a></li>
+              </ul>
+            </details>
+          </li>
+          <li class="mobile-nav-item">
+            <details class="mobile-nav-group">
+              <summary class="mobile-nav-summary">
+                About
+                <svg class="mobile-nav-summary-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>
+              </summary>
+              <ul class="mobile-nav-sub">
+                <li><a href="/florida-probation-law/about/">Overview</a></li>
+                <li><a href="/florida-probation-law/about/attorney-profile/">Attorney Profile</a></li>
+                <li><a href="/florida-probation-law/about/why-choose-us/">Why Choose Us</a></li>
+              </ul>
+            </details>
+          </li>
           <li class="mobile-nav-item"><a class="mobile-nav-link" href="/florida-probation-law/contact/">Contact</a></li>
         </ul>
       </nav>
@@ -244,14 +288,14 @@
 <!-- @end:header -->
 
 <main id="main">
-  <section class="section">
+  <article class="section">
     <div class="container-narrow">
 
       <!-- @include:breadcrumbs -->
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <ol>
           <li class="breadcrumb-item"><a href="/florida-probation-law/">Home</a></li>
-          <li class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">Privacy Policy</span></li>
+          <li class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">Accessibility</span></li>
         </ol>
       </nav>
       <script type="application/ld+json">
@@ -268,8 +312,8 @@
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Privacy Policy",
-      "item": "https://floridaprobationlaw.com/legal/privacy-policy/"
+      "name": "Accessibility",
+      "item": "https://floridaprobationlaw.com/accessibility/"
     }
   ]
 }
@@ -278,32 +322,51 @@
 
       <div class="section-heading heading-rule" style="margin-top:1.5rem">
         <p class="eyebrow">Legal</p>
-        <h1 class="h1">Privacy Policy</h1>
-        <p class="lede">How FloridaProbationLaw.com handles information submitted through this website.</p>
+        <h1 class="h1">Accessibility Statement</h1>
+        <p class="lede">What we aim for, how it is checked, and how to tell us when something does not work.</p>
       </div>
 
-      <div class="callout callout-neutral" style="margin-top:2.5rem">
-        <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
-        <div>
-          <p class="callout-title">This page has not been written yet</p>
-          <p>
-            The shared header, navigation and footer are in place so the route
-            resolves and links from every other page work. The content for this
-            page is scheduled in a later stage of the build.
-          </p>
+      <div class="statute-meta" style="margin-top:1.75rem">
+        <div class="statute-meta-item">
+          <span class="statute-meta-label">Last updated</span>
+          <span class="statute-meta-pending">Date pending — to be set at legal review</span>
         </div>
       </div>
 
-      <div class="btn-group" style="margin-top:2.5rem">
-        <a class="btn btn-primary" href="/florida-probation-law/contact/">Request a Consultation</a>
-        <a class="btn-link" href="/florida-probation-law/sitemap/">
-          Browse all pages
-          <svg class="btn-link-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"/></svg>
-        </a>
+      <div style="margin-top:2rem">
+        <!-- @include:toc -->
+      <nav class="toc" aria-labelledby="toc-heading">
+        <p class="toc-heading" id="toc-heading">On this page</p>
+        <ol class="toc-list">
+          <li><a href="#commitment">What we aim for</a></li>
+          <li><a href="#measures">How that is checked</a></li>
+          <li><a href="#features">What that means in practice</a></li>
+          <li><a href="#limitations">Known limitations</a></li>
+          <li><a href="#feedback">Telling us about a problem</a></li>
+          <li><a href="#alternatives">Getting the information another way</a></li>
+        </ol>
+      </nav>
+<!-- @end:toc -->
+      </div>
+
+      <div class="prose-legal" style="margin-top:2.5rem;max-width:none">
+        <h2 class="h3" id="commitment" data-toc>What we aim for</h2>
+        <p>This site targets <strong>WCAG 2.2 Level AA</strong>. People reach a site like this one under stress, sometimes on an old phone, sometimes using a screen reader. It should work anyway.</p>
+        <h2 class="h3" id="measures" data-toc>How that is checked</h2>
+        <p>Accessibility here is enforced by the build rather than assumed. Colour contrast is verified against WCAG 2.2 thresholds on every build and the build fails if any pair drops below its minimum. Pages are checked for a single heading hierarchy without skipped levels, for horizontal overflow from 320px upwards, and for tap targets below the minimum size.</p>
+        <p>The site is also built to work without JavaScript: navigation, menus and expandable sections all function with scripting disabled.</p>
+        <h2 class="h3" id="features" data-toc>What that means in practice</h2>
+        <p>A skip link to the main content, semantic landmarks, visible keyboard focus on every interactive element, form fields with real labels and error messages tied to them, no motion for anyone who has asked their system to reduce it, and text that reflows without a horizontal scrollbar.</p>
+        <h2 class="h3" id="limitations" data-toc>Known limitations</h2>
+        <p><em>To be completed after a screen-reader review.</em> This statement will list anything found and not yet fixed, rather than claiming full conformance. Automated checks catch a minority of accessibility problems; a manual review with assistive technology is scheduled before launch.</p>
+        <h2 class="h3" id="feedback" data-toc>Telling us about a problem</h2>
+        <p>If any part of this site is difficult or impossible for you to use, please <a href="/florida-probation-law/contact/">tell us</a>. Describe the page and what happened. Reports of this kind are treated as defects, not suggestions, and we will also tell you what we are doing about it.</p>
+        <h2 class="h3" id="alternatives" data-toc>Getting the information another way</h2>
+        <p>If a page is not working for you, the information on it is available by phone or email. Nobody should have to fight a website to find out whether their probation can end early.</p>
       </div>
 
     </div>
-  </section>
+  </article>
 </main>
 
 <!-- @include:footer -->
@@ -413,10 +476,10 @@
       <div>
         <h2 class="footer-heading">Legal</h2>
         <ul class="footer-links">
-          <li><a href="/florida-probation-law/legal/privacy-policy/">Privacy Policy</a></li>
-          <li><a href="/florida-probation-law/legal/terms-of-use/">Terms of Use</a></li>
-          <li><a href="/florida-probation-law/legal/disclaimer/">Legal Disclaimer</a></li>
-          <li><a href="/florida-probation-law/legal/accessibility/">Accessibility</a></li>
+          <li><a href="/florida-probation-law/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="/florida-probation-law/terms-of-use/">Terms of Use</a></li>
+          <li><a href="/florida-probation-law/legal-disclaimer/">Legal Disclaimer</a></li>
+          <li><a href="/florida-probation-law/accessibility/">Accessibility</a></li>
           <li><a href="/florida-probation-law/sitemap/">HTML Sitemap</a></li>
         </ul>
       </div>

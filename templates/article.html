@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- @include:head -->
+<!-- @end:head -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- @include:header -->
+<!-- @end:header -->
+
+<!--
+  REUSABLE BLOG ARTICLE TEMPLATE
+
+  To add an article:
+    1. Add the route to `nav.primary` under Resources > Blog children in
+       data/nav.json, with `"draft": true`.
+    2. Run `npm run build` — this template is used to scaffold the file.
+    3. Write the article, mark section headings `data-toc` for the contents.
+    4. Fill in the published and reviewed dates below.
+    5. Remove the draft flag only after a Florida attorney has reviewed it.
+
+  Do not publish an article that restates a reference page. The blog is for
+  material that does not fit those pages — statutory changes, appellate
+  decisions, observations about circuit practice. A volume of thin, overlapping
+  legal articles is a quality problem, not evidence of expertise.
+
+  Every factual claim about Florida law needs a CONTENT REVIEW marker naming
+  what a Florida attorney must confirm, exactly as on the reference pages.
+-->
+
+<main id="main">
+  <article class="section">
+    <div class="container-narrow">
+
+      <!-- @include:breadcrumbs -->
+      <!-- @end:breadcrumbs -->
+
+      <div class="section-heading heading-rule" style="margin-top:1.5rem">
+        <p class="eyebrow">Blog</p>
+        <h1 class="h1">{{page.h1}}</h1>
+        <p class="lede">{{page.description}}</p>
+      </div>
+
+      <!-- Dating is not optional: probation law changes, and an undated
+           article gives a reader no way to judge whether it still holds. -->
+      <div class="statute-meta" style="margin-top:1.75rem">
+        <div class="statute-meta-item">
+          <span class="statute-meta-label">Published</span>
+          <span class="statute-meta-pending">Date pending</span>
+        </div>
+        <div class="statute-meta-item">
+          <span class="statute-meta-label">Last reviewed</span>
+          <span class="statute-meta-pending">Pending attorney review</span>
+        </div>
+        <div class="statute-meta-item">
+          <span class="statute-meta-label">Reviewed by</span>
+          <span class="statute-meta-pending">To be supplied</span>
+        </div>
+      </div>
+
+      <div style="margin-top:2rem">
+        <!-- @include:toc -->
+        <!-- @end:toc -->
+      </div>
+
+      <div class="prose-legal" style="margin-top:2.5rem;max-width:none">
+        <p>Article body. Mark section headings with <code>data-toc</code>.</p>
+      </div>
+
+      <div style="margin-top:3rem">
+        <!-- @include:siblings -->
+        <!-- @end:siblings -->
+      </div>
+
+    </div>
+  </article>
+</main>
+
+<!-- @include:cta -->
+<!-- @end:cta -->
+
+<!-- @include:page-disclaimer -->
+<!-- @end:page-disclaimer -->
+
+<!-- @include:footer -->
+<!-- @end:footer -->
+
+<!-- @include:call-bar -->
+<!-- @end:call-bar -->
+
+<script src="/js/main.js" defer></script>
+</body>
+</html>
