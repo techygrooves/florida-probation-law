@@ -142,16 +142,18 @@ for (const item of nav.legal) addRoute(item, "Legal");
 for (const item of nav.utility || []) addRoute(item, "Site");
 
 /* ---- phone --------------------------------------------------------------
- * The firm's number is not confirmed yet. Until `tel` is filled in, the
- * number renders as inert text rather than a live tel: link — a wrong or
- * placeholder number that actually dials is worse than no link at all.
+ * The number is live everywhere once `tel` is set. It stays conditional
+ * because the failure mode it guards against is real: a placeholder number
+ * that actually dials reaches a stranger, so an unset number renders as inert
+ * text rather than a link.
  * ------------------------------------------------------------------------ */
 
 const hasPhone = Boolean(site.phone.tel);
+const telHref = `tel:${esc(site.phone.tel)}`;
 
 const phoneHeader = hasPhone
-  ? `<a class="header-phone" href="tel:${esc(site.phone.tel)}">
-          <span class="header-phone-label">Call now</span>
+  ? `<a class="header-phone" href="${telHref}">
+          <span class="header-phone-label">Call 24/7</span>
           <span class="header-phone-number">${esc(site.phone.display)}</span>
         </a>`
   : `<span class="header-phone">
@@ -160,11 +162,11 @@ const phoneHeader = hasPhone
         </span>`;
 
 const phoneMobile = hasPhone
-  ? `<a class="btn btn-secondary btn-block" href="tel:${esc(site.phone.tel)}" style="margin-bottom:.75rem">Call ${esc(site.phone.display)}</a>`
+  ? `<a class="btn btn-secondary btn-block" href="${telHref}" style="margin-bottom:.75rem">Call ${esc(site.phone.display)}</a>`
   : `<p class="text-meta" style="margin-bottom:.75rem">Call ${esc(site.phone.display)}</p>`;
 
 const phoneCallButton = hasPhone
-  ? `<a class="btn btn-primary" href="tel:${esc(site.phone.tel)}">Call</a>`
+  ? `<a class="btn btn-primary" href="${telHref}">Call</a>`
   : `<a class="btn btn-primary" href="/contact/">Call</a>`;
 
 /* ---- navigation rendering ----------------------------------------------- */
@@ -300,28 +302,91 @@ function fact(label, value, { href } = {}) {
         </div>`;
 }
 
-function renderFooterFacts() {
-  // `state` is pre-filled with "FL", so joining blindly would render a bare
-  // "FL" and hide the fact that the address is still missing. The city is
-  // what Fla. Bar Rule 4-7.12 actually requires, so treat it as the gate.
-  const office = site.office.city
-    ? [site.office.street, site.office.city, site.office.state, site.office.zip]
-        .filter(Boolean)
-        .join(", ")
-    : "";
-  const hours = [site.hours.weekday, site.hours.weekend].filter(Boolean).join(" · ");
-  const attorney = [site.attorney.name, site.attorney.barNumber && `Fla. Bar No. ${site.attorney.barNumber}`]
-    .filter(Boolean)
-    .join(" — ");
+/* The office address, written the one way it is written everywhere. `state` is
+   pre-filled with "FL", so joining blindly would render a bare "FL" and make an
+   empty address look populated — the city is what Fla. Bar Rule 4-7.12 actually
+   requires, so it gates the whole thing. */
+const officeLines = site.office.city
+  ? [site.office.street, `${site.office.city}, ${site.office.state} ${site.office.zip}`.trim()]
+  : [];
+const officeOneLine = officeLines.join(", ");
 
+function renderFooterFacts() {
   return [
-    fact("Responsible attorney", attorney),
+    fact("Responsible attorney", site.attorney.name),
     fact("Phone", hasPhone ? site.phone.display : "", { href: `tel:${site.phone.tel}` }),
     fact("Email", site.email.display, { href: `mailto:${site.email.display}` }),
-    fact("Office", office),
-    fact("Business hours", hours),
-    fact("Florida Bar", site.bar.admission),
+    fact("Office", officeOneLine),
+    fact("Consultation", site.availability.consultation),
+    fact("Telephone availability", site.availability.phone),
   ].join("\n");
+}
+
+/* ---- firm identification -------------------------------------------------
+ * Fla. Bar Rule 4-7.12: the name of the lawyer or firm responsible for the
+ * content, and the city of at least one bona fide office. Generated in one
+ * place so it cannot drift between 48 pages, and so the address is byte-for-byte
+ * identical everywhere it appears.
+ * ------------------------------------------------------------------------ */
+
+function renderFirmIdentity() {
+  const address = officeLines.length
+    ? `        <p class="firm-identity-address">
+${officeLines.map((l) => `          ${esc(l)}<br>`).join("\n").replace(/<br>$/, "")}
+        </p>`
+    : "";
+
+  const phone = hasPhone
+    ? `<a href="${telHref}">${esc(site.phone.display)}</a>`
+    : esc(site.phone.display);
+
+  return `      <p class="firm-identity-name">${esc(site.firmLegalName)}</p>
+      <p class="firm-identity-note">${esc(site.disclosure)}</p>
+${address}
+      <p class="firm-identity-line">Attorney ${esc(site.attorney.name)}</p>
+      <p class="firm-identity-line">Phone: ${phone}</p>
+      <p class="firm-identity-line">Email: <a href="mailto:${esc(site.email.display)}">${esc(site.email.display)}</a></p>
+      <p class="firm-identity-line">${esc(site.availability.consultation)}s</p>
+      <p class="firm-identity-line">${esc(site.availability.phone)}</p>`;
+}
+
+/* ---- contact block --------------------------------------------------------
+ * The same details in running-page form, for the contact and attorney pages.
+ * ------------------------------------------------------------------------ */
+
+function renderContactDetails() {
+  const address = officeLines
+    .map((l) => `          ${esc(l)}<br>`)
+    .join("\n")
+    .replace(/<br>$/, "");
+
+  return `      <div class="contact-details">
+        <div class="contact-detail">
+          <p class="contact-detail-label">Telephone</p>
+          <p class="contact-detail-value">
+            ${hasPhone ? `<a href="${telHref}">${esc(site.phone.display)}</a>` : esc(site.phone.display)}
+          </p>
+        </div>
+        <div class="contact-detail">
+          <p class="contact-detail-label">Email</p>
+          <p class="contact-detail-value">
+            <a href="mailto:${esc(site.email.display)}">${esc(site.email.display)}</a>
+          </p>
+        </div>
+        <div class="contact-detail">
+          <p class="contact-detail-label">Office</p>
+          <p class="contact-detail-value">
+${address}
+          </p>
+        </div>
+        <div class="contact-detail">
+          <p class="contact-detail-label">Consultation availability</p>
+          <p class="contact-detail-value">
+            ${esc(site.availability.consultation)}s<br>
+            ${esc(site.availability.phone)}
+          </p>
+        </div>
+      </div>`;
 }
 
 /* ---- breadcrumbs --------------------------------------------------------- */
@@ -360,41 +425,39 @@ ${items}
       </nav>`;
 }
 
-/* ---- county structured data ---------------------------------------------
- * A county page describes a place; it does not by itself establish that the
- * firm practises there. areaServed is therefore emitted only for counties
- * Hoffman Legal has confirmed in site.servedCounties, which is empty until
- * they say otherwise. Claiming a service area that has not been confirmed is
- * both a Rule 4-7.13 problem and the signal that turns a location page into a
- * doorway page.
+/* ---- county service area -------------------------------------------------
+ * A county page describes a place the firm practises in. It is not an office
+ * and must never read as one: there is one office, in Dania Beach, and it is
+ * stated on every page by the footer.
+ *
+ * The machine-readable side of this lives entirely on the single organisation
+ * node in the schema graph — one LegalService, one address, areaServed listing
+ * Florida and the three primary counties. No county page emits an organisation,
+ * a LocalBusiness or an address of its own. A per-county business entity is how
+ * a location page becomes a doorway page, and how a firm ends up asserting an
+ * office it does not have.
+ *
+ * What a county page does carry is this visible statement, generated so the
+ * wording is identical across all six and cannot drift into a claim.
  * ------------------------------------------------------------------------ */
 
-function renderLocationJsonLd(route) {
+function renderLocationServiceArea(route) {
   const county = locations.counties.find((c) => route.href === `/locations/${c.slug}/`);
   if (!county) return "";
 
-  const served = (site.servedCounties || []).includes(county.slug);
-  if (!served) {
-    return `      <!-- areaServed structured data withheld: "${county.slug}" is not listed in
-           site.servedCounties, so the firm has not confirmed it accepts matters
-           in this county. Add the slug there to emit it. -->`;
-  }
+  const primary = (site.servedCounties || []).includes(county.slug);
+  const body = primary ? site.serviceArea.statement : site.serviceArea.outsidePrimary;
 
-  const jsonld = {
-    "@context": "https://schema.org",
-    "@type": "LegalService",
-    name: site.firm,
-    url: site.url.replace(/\/$/, "") + route.href,
-    areaServed: {
-      "@type": "AdministrativeArea",
-      name: county.name,
-      containedInPlace: { "@type": "State", name: "Florida" },
-    },
-  };
-  // Address and telephone are omitted deliberately while they are placeholders.
-  return `      <script type="application/ld+json">
-${JSON.stringify(jsonld, null, 2)}
-      </script>`;
+  return `      <!-- Generated from site.serviceArea. Structured data for the service area
+           lives on the one organisation node in the head; this page asserts no
+           business entity and no address of its own. -->
+      <div class="callout" style="margin-top:1.5rem">
+        <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.686 7-11a7 7 0 10-14 0c0 5.314 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <div>
+          <p class="callout-title">${primary ? "Primary service area" : "No office in this county"}</p>
+          <p>${esc(body)}</p>
+        </div>
+      </div>`;
 }
 
 /* ---- table of contents --------------------------------------------------
@@ -468,6 +531,33 @@ ${cards}
     </nav>`;
 }
 
+/* ---- form opening tag ----------------------------------------------------
+ * The whole <form> tag is generated, not just its action attribute.
+ *
+ * The earlier version put the managed region *inside* the tag:
+ *
+ *     <form class="stack" data-validate novalidate<!-- @include:form-action -->
+ *     <!-- @end:form-action -->>
+ *
+ * An HTML comment is never valid inside a start tag. A browser parses that as
+ * three bogus attributes — `novalidate<!--`, `@include:form-action`, `--` —
+ * closes the tag at the comment's own `>`, and renders the trailing `>` as a
+ * stray character above the first field. Three things followed from that, in
+ * increasing order of seriousness: a visible `>` on both intake pages;
+ * `novalidate` never applied, so the browser's native bubbles competed with the
+ * accessible inline errors; and — the reason this had to be fixed now — the
+ * moment `formEndpoint` was set, `action` and `method` would have been written
+ * inside the comment and silently ignored, posting a prospective client's case
+ * details back to the page they were typed on.
+ * ------------------------------------------------------------------------ */
+
+function renderFormOpen() {
+  const action = site.formEndpoint
+    ? ` action="${esc(site.formEndpoint)}" method="post"`
+    : "";
+  return `      <form class="stack form-stack" data-validate novalidate${action}>`;
+}
+
 /* ---- form submit control ------------------------------------------------
  * No submission endpoint is configured, and this build will not invent one.
  * Rather than render a button that silently discards a prospective client's
@@ -477,16 +567,22 @@ ${cards}
 
 function renderFormSubmit() {
   if (!site.formEndpoint) {
+    // TODO: no submission endpoint is configured and none is invented here.
+    // Set site.formEndpoint in data/site.json to a real endpoint and this
+    // notice is replaced by a working submit control on the next build.
+    const call = hasPhone
+      ? `<a href="${telHref}">${esc(site.phone.display)}</a>`
+      : esc(site.phone.display);
     return `        <div class="form-unavailable">
           <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3l9-16z"/><path d="M12 10v4M12 17h.01"/></svg>
           <div>
             <p class="callout-title">This form is not connected yet</p>
             <p>
               Online submission is not live on this site, so nothing typed above
-              would reach us. We would rather tell you that than take your case
-              details and lose them. Please
-              <a href="/contact/">contact ${esc(site.firm)} directly</a> in the
-              meantime.
+              would reach ${esc(site.firm)}. We would rather tell you that than
+              take your case details and lose them. Call ${call} — telephone
+              enquiries are accepted 24/7 — or email
+              <a href="mailto:${esc(site.email.display)}">${esc(site.email.display)}</a>.
             </p>
           </div>
         </div>`;
@@ -567,7 +663,7 @@ function contextFor(route) {
   const titleTag = buildTitle({ route, site });
 
   return {
-    site: { ...site, attributionLine: `${site.siteName} is operated by ${site.firm}.` },
+    site: { ...site, attributionLine: site.disclosure },
     year: new Date().getFullYear(),
     page: {
       ...route,
@@ -614,11 +710,11 @@ function regionsFor(route, ctx, source) {
     // Depend on the page's own content, so they are derived from `source`.
     toc: renderToc(source),
     siblings: renderSiblings(route),
-    "location-jsonld": renderLocationJsonLd(route),
+    "location-service-area": renderLocationServiceArea(route),
+    "firm-identity": renderFirmIdentity(),
+    "contact-details": renderContactDetails(),
     "form-submit": renderFormSubmit(),
-    "form-action": site.formEndpoint
-      ? ` action="${esc(site.formEndpoint)}" method="post"`
-      : "",
+    "form-open": renderFormOpen(),
     sitemap: route.href === "/sitemap/" ? renderSitemap() : null,
   };
 }

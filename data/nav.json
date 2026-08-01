@@ -317,8 +317,8 @@
         {
           "label": "Attorney Profile",
           "href": "/about/attorney-profile/",
-          "title": "Attorney Profile",
-          "description": "The attorney responsible for Florida probation matters at Hoffman Legal, including Bar admission and background.",
+          "title": "David Hoffman, Esq.",
+          "description": "David Hoffman, attorney and lead counsel at Hoffman Legal, PLLC in Dania Beach. A former public defender representing Florida probation and criminal-defense clients.",
           "draft": true
         },
         {
@@ -333,8 +333,8 @@
     {
       "label": "Contact",
       "href": "/contact/",
-      "title": "Contact Hoffman Legal",
-      "description": "Request a consultation about a Florida probation matter. Please do not send confidential details before we have confirmed there is no conflict of interest.",
+      "title": "Contact Florida Probation Law",
+      "description": "Contact attorney David Hoffman about a Florida probation matter. Free initial consultation, telephone enquiries accepted 24/7 on (954) 459-4236.",
       "draft": true
     }
   ],

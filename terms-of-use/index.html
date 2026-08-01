@@ -29,18 +29,83 @@
     {
       "@type": "LegalService",
       "@id": "https://floridaprobationlaw.com/#organization",
-      "name": "Hoffman Legal",
+      "name": "Florida Probation Law",
+      "legalName": "Hoffman Legal, PLLC",
       "url": "https://floridaprobationlaw.com/",
-      "areaServed": {
-        "@type": "State",
-        "name": "Florida"
-      },
+      "areaServed": [
+        {
+          "@type": "State",
+          "name": "Florida"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Broward County",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Florida"
+          }
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Miami-Dade County",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Florida"
+          }
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Palm Beach County",
+          "containedInPlace": {
+            "@type": "State",
+            "name": "Florida"
+          }
+        }
+      ],
       "knowsAbout": [
         "Early termination of probation",
         "Florida probation law",
         "Probation violations",
         "Community control"
-      ]
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "101 SW 1st Street, Suite CW12",
+        "addressLocality": "Dania Beach",
+        "addressRegion": "FL",
+        "postalCode": "33004",
+        "addressCountry": "US"
+      },
+      "telephone": "+19544594236",
+      "email": "david@hoffman.legal"
+    },
+    {
+      "@type": "Attorney",
+      "@id": "https://floridaprobationlaw.com/about/attorney-profile/#attorney",
+      "name": "David Howard Hoffman",
+      "alternateName": "David Hoffman",
+      "jobTitle": "Attorney and Lead Counsel",
+      "worksFor": {
+        "@id": "https://floridaprobationlaw.com/#organization"
+      },
+      "affiliation": {
+        "@id": "https://floridaprobationlaw.com/#organization"
+      },
+      "url": "https://floridaprobationlaw.com/about/attorney-profile/",
+      "telephone": "+19544594236",
+      "email": "david@hoffman.legal",
+      "workLocation": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "101 SW 1st Street, Suite CW12",
+          "addressLocality": "Dania Beach",
+          "addressRegion": "FL",
+          "postalCode": "33004",
+          "addressCountry": "US"
+        }
+      },
+      "image": "https://floridadepositlaw.com/assets/images/david-hoffman.jpg"
     },
     {
       "@type": "WebSite",
@@ -106,11 +171,11 @@
       </a>
 
       <div class="header-actions">
-        <span class="header-phone">
-          <span class="header-phone-label">Call now</span>
-          <span class="header-phone-number">(000) 000-0000</span>
-        </span>
-        <a class="btn btn-primary" href="/florida-probation-law/contact/">Request a Consultation</a>
+        <a class="header-phone" href="tel:+19544594236">
+          <span class="header-phone-label">Call 24/7</span>
+          <span class="header-phone-number">(954) 459-4236</span>
+        </a>
+        <a class="btn btn-primary" href="/florida-probation-law/contact/">Request a Free Consultation</a>
       </div>
 
       <button class="menu-button" type="button" id="menu-button" aria-expanded="false" aria-controls="mobile-nav">
@@ -350,8 +415,8 @@
         </ul>
       </nav>
       <div class="mobile-nav-footer">
-        <p class="text-meta" style="margin-bottom:.75rem">Call (000) 000-0000</p>
-        <a class="btn btn-primary btn-block" href="/florida-probation-law/contact/">Request a Consultation</a>
+        <a class="btn btn-secondary btn-block" href="tel:+19544594236" style="margin-bottom:.75rem">Call (954) 459-4236</a>
+        <a class="btn btn-primary btn-block" href="/florida-probation-law/contact/">Request a Free Consultation</a>
       </div>
     </div>
   </div>
@@ -391,13 +456,16 @@
         <p class="toc-heading" id="toc-heading">On this page</p>
         <ol class="toc-list">
           <li><a href="#acceptance">Using this site</a></li>
+          <li><a href="#jurisdiction-licence">Where the firm is licensed</a></li>
           <li><a href="#not-advice">The content is information, not advice</a></li>
           <li><a href="#no-relationship">No attorney-client relationship</a></li>
           <li><a href="#accuracy">Accuracy and currency</a></li>
           <li><a href="#external">Links to other sites</a></li>
           <li><a href="#ip">Content ownership</a></li>
           <li><a href="#liability">Limitation of liability</a></li>
+          <li><a href="#advertising">Attorney advertising</a></li>
           <li><a href="#law">Governing law</a></li>
+          <li><a href="#operator">Who operates this website</a></li>
         </ol>
       </nav>
 <!-- @end:toc -->
@@ -406,20 +474,55 @@
       <div class="prose-legal" style="margin-top:2.5rem;max-width:none">
         <h2 class="h3" id="acceptance" data-toc>Using this site</h2>
         <p>By using FloridaProbationLaw.com you accept these terms. If you do not, please do not use the site.</p>
+        <h2 class="h3" id="jurisdiction-licence" data-toc>Where the firm is licensed</h2>
+        <p>David Hoffman is licensed to practice law in the State of Florida. This website is directed primarily to people seeking information about Florida probation matters. Hoffman Legal does not offer representation in a jurisdiction where its attorneys are not licensed or otherwise authorized to practice.</p>
         <h2 class="h3" id="not-advice" data-toc>The content is information, not advice</h2>
-        <p>Everything here is general information about Florida probation law. It is not legal advice, it is not tailored to your circumstances, and it must not be relied on as a substitute for advice from an attorney who has read your sentencing documents.</p>
+        <p>The content on this website is provided for general informational purposes only and is not legal advice. Florida probation law can change, and the application of the law depends on the facts, sentence, court record and procedural history of each case. Nothing here is tailored to your circumstances or a substitute for advice from an attorney who has read your sentencing documents.</p>
         <h2 class="h3" id="no-relationship" data-toc>No attorney-client relationship</h2>
-        <p>Reading this site, or sending a message through it, does not create an attorney-client relationship with Hoffman Legal. That relationship begins only after a conflict check, an agreement to act, and written confirmation.</p>
+        <p>Reading this website, calling Hoffman Legal or submitting an online form does not create an attorney-client relationship. Such a relationship is formed only after any required conflict review, written acceptance by the firm and execution of an engagement agreement.</p>
         <h2 class="h3" id="accuracy" data-toc>Accuracy and currency</h2>
         <p>Florida statutes and county practice change, and pages here may not reflect the current position. Several pages carry a visible notice where a statement has not been verified against the official statutory text. Where a page and the official source disagree, the official source governs.</p>
         <h2 class="h3" id="external" data-toc>Links to other sites</h2>
         <p>Links to external resources are provided for convenience. We do not control those sites and are not responsible for their content.</p>
         <h2 class="h3" id="ip" data-toc>Content ownership</h2>
-        <p>The text and design of this site belong to Hoffman Legal. You may read, print and share pages for your own use; please do not republish them as your own.</p>
+        <p>The text and design of this site belong to Hoffman Legal, PLLC. You may read, print and share pages for your own use; please do not republish them as your own.</p>
         <h2 class="h3" id="liability" data-toc>Limitation of liability</h2>
-        <p><em>Full limitation clause to be settled by Hoffman Legal before publication.</em> In general terms, this site is provided as information and no liability is accepted for action taken in reliance on it without advice.</p>
+        <p><em>Full limitation clause to be settled by Hoffman Legal, PLLC before publication.</em> In general terms, this site is provided as information and no liability is accepted for action taken in reliance on it without advice.</p>
+        <h2 class="h3" id="advertising" data-toc>Attorney advertising</h2>
+        <p>This website may constitute attorney advertising. The hiring of a lawyer is an important decision that should not be based solely on advertising. Past results do not guarantee or predict a similar outcome.</p>
         <h2 class="h3" id="law" data-toc>Governing law</h2>
         <p>These terms are governed by the law of the State of Florida.</p>
+        <h2 class="h3" id="operator" data-toc>Who operates this website</h2>
+        <!-- @include:contact-details -->
+      <div class="contact-details">
+        <div class="contact-detail">
+          <p class="contact-detail-label">Telephone</p>
+          <p class="contact-detail-value">
+            <a href="tel:+19544594236">(954) 459-4236</a>
+          </p>
+        </div>
+        <div class="contact-detail">
+          <p class="contact-detail-label">Email</p>
+          <p class="contact-detail-value">
+            <a href="mailto:david@hoffman.legal">david@hoffman.legal</a>
+          </p>
+        </div>
+        <div class="contact-detail">
+          <p class="contact-detail-label">Office</p>
+          <p class="contact-detail-value">
+          101 SW 1st Street, Suite CW12<br>
+          Dania Beach, FL 33004
+          </p>
+        </div>
+        <div class="contact-detail">
+          <p class="contact-detail-label">Consultation availability</p>
+          <p class="contact-detail-value">
+            Free initial consultations<br>
+            Telephone enquiries accepted 24/7
+          </p>
+        </div>
+      </div>
+<!-- @end:contact-details -->
       </div>
 
     </div>
@@ -432,32 +535,48 @@
 
     <div class="footer-disclosure">
       <p class="footer-brand-name">Florida Probation Law</p>
-      <p class="footer-disclosure-text">FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal.</p>
+      <p class="footer-disclosure-text">FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal, PLLC.</p>
+
+      <div class="firm-identity">
+<!-- @include:firm-identity -->
+      <p class="firm-identity-name">Hoffman Legal, PLLC</p>
+      <p class="firm-identity-note">FloridaProbationLaw.com is operated by Hoffman Legal, PLLC, a Florida law firm.</p>
+        <p class="firm-identity-address">
+          101 SW 1st Street, Suite CW12<br>
+          Dania Beach, FL 33004
+        </p>
+      <p class="firm-identity-line">Attorney David Hoffman</p>
+      <p class="firm-identity-line">Phone: <a href="tel:+19544594236">(954) 459-4236</a></p>
+      <p class="firm-identity-line">Email: <a href="mailto:david@hoffman.legal">david@hoffman.legal</a></p>
+      <p class="firm-identity-line">Free initial consultations</p>
+      <p class="firm-identity-line">Telephone enquiries accepted 24/7</p>
+<!-- @end:firm-identity -->
+      </div>
 
       <div class="footer-facts">
         <div>
           <p class="footer-fact-label">Responsible attorney</p>
-          <p class="footer-fact-pending">To be supplied by Hoffman Legal</p>
+          <p class="footer-fact-value">David Hoffman</p>
         </div>
         <div>
           <p class="footer-fact-label">Phone</p>
-          <p class="footer-fact-pending">To be supplied by Hoffman Legal</p>
+          <p class="footer-fact-value"><a href="tel:+19544594236">(954) 459-4236</a></p>
         </div>
         <div>
           <p class="footer-fact-label">Email</p>
-          <p class="footer-fact-pending">To be supplied by Hoffman Legal</p>
+          <p class="footer-fact-value"><a href="mailto:david@hoffman.legal">david@hoffman.legal</a></p>
         </div>
         <div>
           <p class="footer-fact-label">Office</p>
-          <p class="footer-fact-pending">To be supplied by Hoffman Legal</p>
+          <p class="footer-fact-value">101 SW 1st Street, Suite CW12, Dania Beach, FL 33004</p>
         </div>
         <div>
-          <p class="footer-fact-label">Business hours</p>
-          <p class="footer-fact-pending">To be supplied by Hoffman Legal</p>
+          <p class="footer-fact-label">Consultation</p>
+          <p class="footer-fact-value">Free initial consultation</p>
         </div>
         <div>
-          <p class="footer-fact-label">Florida Bar</p>
-          <p class="footer-fact-pending">To be supplied by Hoffman Legal</p>
+          <p class="footer-fact-label">Telephone availability</p>
+          <p class="footer-fact-value">Telephone enquiries accepted 24/7</p>
         </div>
       </div>
     </div>
@@ -543,19 +662,22 @@
     </div>
 
     <div class="footer-bottom">
-      <p class="footer-copyright">&copy; 2026 Hoffman Legal. All rights reserved.</p>
-      <p class="footer-copyright">Florida Probation Law is operated by Hoffman Legal.</p>
+      <p class="footer-copyright">&copy; 2026 Hoffman Legal, PLLC. All rights reserved.</p>
+      <p class="footer-copyright">FloridaProbationLaw.com is operated by Hoffman Legal, PLLC, a Florida law firm.</p>
     </div>
 
     <div style="padding-bottom:2rem">
       <div class="disclaimer disclaimer-on-navy">
         <p class="disclaimer-title">Legal disclaimer</p>
         <p>
-          The information on this website is for general informational purposes
-          only and is not legal advice. Viewing this site, or contacting
-          Hoffman Legal through it, does not create an attorney-client
-          relationship. Every case turns on its own facts, and no result is
-          promised or implied.
+          The information on this website is provided for general informational
+          purposes and is not legal advice. Reading this website, calling the
+          firm or submitting an online form does not by itself create an
+          attorney-client relationship. An attorney-client relationship is
+          established only after the firm completes any required conflict
+          review, agrees in writing to provide representation and the client
+          signs an engagement agreement. Past results do not guarantee or
+          predict a similar outcome.
         </p>
       </div>
     </div>
@@ -567,7 +689,7 @@
 
 <!-- @include:call-bar -->
 <div class="call-bar">
-  <a class="btn btn-primary" href="/florida-probation-law/contact/">Call</a>
+  <a class="btn btn-primary" href="tel:+19544594236">Call</a>
   <a class="btn btn-secondary" href="/florida-probation-law/early-termination-of-probation/eligibility/">Check Eligibility</a>
 </div>
 

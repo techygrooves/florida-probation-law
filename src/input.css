@@ -1140,6 +1140,10 @@
   .form-fields > * + * { margin-top: 1.25rem; }
 
   /* Summary of validation failures, focused and announced on submit. */
+  /* The intake forms opening tag is generated, so it carries no inline
+     style — the spacing lives here instead. */
+  .form-stack { margin-top: 0; }
+
   .form-errors {
     padding: 1rem 1.25rem;
     border: 1px solid var(--color-danger-200);
@@ -2053,6 +2057,93 @@
     font-style: italic;
   }
 
+  /* Firm identification — Fla. Bar Rule 4-7.12. Generated in one place and
+     rendered on every page, so the responsible attorney and the bona fide
+     office cannot fall out of sync between pages. */
+  .firm-identity {
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+  }
+
+  .firm-identity-name {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .firm-identity-note {
+    margin-top: 0.375rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-navy-100);
+    max-width: 42rem;
+  }
+
+  .firm-identity-address,
+  .firm-identity-line {
+    margin-top: 0.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-navy-100);
+  }
+
+  .firm-identity-address { font-style: normal; }
+  .firm-identity-line a { color: #fff; text-decoration: none; }
+  .firm-identity-line a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+
+  /* Contact details in running-page form, for the contact and attorney pages.
+     Same source as the footer block above. */
+  .contact-details {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .contact-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  .contact-detail {
+    padding: 1.25rem 1.375rem;
+    border: 1px solid var(--color-line-200);
+    border-radius: var(--radius-xl);
+    background-color: #fff;
+  }
+
+  .contact-detail-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-teal-700);
+  }
+
+  .contact-detail-value {
+    margin-top: 0.4375rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-ink-800);
+  }
+
+  .contact-detail-value a { color: var(--color-azure-700); }
+
+  /* Attorney portrait. The aspect ratio is reserved in CSS rather than with
+     width/height attributes because the image is currently remote and its
+     intrinsic size is not known here — this holds the space either way, so
+     the page does not shift when it arrives. */
+  .attorney-portrait {
+    width: 100%;
+    max-width: 20rem;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-line-200);
+    background-color: var(--color-mist-100);
+  }
+
   .footer-columns {
     display: grid;
     gap: 2rem 1.5rem;
@@ -2747,31 +2838,11 @@
     .attorney-intro { grid-template-columns: 14rem minmax(0, 1fr); gap: 2.5rem; }
   }
 
-  /* Deliberately not a photograph. Using stock imagery of someone who does
-     not work at the firm would misrepresent who the client would be hiring. */
-  .attorney-portrait {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.625rem;
-    aspect-ratio: 4 / 5;
-    max-width: 14rem;
-    padding: 1.25rem;
-    text-align: center;
-    background-color: var(--color-mist-50);
-    border: 1px dashed var(--color-line-300);
-    border-radius: var(--radius-xl);
-    color: var(--color-ink-500);
-  }
-
-  .attorney-portrait-label {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--color-ink-400);
-  }
+  /* The portrait itself is styled at .attorney-portrait in the components
+     above. It is a real photograph of the firm's attorney — the placeholder
+     box that used to stand here existed only because no portrait had been
+     supplied, and stock imagery of someone who does not work at the firm
+     would have misrepresented who the client is hiring. */
 
   .attorney-meta {
     display: flex;

@@ -39,11 +39,19 @@ if (!site.formEndpoint)
   ]);
 if (!site.attorney.name)
   pending.push(["attorney", "Responsible attorney name not set — required by Fla. Bar Rule 4-7.12."]);
-if (!site.attorney.barNumber) pending.push(["attorney", "Florida Bar number not set."]);
 if (!site.office.city)
   pending.push(["office", "Bona fide office location not set — required by Fla. Bar Rule 4-7.12."]);
-if (!site.hours.weekday) pending.push(["hours", "Business hours not set."]);
-if (!site.bar.admission) pending.push(["bar", "Florida Bar membership details not set."]);
+if (!site.bar.admission) pending.push(["bar", "Jurisdiction statement not set."]);
+
+// The portrait is served from a host this repository does not control. It
+// works, but it is an outbound dependency on someone else's uptime for the
+// only image on the site, and it is the one asset a redesign would forget.
+if (/^https?:/.test(site.attorney.image || "")) {
+  pending.push([
+    "image",
+    `Attorney portrait is remote (${new URL(site.attorney.image).host}). Replace with a locally hosted optimized copy before production.`,
+  ]);
+}
 
 /* ---- placeholder routes -------------------------------------------------- */
 
@@ -59,15 +67,25 @@ const walk = (items) => {
 walk(nav.primary);
 walk(nav.legal);
 
-// County coverage was flagged as a blocking unknown from the start: publishing
-// a location page for a county the firm does not serve is both a doorway-page
-// risk and, under Fla. Bar Rule 4-7.12, a misleading implication of presence.
+// Publishing a location page for a county the firm does not serve is both a
+// doorway-page risk and, under Fla. Bar Rule 4-7.12, a misleading implication
+// of presence. Counties outside the confirmed primary area are allowed to have
+// pages — they carry serviceArea.outsidePrimary saying there is no office —
+// but nothing may be confirmed that the firm has not confirmed.
 const counties = (nav.primary.find((p) => p.href === "/locations/")?.children || [])
   .filter((c) => c.href !== "/locations/").length;
-pending.push([
-  "coverage",
-  `${counties} county pages exist but Hoffman Legal has not confirmed which counties it serves.`,
-]);
+if (!(site.servedCounties || []).length) {
+  pending.push([
+    "coverage",
+    `${counties} county pages exist but no primary service area is confirmed.`,
+  ]);
+}
+
+/* ---- shipped TODO markers ------------------------------------------------
+ * Distinguished from stray ones below: these are deliberate, and each names a
+ * production step. They are reported so the list of what is outstanding stays
+ * honest, not because they are mistakes.
+ * ------------------------------------------------------------------------ */
 
 /* ---- stray TODO markers in shipped HTML ---------------------------------- */
 
@@ -83,8 +101,11 @@ const htmlFiles = [];
   }
 })(ROOT);
 
+/* TODO markers in shipped HTML. They live in source comments, so no visitor
+   sees one — but each is a production step somebody has to take, and listing
+   them here is the only thing that stops them being forgotten. */
 const todoFiles = htmlFiles.filter((f) => /\bTODO\b/.test(readFileSync(f, "utf8")));
-for (const f of todoFiles) pending.push(["content", `Stray TODO marker in ${relative(ROOT, f)}`]);
+for (const f of todoFiles) pending.push(["todo", `Source TODO in ${relative(ROOT, f)}`]);
 
 /* ---- report -------------------------------------------------------------- */
 

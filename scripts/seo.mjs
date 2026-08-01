@@ -97,15 +97,35 @@ export function buildSchema({ site, route, source, origin }) {
 
   const graph = [];
 
-  /* Organization, expressed as a LegalService because that is what it is.
-     Address and telephone are omitted while unconfirmed rather than filled
-     with a placeholder value that a consumer would treat as real. */
+  /* One organisation, expressed as a LegalService because that is what it is,
+     referenced by @id from every page including the county pages. There is a
+     single office and a single business entity; a per-county LocalBusiness
+     would assert offices the firm does not have.
+
+     `name` is the website, `legalName` the registered entity — Florida
+     Probation Law is a website operated by Hoffman Legal, PLLC, and the graph
+     says exactly that rather than implying a second firm.
+
+     Address, telephone and email are still conditional. The condition is now
+     satisfied, but the gate stays: it is what stops a placeholder ever being
+     emitted as though it were real. */
   const org = {
     "@type": "LegalService",
     "@id": orgId,
-    name: site.firm,
+    name: site.siteName,
+    legalName: site.firmLegalName,
     url: origin + "/",
-    areaServed: { "@type": "State", name: "Florida" },
+    /* Florida, plus the counties the firm has confirmed as its primary service
+       area. Serving an area is not occupying one — no address appears on any
+       county page. */
+    areaServed: [
+      { "@type": "State", name: "Florida" },
+      ...(site.serviceArea?.primary || []).map((name) => ({
+        "@type": "AdministrativeArea",
+        name,
+        containedInPlace: { "@type": "State", name: "Florida" },
+      })),
+    ],
     knowsAbout: [
       "Early termination of probation",
       "Florida probation law",
@@ -125,24 +145,31 @@ export function buildSchema({ site, route, source, origin }) {
   }
   if (site.phone.tel) org.telephone = site.phone.tel;
   if (site.email.display) org.email = site.email.display;
+  /* No openingHours: telephone intake runs 24/7 but the office does not, and
+     no office hours have been supplied. An openingHours of 00:00–23:59 would
+     say the premises are staffed around the clock, which is not the claim. */
   graph.push(org);
 
-  /* Attorney is a claim about a real person. No name, no node. */
+  /* Attorney is a claim about a real person, so every field here is one that
+     was actually supplied. No alumni, no credentials, no certifications, no
+     languages, no social profiles — those were not provided, and inventing one
+     on a law firm site is a Fla. Bar Rule 4-7.13 problem rather than a
+     cosmetic gap. */
   if (site.attorney.name) {
     const attorney = {
       "@type": "Attorney",
       "@id": `${origin}/about/attorney-profile/#attorney`,
-      name: site.attorney.name,
+      name: site.attorney.legalName || site.attorney.name,
+      alternateName: site.attorney.name,
+      jobTitle: site.attorney.title,
       worksFor: { "@id": orgId },
+      affiliation: { "@id": orgId },
       url: origin + "/about/attorney-profile/",
     };
-    if (site.attorney.barNumber) {
-      attorney.identifier = {
-        "@type": "PropertyValue",
-        propertyID: "Florida Bar number",
-        value: site.attorney.barNumber,
-      };
-    }
+    if (site.phone.tel) attorney.telephone = site.phone.tel;
+    if (site.email.display) attorney.email = site.email.display;
+    if (org.address) attorney.workLocation = { "@type": "Place", address: org.address };
+    if (site.attorney.image) attorney.image = site.attorney.image;
     graph.push(attorney);
   }
 

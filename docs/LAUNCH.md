@@ -6,30 +6,24 @@ URLs, and both intake forms show a notice instead of a submit button. That is
 deliberate — an unreviewed legal site that ranks is worse than one that does
 not exist — and it stays that way until the items below are cleared.
 
-Run `npm run check:launch` at any point. It fails while any firm detail is
-still a placeholder, and is the mechanical half of this list.
+Run `npm run check:launch` at any point. It fails while anything below is
+outstanding, and is the mechanical half of this list.
 
 ---
 
 ## 1. Firm details
 
-All of these live in `data/site.json`. Nothing is invented, so each is empty
-and each has a visible consequence on the page until it is filled in.
+**Supplied and live.** Every firm and attorney detail now comes from
+`data/site.json` and renders across the site: firm legal name, responsible
+attorney, office address, telephone, email, consultation terms and the primary
+service area. Nothing about the firm is written into a page by hand.
 
-| Key | Blocking because | Currently renders as |
+Two items in this category remain:
+
+| Item | Where | Why it is still open |
 | --- | --- | --- |
-| `attorney.name` | Fla. Bar Rule 4-7.12 requires a named responsible lawyer on every page | "To be supplied by Hoffman Legal" in the footer |
-| `attorney.barNumber` | Identifies the responsible lawyer | omitted |
-| `office.street` / `.city` / `.zip` | Rule 4-7.12 bona fide office disclosure | "To be supplied by Hoffman Legal" |
-| `phone.display` / `phone.tel` | — | `(000) 000-0000` as inert text, not a `tel:` link; the mobile Call button routes to `/contact/` instead of dialling |
-| `email.display` | Intake inbox | "To be supplied by Hoffman Legal" |
-| `hours.weekday` / `.weekend` | — | "To be supplied by Hoffman Legal" |
-| `bar.admission` | Florida Bar membership statement | "To be supplied by Hoffman Legal" |
-| `servedCounties` | Claiming a service area the firm has not confirmed is a Rule 4-7.13 problem and the signal that turns a location page into a doorway page | `areaServed` structured data withheld on all six county pages |
-
-Filling `attorney.name` also switches on the `Attorney` node in the schema
-graph; filling the office and phone switches on `address` and `telephone` on
-the `LegalService` node. Until then those claims are simply not emitted.
+| Attorney portrait | `attorney.image` | Loaded from `floridadepositlaw.com`. It is the only remote asset on the site and the only thing here depending on a host this repository does not control. Replace with a locally hosted, optimized copy. The `TODO` is in the source of both pages that show it. |
+| Registration identifier | — | Deliberately not recorded anywhere in this repository. |
 
 ## 2. Legal content requiring attorney review
 
@@ -95,7 +89,8 @@ stacking prefixes — but the built pages must be committed after switching.
 
 ### Before the first publish
 
-1. Fill in `data/site.json` (§1) and confirm `npm run check:launch` passes.
+1. Host the attorney portrait locally (§1) and confirm `npm run check:launch`
+   passes.
 2. Have a Florida attorney review the content (§2) and clear the marked
    passages.
 3. Remove `"draft": true` from `data/nav.json` for each reviewed route. Leave

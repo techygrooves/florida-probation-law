@@ -368,6 +368,16 @@ Two constraints shape the code, not just the content:
 
 ## Pending
 
-Real firm data is required before any page ships: legal entity name, office
-address, phone, attorney names and Bar numbers, and the counties the firm
-actually serves.
+Firm and attorney details are supplied and live throughout the site — see
+`data/site.json`, which is the only place any of them is written. What remains
+before launch:
+
+- **Attorney review** of the 45 draft routes and the 31 marked passages.
+- **A form endpoint.** `site.formEndpoint` is still empty, so both intake forms
+  show a notice with the phone number and email rather than a submit button.
+- **A locally hosted attorney portrait.** The current one is loaded from
+  `floridadepositlaw.com` — the only remote asset on the site, and a dependency
+  on a host this repository does not control.
+
+`npm run check:launch` fails while any of these is outstanding. The full
+sequence is in [`docs/LAUNCH.md`](docs/LAUNCH.md).
