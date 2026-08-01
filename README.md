@@ -17,10 +17,33 @@ homepage, and three written content clusters:
 | `/florida-probation-law/` | 6 |
 | `/probation-services/` | 8 |
 | `/locations/` | 7 |
+| `/about/`, `/resources/`, `/blog/`, contact, forms, legal | 13 |
 
-All 43 routes exist and resolve. 8 are still empty placeholders; 34 have
-content but are `draft`, awaiting review by a Florida attorney. Every page
-currently carries `noindex` — see [Publishing gates](#publishing-gates).
+**All 48 routes now have written content.** None are empty placeholders; all
+are `draft`, awaiting review by a Florida attorney, so every page carries
+`noindex` — see [Publishing gates](#publishing-gates).
+
+## Forms
+
+Two intake forms: a short one on `/contact/` and the full
+`/probation-eligibility-assessment/`.
+
+**Neither is connected to anything.** `site.formEndpoint` is empty because no
+submission service is configured, and the build will not invent one. While it
+is empty the submit control is replaced by a visible notice explaining that
+nothing typed would reach the firm — a form that silently discards a
+prospective client's case details is worse than one that says it is not ready.
+Setting `formEndpoint` flips both forms to a live submit on the next build.
+
+Validation in `js/main.js` is progressive enhancement: it sets `aria-invalid`,
+renders inline errors tied to each field, and focuses a summary of failures.
+Every rule must also be enforced server-side when an endpoint is added —
+client-side checks stop honest mistakes and nothing else.
+
+Spam handling follows the same logic. The honeypot and the elapsed-time field
+are recorded for a server to weigh; the client blocks only on the honeypot. A
+bot that POSTs directly never runs this script, so blocking client-side on
+elapsed time would only ever penalise fast humans.
 
 ## Location pages
 

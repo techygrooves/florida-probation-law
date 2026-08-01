@@ -124,6 +124,7 @@ function addRoute(item, section) {
     description: item.description || "",
     placeholder: item.placeholder === true,
     draft: item.draft === true,
+    noindex: item.noindex === true,
     section,
   });
 }
@@ -133,6 +134,8 @@ for (const top of nav.primary) {
   for (const child of top.children || []) addRoute(child, top.label);
 }
 for (const item of nav.legal) addRoute(item, "Legal");
+// Routes that exist but are deliberately absent from the navigation.
+for (const item of nav.utility || []) addRoute(item, "Site");
 
 /* ---- phone --------------------------------------------------------------
  * The firm's number is not confirmed yet. Until `tel` is filled in, the
@@ -469,6 +472,32 @@ ${cards}
     </nav>`;
 }
 
+/* ---- form submit control ------------------------------------------------
+ * No submission endpoint is configured, and this build will not invent one.
+ * Rather than render a button that silently discards a prospective client's
+ * case details, the control is replaced by a notice and a route to the phone.
+ * Setting site.formEndpoint flips it to a live submit on the next build.
+ * ------------------------------------------------------------------------ */
+
+function renderFormSubmit() {
+  if (!site.formEndpoint) {
+    return `        <div class="form-unavailable">
+          <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3l9-16z"/><path d="M12 10v4M12 17h.01"/></svg>
+          <div>
+            <p class="callout-title">This form is not connected yet</p>
+            <p>
+              Online submission is not live on this site, so nothing typed above
+              would reach us. We would rather tell you that than take your case
+              details and lose them. Please
+              <a href="/contact/">contact ${esc(site.firm)} directly</a> in the
+              meantime.
+            </p>
+          </div>
+        </div>`;
+  }
+  return `        <button class="btn btn-primary btn-lg btn-block" type="submit">Send for review</button>`;
+}
+
 /* ---- HTML sitemap -------------------------------------------------------- */
 
 function renderSitemap() {
@@ -539,8 +568,10 @@ function contextFor(route) {
       // liability, not an asset. Draft routes stay out because publishing
       // legal content no Florida attorney has reviewed is worse than
       // publishing nothing.
+      // `noindex` is permanent (a thank-you page should never be indexed, even
+      // once the site is live); placeholder and draft are temporary gates.
       robots:
-        route.placeholder || route.draft
+        route.noindex || route.placeholder || route.draft
           ? '<meta name="robots" content="noindex, follow">'
           : '<meta name="robots" content="index, follow">',
     },
@@ -563,6 +594,10 @@ function regionsFor(route, ctx, source) {
     toc: renderToc(source),
     siblings: renderSiblings(route),
     "location-jsonld": renderLocationJsonLd(route),
+    "form-submit": renderFormSubmit(),
+    "form-action": site.formEndpoint
+      ? ` action="${esc(site.formEndpoint)}" method="post"`
+      : "",
     sitemap: route.href === "/sitemap/" ? renderSitemap() : null,
   };
 }
@@ -655,7 +690,9 @@ for (const route of allRoutes) {
 
 /* ---- sitemap.xml --------------------------------------------------------- */
 
-const indexable = [...routes.values()].filter((r) => !r.placeholder && !r.draft);
+const indexable = [...routes.values()].filter(
+  (r) => !r.placeholder && !r.draft && !r.noindex
+);
 
 if (!CHECK) {
   const urls = indexable
