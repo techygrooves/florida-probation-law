@@ -15,8 +15,9 @@ homepage, and three written content clusters:
 | `/early-termination-of-probation/` | 6 |
 | `/probation-termination-process/` | 6 |
 | `/florida-probation-law/` | 6 |
+| `/probation-services/` | 8 |
 
-All 43 routes exist and resolve. 23 are still empty placeholders; 19 have
+All 43 routes exist and resolve. 15 are still empty placeholders; 27 have
 content but are `draft`, awaiting review by a Florida attorney. Every page
 currently carries `noindex` — see [Publishing gates](#publishing-gates).
 

@@ -113,57 +113,62 @@
       "label": "Probation Services",
       "href": "/probation-services/",
       "title": "Florida Probation Services",
-      "description": "Probation matters handled by Hoffman Legal, including modification, transfers, travel permission and violations.",
-      "placeholder": true,
+      "description": "Probation matters handled by Hoffman Legal: administrative probation, modification of conditions, travel, relocation, interstate transfer, community control and violations.",
+      "draft": true,
       "children": [
+        {
+          "label": "Overview",
+          "href": "/probation-services/",
+          "description": "All Florida probation matters handled by the firm."
+        },
         {
           "label": "Administrative Probation",
           "href": "/probation-services/administrative-probation/",
           "title": "Administrative Probation in Florida",
-          "description": "How administrative probation differs from standard supervision in Florida.",
-          "placeholder": true
+          "description": "Moving from reporting supervision to non-reporting administrative probation in Florida, and what a court considers.",
+          "draft": true
         },
         {
           "label": "Modification of Probation",
           "href": "/probation-services/modification-of-probation/",
-          "title": "Modification of Probation in Florida",
-          "description": "Changing the conditions of Florida probation by motion to the court.",
-          "placeholder": true
+          "title": "Modification of Probation Conditions",
+          "description": "Asking a Florida court to change a condition of probation that no longer fits, without ending supervision.",
+          "draft": true
         },
         {
           "label": "Travel Permission",
           "href": "/probation-services/travel-permission/",
-          "title": "Travel Permission While on Probation",
-          "description": "How travel is authorised while under Florida probation supervision.",
-          "placeholder": true
+          "title": "Travel Permission While on Probation in Florida",
+          "description": "How permission to travel out of county or out of state is requested while under Florida probation supervision.",
+          "draft": true
         },
         {
           "label": "Relocation",
           "href": "/probation-services/relocation/",
           "title": "Relocating While on Probation in Florida",
-          "description": "Moving residence within Florida while under supervision.",
-          "placeholder": true
+          "description": "Changing your approved residence while under Florida supervision, and what has to be approved first.",
+          "draft": true
         },
         {
           "label": "Interstate Transfer",
           "href": "/probation-services/interstate-transfer/",
           "title": "Interstate Transfer of Florida Probation",
-          "description": "Transferring Florida probation supervision to another state.",
-          "placeholder": true
+          "description": "Transferring Florida probation supervision to another state under the Interstate Compact.",
+          "draft": true
         },
         {
-          "label": "Community Control",
-          "href": "/probation-services/community-control/",
-          "title": "Community Control in Florida",
-          "description": "How community control differs from probation, and what it requires.",
-          "placeholder": true
+          "label": "Community Control Termination",
+          "href": "/probation-services/community-control-termination/",
+          "title": "Ending Community Control in Florida",
+          "description": "Community control is not probation. What ending or modifying it involves, and how it differs from ordinary supervision.",
+          "draft": true
         },
         {
           "label": "Probation Violations",
           "href": "/probation-services/probation-violations/",
           "title": "Florida Probation Violations",
-          "description": "What happens after an alleged violation of probation in Florida.",
-          "placeholder": true
+          "description": "What happens after an alleged violation of Florida probation, including no-bond warrants and the revocation process.",
+          "draft": true
         }
       ]
     },
