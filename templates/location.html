@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- @include:head -->
+<!-- @end:head -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- @include:header -->
+<!-- @end:header -->
+
+<!--
+  REUSABLE COUNTY PAGE TEMPLATE
+
+  Section order is fixed; the copy is not. Every county page must be written
+  from that county's own facts — circuit, county seat, which counties share the
+  circuit, which counties border it — and must have its own introduction and
+  its own FAQs. Producing a new page by copying an existing one and swapping
+  the county name creates a doorway page, which is both an SEO liability and,
+  because it implies a local presence the firm has not claimed, a Fla. Bar Rule
+  4-7.13 problem.
+
+  Never write into a county page: courthouse names or addresses, judges,
+  division assignments, filing procedures, local rules, or hearing schedules.
+  None of that is verifiable from this repository. Use the marked placeholder
+  block and let someone with local knowledge fill it in.
+
+  Verified per-county facts live in data/locations.json.
+-->
+
+<main id="main">
+  <article class="section">
+    <div class="container-narrow">
+
+      <!-- @include:breadcrumbs -->
+      <!-- @end:breadcrumbs -->
+
+      <!-- @include:location-jsonld -->
+      <!-- @end:location-jsonld -->
+
+      <!-- 1. Unique page heading -->
+      <div class="section-heading heading-rule" style="margin-top:1.5rem">
+        <p class="eyebrow">Florida locations</p>
+        <h1 class="h1">{{page.h1}}</h1>
+        <p class="lede">{{page.description}}</p>
+      </div>
+
+      <div style="margin-top:2rem">
+        <!-- @include:toc -->
+        <!-- @end:toc -->
+      </div>
+
+      <div class="prose-legal" style="margin-top:2.5rem;max-width:none">
+        <!--
+          2.  Early termination overview written for this county
+          3.  County and judicial-circuit information
+          4.  Courthouse information placeholder (marked, never invented)
+          5.  General filing and hearing process
+          6.  Eligibility considerations
+          7.  Related probation services
+          8.  Nearby areas served
+        -->
+        <p>Content for this county has not been written yet.</p>
+      </div>
+
+      <!-- 9. County-specific FAQs -->
+
+      <div style="margin-top:3rem">
+        <!-- @include:siblings -->
+        <!-- @end:siblings -->
+      </div>
+
+    </div>
+  </article>
+</main>
+
+<!-- 10. Attorney consultation section -->
+<!-- @include:cta -->
+<!-- @end:cta -->
+
+<!-- @include:page-disclaimer -->
+<!-- @end:page-disclaimer -->
+
+<!-- @include:footer -->
+<!-- @end:footer -->
+
+<!-- @include:call-bar -->
+<!-- @end:call-bar -->
+
+<script src="/js/main.js" defer></script>
+</body>
+</html>

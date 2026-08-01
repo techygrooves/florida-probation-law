@@ -16,10 +16,31 @@ homepage, and three written content clusters:
 | `/probation-termination-process/` | 6 |
 | `/florida-probation-law/` | 6 |
 | `/probation-services/` | 8 |
+| `/locations/` | 7 |
 
-All 43 routes exist and resolve. 15 are still empty placeholders; 27 have
+All 43 routes exist and resolve. 8 are still empty placeholders; 34 have
 content but are `draft`, awaiting review by a Florida attorney. Every page
 currently carries `noindex` — see [Publishing gates](#publishing-gates).
+
+## Location pages
+
+County pages are the easiest thing on a legal site to get wrong. Two rules are
+enforced rather than trusted:
+
+- **No local detail is invented.** Courthouse names and addresses, judges,
+  division assignments, filing procedures and hearing schedules appear nowhere
+  in `data/locations.json` and nowhere on a county page. Each page carries a
+  marked placeholder block and a `LOCAL VERIFICATION REQUIRED` source comment.
+  Only stable public facts — circuit, county seat, which counties share the
+  circuit, which counties border it — are recorded, and those are what make
+  each page genuinely different.
+- **`areaServed` structured data is gated.** A county page emits it only if the
+  county slug appears in `site.servedCounties`, which is empty. Asserting a
+  service area the firm has not confirmed is both a Rule 4-7.13 problem and the
+  signal that turns a location page into a doorway page.
+
+`templates/location.html` documents the required section order and carries
+both rules as comments for whoever adds the next county.
 
 ## Getting started
 

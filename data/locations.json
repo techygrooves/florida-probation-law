@@ -1,0 +1,74 @@
+{
+  "_readme": "Verified, stable public facts about each county: which judicial circuit it sits in, the county seat, which other counties share that circuit, and which counties border it. These are what make each location page genuinely different from the others rather than boilerplate with a name swapped.",
+
+  "_excluded": "Deliberately NOT recorded here: courthouse names and addresses, judges, division assignments, filing procedures, local rules, hearing schedules or court policies. None of that could be verified from this environment, and inventing it on a legal site would be worse than omitting it. Each page carries a marked placeholder block for a person with local knowledge to fill in.",
+
+  "counties": [
+    {
+      "slug": "broward-county",
+      "name": "Broward County",
+      "seat": "Fort Lauderdale",
+      "circuit": "Seventeenth",
+      "circuitNumber": 17,
+      "circuitCounties": ["Broward"],
+      "region": "South Florida",
+      "borders": ["Miami-Dade", "Palm Beach", "Collier", "Hendry"],
+      "nearbyServed": ["miami-dade-county", "palm-beach-county"]
+    },
+    {
+      "slug": "miami-dade-county",
+      "name": "Miami-Dade County",
+      "seat": "Miami",
+      "circuit": "Eleventh",
+      "circuitNumber": 11,
+      "circuitCounties": ["Miami-Dade"],
+      "region": "South Florida",
+      "borders": ["Broward", "Monroe", "Collier"],
+      "nearbyServed": ["broward-county", "palm-beach-county"]
+    },
+    {
+      "slug": "palm-beach-county",
+      "name": "Palm Beach County",
+      "seat": "West Palm Beach",
+      "circuit": "Fifteenth",
+      "circuitNumber": 15,
+      "circuitCounties": ["Palm Beach"],
+      "region": "South Florida",
+      "borders": ["Broward", "Martin", "Hendry", "Glades", "Okeechobee"],
+      "nearbyServed": ["broward-county", "miami-dade-county"]
+    },
+    {
+      "slug": "orange-county",
+      "name": "Orange County",
+      "seat": "Orlando",
+      "circuit": "Ninth",
+      "circuitNumber": 9,
+      "circuitCounties": ["Orange", "Osceola"],
+      "region": "Central Florida",
+      "borders": ["Seminole", "Osceola", "Lake", "Brevard", "Volusia"],
+      "nearbyServed": ["hillsborough-county"]
+    },
+    {
+      "slug": "hillsborough-county",
+      "name": "Hillsborough County",
+      "seat": "Tampa",
+      "circuit": "Thirteenth",
+      "circuitNumber": 13,
+      "circuitCounties": ["Hillsborough"],
+      "region": "Tampa Bay",
+      "borders": ["Pinellas", "Pasco", "Polk", "Manatee"],
+      "nearbyServed": ["orange-county"]
+    },
+    {
+      "slug": "duval-county",
+      "name": "Duval County",
+      "seat": "Jacksonville",
+      "circuit": "Fourth",
+      "circuitNumber": 4,
+      "circuitCounties": ["Duval", "Clay", "Nassau"],
+      "region": "Northeast Florida",
+      "borders": ["Clay", "Nassau", "St. Johns", "Baker"],
+      "nearbyServed": []
+    }
+  ]
+}

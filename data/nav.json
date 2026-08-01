@@ -224,51 +224,56 @@
     {
       "label": "Locations",
       "href": "/locations/",
-      "title": "Florida Locations",
-      "description": "Counties across Florida where Hoffman Legal handles probation matters.",
-      "placeholder": true,
+      "title": "Florida Counties We Cover",
+      "description": "Early termination of probation is filed in the court that imposed the sentence, so local practice matters. The Florida counties covered so far, by region.",
+      "draft": true,
       "children": [
+        {
+          "label": "Overview",
+          "href": "/locations/",
+          "description": "All Florida counties covered."
+        },
         {
           "label": "Broward County",
           "href": "/locations/broward-county/",
-          "title": "Broward County Probation Attorney",
-          "description": "Probation matters in Broward County and the Seventeenth Judicial Circuit.",
-          "placeholder": true
+          "title": "Early Termination of Probation in Broward County",
+          "description": "Broward County sits alone in the Seventeenth Judicial Circuit. What that means for filing an early termination motion in Fort Lauderdale.",
+          "draft": true
         },
         {
           "label": "Miami-Dade County",
           "href": "/locations/miami-dade-county/",
-          "title": "Miami-Dade County Probation Attorney",
-          "description": "Probation matters in Miami-Dade County and the Eleventh Judicial Circuit.",
-          "placeholder": true
+          "title": "Early Termination of Probation in Miami-Dade County",
+          "description": "Miami-Dade is Florida's most populous county and its own judicial circuit. How that shapes an early termination request filed in Miami.",
+          "draft": true
         },
         {
           "label": "Palm Beach County",
           "href": "/locations/palm-beach-county/",
-          "title": "Palm Beach County Probation Attorney",
-          "description": "Probation matters in Palm Beach County and the Fifteenth Judicial Circuit.",
-          "placeholder": true
+          "title": "Early Termination of Probation in Palm Beach County",
+          "description": "Palm Beach County is geographically large and its own circuit. What that means for reporting, travel and filing in West Palm Beach.",
+          "draft": true
         },
         {
           "label": "Orange County",
           "href": "/locations/orange-county/",
-          "title": "Orange County Probation Attorney",
-          "description": "Probation matters in Orange County and the Ninth Judicial Circuit.",
-          "placeholder": true
+          "title": "Early Termination of Probation in Orange County",
+          "description": "Orange County shares the Ninth Judicial Circuit with Osceola. Why the county your sentence came from matters more than where you live.",
+          "draft": true
         },
         {
           "label": "Hillsborough County",
           "href": "/locations/hillsborough-county/",
-          "title": "Hillsborough County Probation Attorney",
-          "description": "Probation matters in Hillsborough County and the Thirteenth Judicial Circuit.",
-          "placeholder": true
+          "title": "Early Termination of Probation in Hillsborough County",
+          "description": "Hillsborough County is its own circuit at the centre of a four-county metro. What that means if you live in Pinellas, Pasco or Polk.",
+          "draft": true
         },
         {
           "label": "Duval County",
           "href": "/locations/duval-county/",
-          "title": "Duval County Probation Attorney",
-          "description": "Probation matters in Duval County and the Fourth Judicial Circuit.",
-          "placeholder": true
+          "title": "Early Termination of Probation in Duval County",
+          "description": "Duval shares the Fourth Judicial Circuit with Clay and Nassau. Which county your case belongs to, and why it is not always the one you live in.",
+          "draft": true
         },
         {
           "label": "All Locations",

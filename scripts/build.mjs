@@ -29,6 +29,7 @@ const readJSON = (p) => JSON.parse(read(p));
 
 const site = readJSON("data/site.json");
 const nav = readJSON("data/nav.json");
+const locations = readJSON("data/locations.json");
 
 const partials = {
   head: read("partials/head.html"),
@@ -318,6 +319,11 @@ function renderFooterFacts() {
 
 /* ---- breadcrumbs --------------------------------------------------------- */
 
+/**
+ * Visible breadcrumb trail plus the matching BreadcrumbList JSON-LD. Emitting
+ * both from one function keeps the markup and the structured data describing
+ * the same path — they cannot drift apart the way two hand-written copies can.
+ */
 function renderBreadcrumbs(route) {
   if (route.href === "/") return "";
 
@@ -327,16 +333,69 @@ function renderBreadcrumbs(route) {
   );
   if (parent) crumbs.push({ label: parent.label, href: parent.href });
 
+  const current = route.label || route.title;
   const items = crumbs
     .map((c) => `          <li class="breadcrumb-item"><a href="${c.href}">${esc(c.label)}</a></li>`)
     .join("\n");
 
+  const origin = site.url.replace(/\/$/, "");
+  const jsonld = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [...crumbs, { label: current, href: route.href }].map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.label,
+      item: origin + c.href,
+    })),
+  };
+
   return `      <nav class="breadcrumbs" aria-label="Breadcrumb">
         <ol>
 ${items}
-          <li class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">${esc(route.label || route.title)}</span></li>
+          <li class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">${esc(current)}</span></li>
         </ol>
-      </nav>`;
+      </nav>
+      <script type="application/ld+json">
+${JSON.stringify(jsonld, null, 2)}
+      </script>`;
+}
+
+/* ---- county structured data ---------------------------------------------
+ * A county page describes a place; it does not by itself establish that the
+ * firm practises there. areaServed is therefore emitted only for counties
+ * Hoffman Legal has confirmed in site.servedCounties, which is empty until
+ * they say otherwise. Claiming a service area that has not been confirmed is
+ * both a Rule 4-7.13 problem and the signal that turns a location page into a
+ * doorway page.
+ * ------------------------------------------------------------------------ */
+
+function renderLocationJsonLd(route) {
+  const county = locations.counties.find((c) => route.href === `/locations/${c.slug}/`);
+  if (!county) return "";
+
+  const served = (site.servedCounties || []).includes(county.slug);
+  if (!served) {
+    return `      <!-- areaServed structured data withheld: "${county.slug}" is not listed in
+           site.servedCounties, so the firm has not confirmed it accepts matters
+           in this county. Add the slug there to emit it. -->`;
+  }
+
+  const jsonld = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    name: site.firm,
+    url: site.url.replace(/\/$/, "") + route.href,
+    areaServed: {
+      "@type": "AdministrativeArea",
+      name: county.name,
+      containedInPlace: { "@type": "State", name: "Florida" },
+    },
+  };
+  // Address and telephone are omitted deliberately while they are placeholders.
+  return `      <script type="application/ld+json">
+${JSON.stringify(jsonld, null, 2)}
+      </script>`;
 }
 
 /* ---- table of contents --------------------------------------------------
@@ -503,6 +562,7 @@ function regionsFor(route, ctx, source) {
     // Depend on the page's own content, so they are derived from `source`.
     toc: renderToc(source),
     siblings: renderSiblings(route),
+    "location-jsonld": renderLocationJsonLd(route),
     sitemap: route.href === "/sitemap/" ? renderSitemap() : null,
   };
 }
@@ -525,6 +585,7 @@ const templates = {
   page: read("templates/page.html"),
   sitemap: read("templates/sitemap.html"),
   interior: read("templates/interior.html"),
+  location: read("templates/location.html"),
 };
 
 /**
@@ -534,6 +595,8 @@ const templates = {
  */
 const templateFor = (route) => {
   if (route.href === "/sitemap/") return templates.sitemap;
+  // County pages carry sections the generic interior template does not.
+  if (/^\/locations\/.+\//.test(route.href)) return templates.location;
   const inCluster = nav.primary.some(
     (p) => p.children && p.href !== "/" && route.href.startsWith(p.href)
   );

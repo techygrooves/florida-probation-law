@@ -11,6 +11,9 @@
 
   "disclosure": "FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal.",
 
+  "servedCounties": [],
+  "_servedCounties": "TODO: county slugs Hoffman Legal has confirmed it accepts matters in, e.g. [\"broward-county\"]. Until a county is listed here, its page emits NO areaServed structured data — asserting a service area the firm has not confirmed would be a Fla. Bar Rule 4-7.13 problem as well as a doorway-page signal. Location pages exist and are readable regardless; only the machine-readable claim is gated.",
+
   "phone": {
     "display": "(000) 000-0000",
     "tel": "",
