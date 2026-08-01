@@ -510,7 +510,14 @@ function renderSitemap() {
     .filter((p) => p.children)
     .map((p) => {
       const links = p.children
-        .map((c) => `          <li><a class="btn-link" href="${c.href}">${esc(c.label)}</a></li>`)
+        .map((c) => {
+          /* Seven sections each labelled their index "Overview" reads fine
+             under its heading and uselessly in a screen reader's list of
+             links, where the headings are gone. The section name is right
+             here, so qualify it. */
+          const label = c.href === p.href ? `${p.label} overview` : c.label;
+          return `          <li><a class="btn-link" href="${c.href}">${esc(label)}</a></li>`;
+        })
         .join("\n");
       return `      <div>
         <h2 class="h4">${esc(p.label)}</h2>

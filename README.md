@@ -85,14 +85,23 @@ npm run serve     # http://127.0.0.1:8000
 | `npm run build` | Full build: HTML, CSS, then every check |
 | `npm run build:html` | Stitch shared regions, scaffold new routes, write `sitemap.xml`, `robots.txt`, `_redirects` |
 | `npm run build:css` | Tailwind CLI → `css/styles.css`, minified |
+| `npm run build:production` | Same, with no base path — for the site's own domain |
 | `npm run dev` | CSS in watch mode |
-| `npm run check` | CI gate: pages in sync with partials, contrast, SEO, links |
+| `npm run check` | CI gate: lint, sync, contrast, SEO, links, content |
+| `npm run lint` | Scripts parse, data keys present, managed regions balanced |
 | `npm run check:contrast` | Every colour pair against WCAG 2.2 AA |
 | `npm run check:seo` | Metadata, structured data and page semantics |
 | `npm run check:links` | Internal linking: broken links, orphans, type coverage |
+| `npm run check:content` | Bar-rule content compliance and doorway-page overlap |
 | `npm run check:placeholders` | Reports outstanding firm details and empty routes |
 | `npm run check:launch` | Same, but **fails** — run before going live |
+| `npm run audit` | Responsive + accessibility, in a real browser (needs `npm run serve`) |
 | `npm run serve` | Preview server, mounted at the configured base path |
+
+The `audit:*` scripts drive Chromium through Playwright and are opt-in: they
+need a preview server running and a browser installed
+(`npx playwright install chromium`). Everything in `check` and `build` is
+dependency-free Node and runs anywhere.
 
 Serve over HTTP rather than opening files directly — browsers block
 `@font-face` over `file://`. Use `npm run serve` rather than a plain static
@@ -252,6 +261,30 @@ with all 20 required type-to-type paths present.
 Permanently-`noindex` routes are exempt from the orphan check — `/thank-you/`
 is reached after a submission, not from a link.
 
+## Quality gates
+
+Six checks run on every build, and two audits run on demand. They exist
+because this is a site nobody can eyeball in full: 48 pages × 6 viewports is
+288 layouts, and a Bar-rule problem is one borrowed sentence.
+
+| Check | What it proves |
+| --- | --- |
+| `lint` | Scripts parse, data files carry the keys the build reads, managed regions are balanced |
+| `check:contrast` | All 39 colour pairs meet their WCAG 2.2 AA threshold |
+| `check:seo` | Unique metadata, valid schema, no forbidden claims, one `h1`, no heading skips |
+| `check:links` | No broken internal links, no unintended orphans, all 20 required type-to-type paths present |
+| `check:content` | No guarantees, superlatives, fabricated statistics, fake credentials, testimonials, leaked placeholders, unrelated practice areas, or firm-name variants — and county pages below the doorway-page overlap threshold |
+| `check:placeholders` | Lists every outstanding firm detail; `check:launch` fails on them |
+| `audit:responsive` | 48 routes at 320/390/768/1024/1440/1920: no horizontal scroll, no text overflow, no oversized headings, no undersized tap targets |
+| `audit:a11y` | Tab order, focus visibility against real backgrounds, menu and accordion keyboard operation, form error association, reduced-motion compliance |
+
+`check:content` handles negation at sentence level, because pages here
+legitimately say "used as a promise … it is wrong" and "be wary of a promised
+timeframe". A regex that flagged those would be turned off within a week. The
+styleguide is exempt from the copy rules and not from the identity rules: its
+job is to render the empty states, including the testimonial placeholder that
+exists so no fake one is ever needed.
+
 ### Content-review markers
 
 Statements that need verification against current Florida law carry a source
@@ -277,8 +310,8 @@ css/styles.css    generated and committed, so the site renders with no tooling
 js/main.js        ~2 KB: mobile panel, desktop dropdowns. Enhancement only
 fonts/            self-hosted, latin subset (92 KB total)
 styleguide/       every reusable style, rendered. noindex, not part of the site
-scripts/          build and pre-launch checks
-docs/             implementation plan
+scripts/          build, quality gates, and the two browser audits
+docs/             implementation plan, launch checklist
 ```
 
 `css/styles.css` is generated. Edit `src/input.css` and rebuild — never edit
@@ -306,6 +339,20 @@ currently pass.
 Interactive controls are at least 44 px tall, focus is always visible,
 accordions are native `<details>` elements, and the whole system works with
 JavaScript disabled.
+
+`npm run audit:a11y` verifies the parts a stylesheet cannot: that Tab reaches
+what it should, that the focus ring clears 3:1 against whatever it actually
+lands on (azure on the white page, a lighter ring inside navy sections), that
+the dropdowns and the mobile panel respond to Enter and Escape and return
+focus, that the FAQ accordions still toggle with JavaScript switched off, and
+that a failed form submit marks each field `aria-invalid` and points
+`aria-describedby` at its message — the live region announces the error as it
+appears, but a field reached later has to describe itself.
+
+The comparison table on `/florida-probation-law/948-04-vs-948-05/` scrolls
+horizontally on a phone, so it carries `tabindex="0"` and `role="region"` with
+its caption as the accessible name. A scrollable box that is not focusable can
+be reached by a mouse and a finger and by nothing else (SC 2.1.1).
 
 ## Ground rules
 

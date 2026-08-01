@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="/florida-probation-law/css/styles.css">
 <link rel="preload" href="/florida-probation-law/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/florida-probation-law/fonts/source-serif-4-latin-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/florida-probation-law/fonts/source-serif-4-latin-700.woff2" as="font" type="font/woff2" crossorigin>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Florida Probation Law">
 <meta property="og:title" content="Florida Statute 948.04 Compared With 948.05">
@@ -450,9 +451,14 @@
         </p>
       </div>
 
-      <div class="table-scroll" style="margin-top:1.5rem">
+      <!-- The table is wider than a phone, so this scrolls. A scrollable region
+           has to be operable from the keyboard (WCAG SC 2.1.1), which means it
+           needs to be focusable and named — a div with overflow-x alone can be
+           scrolled by a mouse or a finger and by nothing else. -->
+      <div class="table-scroll" style="margin-top:1.5rem" tabindex="0" role="region"
+           aria-labelledby="compare-table-caption">
         <table class="compare-table">
-          <caption class="sr-only">
+          <caption class="sr-only" id="compare-table-caption">
             General comparison of Florida Statutes sections 948.04 and 948.05.
             Pending attorney review.
           </caption>

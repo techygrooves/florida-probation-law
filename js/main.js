@@ -169,16 +169,38 @@
       return fieldLabel(field) + " is not valid";
     }
 
+    /* The error text lives in a live region, so it is announced as it appears.
+       That covers the moment of failure but not afterwards: a field reached
+       later — by Tab, or from the error summary — describes itself from
+       aria-describedby, so the message has to be referenced there too. Any
+       existing hint id is kept; the error is appended and removed around it. */
+    function describedBy(field, errorId, present) {
+      var ids = (field.getAttribute("aria-describedby") || "")
+        .split(/\s+/)
+        .filter(function (id) {
+          return id && id !== errorId;
+        });
+      if (present) ids.push(errorId);
+      if (ids.length) field.setAttribute("aria-describedby", ids.join(" "));
+      else field.removeAttribute("aria-describedby");
+    }
+
     function clearError(field) {
       field.removeAttribute("aria-invalid");
       var note = document.getElementById(field.id + "-error");
-      if (note) note.textContent = "";
+      if (note) {
+        note.textContent = "";
+        describedBy(field, note.id, false);
+      }
     }
 
     function showError(field, message) {
       field.setAttribute("aria-invalid", "true");
       var note = document.getElementById(field.id + "-error");
-      if (note) note.textContent = message;
+      if (note) {
+        note.textContent = message;
+        describedBy(field, note.id, true);
+      }
     }
 
     // Clear a field's error as soon as it becomes valid, so the form stops
