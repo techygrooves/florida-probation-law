@@ -20,6 +20,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, relative } from "node:path";
+import { buildSchema, buildRobotsTxt, buildSitemap, buildTitle } from "./seo.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
@@ -121,6 +122,9 @@ function addRoute(item, section) {
     href: item.href,
     label: item.label,
     title: item.title || item.label,
+    // Optional override for the <title> tag where the H1 is too long to serve
+    // as one. See buildTitle() in scripts/seo.mjs.
+    titleTag: item.titleTag || "",
     description: item.description || "",
     placeholder: item.placeholder === true,
     draft: item.draft === true,
@@ -323,45 +327,37 @@ function renderFooterFacts() {
 /* ---- breadcrumbs --------------------------------------------------------- */
 
 /**
- * Visible breadcrumb trail plus the matching BreadcrumbList JSON-LD. Emitting
- * both from one function keeps the markup and the structured data describing
- * the same path — they cannot drift apart the way two hand-written copies can.
+ * The route's trail through the navigation. Used for both the visible
+ * breadcrumbs and the BreadcrumbList node in the head's schema graph, so the
+ * two describe the same path by construction.
  */
-function renderBreadcrumbs(route) {
-  if (route.href === "/") return "";
-
+function crumbsFor(route) {
+  if (route.href === "/") return [];
   const crumbs = [{ label: "Home", href: "/" }];
   const parent = nav.primary.find(
     (p) => p.href !== "/" && p.href !== route.href && route.href.startsWith(p.href)
   );
   if (parent) crumbs.push({ label: parent.label, href: parent.href });
+  crumbs.push({ label: route.label || route.title, href: route.href });
+  return crumbs;
+}
 
-  const current = route.label || route.title;
+function renderBreadcrumbs(route) {
+  const crumbs = crumbsFor(route);
+  if (!crumbs.length) return "";
+
   const items = crumbs
+    .slice(0, -1)
     .map((c) => `          <li class="breadcrumb-item"><a href="${c.href}">${esc(c.label)}</a></li>`)
     .join("\n");
-
-  const origin = site.url.replace(/\/$/, "");
-  const jsonld = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [...crumbs, { label: current, href: route.href }].map((c, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: c.label,
-      item: origin + c.href,
-    })),
-  };
+  const current = crumbs[crumbs.length - 1].label;
 
   return `      <nav class="breadcrumbs" aria-label="Breadcrumb">
         <ol>
 ${items}
           <li class="breadcrumb-item"><span class="breadcrumb-current" aria-current="page">${esc(current)}</span></li>
         </ol>
-      </nav>
-      <script type="application/ld+json">
-${JSON.stringify(jsonld, null, 2)}
-      </script>`;
+      </nav>`;
 }
 
 /* ---- county structured data ---------------------------------------------
@@ -495,7 +491,16 @@ function renderFormSubmit() {
           </div>
         </div>`;
   }
-  return `        <button class="btn btn-primary btn-lg btn-block" type="submit">Send for review</button>`;
+  // The redirect target rides with the submission so the visitor lands on
+  // /thank-you/ rather than on whatever the endpoint renders. Emitted only
+  // alongside a real endpoint, since on its own it does nothing.
+  const redirect = site.formRedirect
+    ? `        <input type="hidden" name="${esc(site.formRedirectField || "_next")}" value="${esc(
+        site.url.replace(/\/$/, "") + site.formRedirect
+      )}">\n`
+    : "";
+
+  return `${redirect}        <button class="btn btn-primary btn-lg btn-block" type="submit">Send for review</button>`;
 }
 
 /* ---- HTML sitemap -------------------------------------------------------- */
@@ -552,8 +557,7 @@ function render(tpl, ctx) {
 
 function contextFor(route) {
   const canonical = site.url.replace(/\/$/, "") + route.href;
-  const titleTag =
-    route.href === "/" ? `${route.title} | ${site.firm}` : `${route.title} | ${site.siteName}`;
+  const titleTag = buildTitle({ route, site });
 
   return {
     site: { ...site, attributionLine: `${site.siteName} is operated by ${site.firm}.` },
@@ -582,8 +586,18 @@ function contextFor(route) {
 }
 
 function regionsFor(route, ctx, source) {
+  // Schema depends on the page's own markup (FAQs are read from it), so it is
+  // built here where the canonical source is available and injected into head.
+  const schema = buildSchema({
+    site,
+    route: { ...route, crumbs: crumbsFor(route) },
+    source,
+    origin: site.url.replace(/\/$/, ""),
+  });
+  const ctxWithSchema = { ...ctx, page: { ...ctx.page, schema } };
+
   return {
-    head: render(partials.head, ctx),
+    head: render(partials.head, ctxWithSchema),
     header: render(partials.header, ctx),
     footer: render(partials.footer, ctx),
     "call-bar": render(partials["call-bar"], ctx),
@@ -694,13 +708,29 @@ const indexable = [...routes.values()].filter(
   (r) => !r.placeholder && !r.draft && !r.noindex
 );
 
+const origin = site.url.replace(/\/$/, "");
+
 if (!CHECK) {
-  const urls = indexable
-    .map((r) => `  <url><loc>${site.url.replace(/\/$/, "")}${r.href}</loc></url>`)
+  writeFileSync(join(ROOT, "sitemap.xml"), buildSitemap({ origin, routes: indexable }));
+
+  writeFileSync(
+    join(ROOT, "robots.txt"),
+    buildRobotsTxt({ site, origin, indexableCount: indexable.length })
+  );
+
+  /* Redirects for the URL changes made during the build. Emitted in the
+     Netlify/Cloudflare `_redirects` format. GitHub Pages ignores this file —
+     which is acceptable here only because none of the old URLs was ever
+     indexed, so there is no link equity to preserve. On a host that does
+     support it, these apply automatically. */
+  const redirects = readJSON("data/redirects.json");
+  const rules = redirects.rules
+    .map((r) => `${r.from.padEnd(52)} ${r.to} 301`)
     .join("\n");
   writeFileSync(
-    join(ROOT, "sitemap.xml"),
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
+    join(ROOT, "_redirects"),
+    `# Generated by scripts/build.mjs from data/redirects.json — do not edit.\n` +
+      `# ${redirects._note}\n\n${rules}\n`
   );
 }
 
