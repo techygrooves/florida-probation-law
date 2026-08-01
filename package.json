@@ -5,12 +5,14 @@
   "description": "FloridaProbationLaw.com — static site for Hoffman Legal",
   "type": "module",
   "scripts": {
-    "build": "npm run build:html && npm run build:css && npm run check:contrast && npm run check:placeholders",
+    "build": "npm run build:html && npm run build:css && npm run check:contrast && npm run check:seo && npm run check:links && npm run check:placeholders",
     "build:html": "node scripts/build.mjs",
     "build:css": "tailwindcss -i ./src/input.css -o ./css/styles.css --minify",
     "dev": "tailwindcss -i ./src/input.css -o ./css/styles.css --watch",
-    "check": "node scripts/build.mjs --check && npm run check:contrast",
+    "check": "node scripts/build.mjs --check && npm run check:contrast && npm run check:seo && npm run check:links",
     "check:contrast": "node scripts/check-contrast.mjs",
+    "check:seo": "node scripts/check-seo.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "check:placeholders": "node scripts/check-placeholders.mjs",
     "check:launch": "node scripts/check-placeholders.mjs --strict",
     "serve": "node scripts/serve.mjs"

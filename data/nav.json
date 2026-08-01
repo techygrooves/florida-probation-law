@@ -6,6 +6,7 @@
       "label": "Home",
       "href": "/",
       "title": "Early Termination of Probation Attorneys in Florida",
+      "titleTag": "Early Termination of Probation in Florida | Hoffman Legal",
       "description": "Hoffman Legal helps eligible people in Florida seek early termination, modification or conversion of probation. Request a consultation to review your eligibility.",
       "draft": true
     },
@@ -111,7 +112,7 @@
       "label": "Probation Services",
       "href": "/probation-services/",
       "title": "Florida Probation Services",
-      "description": "Probation matters handled by Hoffman Legal: administrative probation, modification of conditions, travel, relocation, interstate transfer, community control and violations.",
+      "description": "Probation matters handled by Hoffman Legal: administrative probation, changes to conditions, travel, relocation, transfer, community control and violations.",
       "draft": true,
       "children": [
         {
@@ -349,7 +350,7 @@
       "label": "Terms of Use",
       "href": "/terms-of-use/",
       "title": "Terms of Use",
-      "description": "Terms governing use of FloridaProbationLaw.com.",
+      "description": "The terms that govern use of FloridaProbationLaw.com, including the limits of the information published here and the absence of any attorney-client relationship.",
       "draft": true
     },
     {
@@ -370,7 +371,7 @@
       "label": "HTML Sitemap",
       "href": "/sitemap/",
       "title": "Sitemap",
-      "description": "Every page on FloridaProbationLaw.com.",
+      "description": "A complete index of FloridaProbationLaw.com: early termination, the court process, Florida probation law, probation services, county pages and contact routes.",
       "draft": true
     }
   ],
@@ -424,14 +425,14 @@
       "label": "Eligibility Assessment",
       "href": "/probation-eligibility-assessment/",
       "title": "Probation Eligibility Assessment",
-      "description": "Send us the details of your Florida probation sentence and we will tell you whether an early termination motion is worth filing. No determination is made by this form.",
+      "description": "Send the details of your Florida probation sentence for review. This form makes no eligibility determination — an attorney must read the case first.",
       "draft": true
     },
     {
       "label": "Thank You",
       "href": "/thank-you/",
       "title": "Thank You",
-      "description": "We have received your case information.",
+      "description": "Your case information has reached Hoffman Legal. An attorney must review it before any eligibility determination can be made, and we will be in touch.",
       "draft": true,
       "noindex": true
     }

@@ -35,6 +35,13 @@ nothing typed would reach the firm — a form that silently discards a
 prospective client's case details is worse than one that says it is not ready.
 Setting `formEndpoint` flips both forms to a live submit on the next build.
 
+A successful submission is routed to `/thank-you/` by a hidden field carrying
+`site.formRedirect`, emitted only alongside a real endpoint. `formRedirectField`
+is the parameter name the endpoint reads — `_next` suits Formspree and Basin;
+set it to whatever a first-party endpoint expects, or the visitor lands on the
+endpoint's own response page instead. `/thank-you/` is permanently `noindex`,
+independent of the draft gate.
+
 Validation in `js/main.js` is progressive enhancement: it sets `aria-invalid`,
 renders inline errors tied to each field, and focuses a summary of failures.
 Every rule must also be enforced server-side when an endpoint is added —
@@ -75,12 +82,14 @@ npm run serve     # http://127.0.0.1:8000
 
 | Script | What it does |
 | --- | --- |
-| `npm run build` | Full build: HTML, CSS, then both checks |
-| `npm run build:html` | Stitch shared regions, scaffold new routes, write `sitemap.xml` |
+| `npm run build` | Full build: HTML, CSS, then every check |
+| `npm run build:html` | Stitch shared regions, scaffold new routes, write `sitemap.xml`, `robots.txt`, `_redirects` |
 | `npm run build:css` | Tailwind CLI → `css/styles.css`, minified |
 | `npm run dev` | CSS in watch mode |
-| `npm run check` | CI gate: pages in sync with partials, contrast passes |
+| `npm run check` | CI gate: pages in sync with partials, contrast, SEO, links |
 | `npm run check:contrast` | Every colour pair against WCAG 2.2 AA |
+| `npm run check:seo` | Metadata, structured data and page semantics |
+| `npm run check:links` | Internal linking: broken links, orphans, type coverage |
 | `npm run check:placeholders` | Reports outstanding firm details and empty routes |
 | `npm run check:launch` | Same, but **fails** — run before going live |
 | `npm run serve` | Preview server, mounted at the configured base path |
@@ -170,6 +179,79 @@ exclusion from `sitemap.xml`:
 
 Remove the flag to publish. `npm run check:launch` fails while any remain.
 
+## SEO and structured data
+
+No page carries a hand-written meta tag or a hand-written JSON-LD block.
+`scripts/seo.mjs` generates all of it from the route record in `data/nav.json`
+and injects it through `partials/head.html`, which means a page cannot disagree
+with its own metadata.
+
+Every page gets: `<title>`, meta description, absolute canonical, robots
+directive, five Open Graph tags, three Twitter tags, and one JSON-LD `@graph`.
+
+### What the schema asserts
+
+The graph is deliberately small, because every node is a claim someone could
+rely on:
+
+| Node | Emitted |
+| --- | --- |
+| `LegalService` | Always — one organisation, `@id`-referenced from every page |
+| `WebSite` | Always |
+| `WebPage` | Always, linked to its `BreadcrumbList` |
+| `BreadcrumbList` | Every page except the homepage |
+| `FAQPage` | Only where the page has two or more real `<details class="faq-item">` blocks |
+| `Attorney` | Only once `site.attorney.name` is filled in |
+| `Article` | Blog posts only, and without an `author` until a real one exists |
+
+And what is never emitted, enforced by `check:seo`:
+
+- **No `review` or `aggregateRating`.** There are no verified reviews to cite.
+- **No `address` or `telephone`** while those are placeholders in `site.json` —
+  a consumer would treat a placeholder as real.
+- **No `LocalBusiness`, anywhere.** In particular, a county page emits the same
+  root-level `LegalService` every other page does. It does not describe a local
+  office, because there isn't one. County `areaServed` is separately gated on
+  `site.servedCounties` (see [Location pages](#location-pages)).
+- **No FAQ that isn't on the page.** FAQ entries are parsed out of the page's
+  own rendered markup, so marking marketing copy as an FAQ is not possible by
+  construction, and schema drifting from visible content is not either.
+
+### Titles
+
+A page's `<h1>` and its `<title>` serve different surfaces. Appending
+` | Florida Probation Law` costs 24 of the ~60 characters a result listing
+shows, which pushed the descriptive titles this site depends on past the limit.
+`buildTitle()` adds the brand suffix only when the result still fits, and drops
+it otherwise — the brand is the least valuable part of a title. A route may set
+`titleTag` in `nav.json` to override both; the homepage does.
+
+### Generated files
+
+| File | Notes |
+| --- | --- |
+| `sitemap.xml` | Publishable routes only. Currently none, so it carries an explanatory comment rather than a bare `urlset`. |
+| `robots.txt` | Crawling stays **allowed** while everything is `noindex` — a crawler has to fetch a page to read that directive, so disallowing here would leave pages indexable on inbound links alone. `/styleguide/` is disallowed. |
+| `_redirects` | Generated from `data/redirects.json`, in Netlify/Cloudflare format. **GitHub Pages ignores it.** Acceptable only because nothing was ever indexed; specific rules must stay above their wildcards, since first match wins. |
+
+Both `robots.txt` and `sitemap.xml` are written to the repository root, which
+serves them at the domain root on the production host. On the current GitHub
+Pages project deploy they sit under `/florida-probation-law/` where crawlers do
+not look for them — another reason nothing should be indexed until the site
+moves to its own domain.
+
+### Internal linking
+
+`npm run check:links` builds a link graph and fails on broken internal links,
+orphaned pages, or a missing path between page types. It counts only links in
+page body copy: header, footer, breadcrumbs, contents, sibling navigation and
+the shared CTA are generated on every page, so counting them would score any
+site 100% and prove nothing. Currently 315 contextual links across 48 pages,
+with all 20 required type-to-type paths present.
+
+Permanently-`noindex` routes are exempt from the orphan check — `/thank-you/`
+is reached after a submission, not from a link.
+
 ### Content-review markers
 
 Statements that need verification against current Florida law carry a source
@@ -187,6 +269,7 @@ on the page in a `.review-notice` block rather than left in the source.
 ```
 data/site.json    firm details — one source of truth, seeded with TODOs
 data/nav.json     site structure; drives nav, footer, sitemap, page scaffolding
+data/redirects.json  URL changes made during the build → _redirects
 partials/         shared chrome: head, header, footer, call bar
 templates/        scaffolds for newly created pages
 src/input.css     design tokens + component classes — the styling source of truth

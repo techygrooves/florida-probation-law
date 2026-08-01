@@ -1,0 +1,13 @@
+# FloridaProbationLaw.com
+
+# Pre-launch: every page currently carries `noindex` in its markup while
+# content awaits review by a Florida attorney. Crawling is deliberately
+# left open so that directive can actually be read.
+
+User-agent: *
+Allow: /
+
+# Internal design reference, not part of the public site.
+Disallow: /styleguide/
+
+Sitemap: https://floridaprobationlaw.com/sitemap.xml

@@ -1,0 +1,25 @@
+{
+  "_note": "URL changes made while the site was being built. None of these old paths was ever indexed — the site has carried noindex throughout — so no link equity is at stake. They are recorded anyway because someone may have bookmarked a preview URL, and because a redirect map is far easier to keep than to reconstruct later.",
+
+  "_hosting": "Emitted to /_redirects, which Netlify and Cloudflare Pages apply automatically. GitHub Pages ignores it: a project site cannot serve 301s without a build step in front of it. If the site stays on GitHub Pages and any of these paths turns out to matter, the options are a redirecting HTML stub per path or moving to a host with redirect support.",
+
+  "_order": "First match wins, so a wildcard must come after every specific rule that shares its prefix — otherwise the wildcard swallows them and the renamed slugs never reach their new URLs. Keep specifics above their splat.",
+
+  "rules": [
+    { "from": "/early-termination/eligibility-requirements/", "to": "/early-termination-of-probation/eligibility/" },
+    { "from": "/early-termination/florida-50-percent-rule/", "to": "/early-termination-of-probation/50-percent-rule/" },
+    { "from": "/early-termination/faq/", "to": "/early-termination-of-probation/faqs/" },
+    { "from": "/early-termination/*", "to": "/early-termination-of-probation/:splat" },
+
+    { "from": "/florida-law/probation-law-guide/", "to": "/florida-probation-law/" },
+    { "from": "/florida-law/probation-glossary/", "to": "/florida-probation-law/glossary/" },
+    { "from": "/florida-law/*", "to": "/florida-probation-law/:splat" },
+
+    { "from": "/probation-services/community-control/", "to": "/probation-services/community-control-termination/" },
+
+    { "from": "/legal/privacy-policy/", "to": "/privacy-policy/" },
+    { "from": "/legal/terms-of-use/", "to": "/terms-of-use/" },
+    { "from": "/legal/disclaimer/", "to": "/legal-disclaimer/" },
+    { "from": "/legal/accessibility/", "to": "/accessibility/" }
+  ]
+}
