@@ -242,9 +242,23 @@
       // Spam preparation. A bot that POSTs directly never runs this file, so
       // blocking client-side on elapsed time only ever penalises fast humans.
       // The time is recorded for the server to weigh instead; the honeypot is
-      // also re-checked server-side. Neither replaces server-side filtering.
+      // named _gotcha, which the form service filters on. Neither of these is
+      // a substitute for server-side filtering.
       var elapsed = form.querySelector("[data-elapsed]");
       if (elapsed) elapsed.value = String(Date.now() - startedAt);
+
+      // The post-submit redirect is built at build time as the production URL,
+      // which is right on the live domain and wrong anywhere else — a test
+      // submission from a preview deploy would bounce the visitor to a domain
+      // that may not resolve. Point it at the origin actually being browsed.
+      // With this script absent the build-time production URL stands, which is
+      // the correct fallback.
+      var redirect = form.querySelector("[data-redirect-path]");
+      if (redirect) {
+        var path = redirect.getAttribute("data-redirect-path");
+        var base = redirect.getAttribute("data-redirect-base") || "";
+        redirect.value = window.location.origin + base + path;
+      }
 
       var honeypot = form.querySelector("[data-honeypot]");
       if (honeypot && honeypot.value) {

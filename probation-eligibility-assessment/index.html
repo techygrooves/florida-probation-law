@@ -482,7 +482,7 @@
 
       <div style="margin-top:2.5rem">
       <!-- @include:form-open -->
-      <form class="stack form-stack" data-validate novalidate>
+      <form class="stack form-stack" data-validate novalidate action="https://formspree.io/f/mqpzkkqg" method="post">
 <!-- @end:form-open -->
 
         <div class="form-errors" hidden role="alert" aria-labelledby="form-errors-title">
@@ -678,25 +678,18 @@
              must be added with the endpoint. -->
         <div class="honeypot" aria-hidden="true">
           <label for="company">Company</label>
-          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" data-honeypot>
+          <input id="company" name="_gotcha" type="text" tabindex="-1" autocomplete="off" data-honeypot>
           <input type="hidden" name="elapsed_ms" value="" data-elapsed>
         </div>
 
         <div>
           <!-- @include:form-submit -->
-        <div class="form-unavailable">
-          <svg class="callout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3l9-16z"/><path d="M12 10v4M12 17h.01"/></svg>
-          <div>
-            <p class="callout-title">This form is not connected yet</p>
-            <p>
-              Online submission is not live on this site, so nothing typed above
-              would reach Hoffman Legal. We would rather tell you that than
-              take your case details and lose them. Call <a href="tel:+19544594236">(954) 459-4236</a> — telephone
-              enquiries are accepted 24/7 — or email
-              <a href="mailto:david@hoffman.legal">david@hoffman.legal</a>.
-            </p>
-          </div>
-        </div>
+        <input type="hidden" name="_subject" value="FloridaProbationLaw.com enquiry">
+        <input type="hidden" name="_next"
+               value="https://floridaprobationlaw.com/thank-you/"
+               data-redirect-path="/thank-you/"
+               data-redirect-base="/florida-probation-law">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Send for Attorney Review</button>
 <!-- @end:form-submit -->
           <p class="disclaimer disclaimer-inline" style="margin-top:.875rem">
             No eligibility determination is made by submitting this form. An

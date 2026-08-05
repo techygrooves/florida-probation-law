@@ -1248,24 +1248,156 @@
   </section>
 
   <!-- =================================================================
-       12. Final consultation section
+       12. Free consultation form
        ================================================================= -->
-  <section class="section-sm section-navy on-navy" aria-labelledby="cta">
+  <section class="section section-mist" aria-labelledby="consultation">
     <div class="container-page">
-      <div class="cta-split">
-        <div style="max-width:38rem">
-          <p class="eyebrow eyebrow-on-navy">Next step</p>
-          <h2 class="h3" id="cta" style="margin-top:.625rem">Find out whether your case qualifies</h2>
-          <p style="margin-top:.75rem;color:var(--color-navy-100);font-size:.9375rem;line-height:1.65">
-            Tell us the county, the offense and roughly how much of the term is
-            served. We will tell you whether an early termination motion is
-            worth filing now, later, or not at all.
+      <div class="section-heading heading-rule">
+        <p class="eyebrow">Next step</p>
+        <h2 class="h2" id="consultation">Request a free consultation</h2>
+        <p class="lede">
+          Tell us the county, the offense and roughly how much of the term is
+          served. Attorney David Hoffman reviews what you send and tells you
+          whether an early termination motion is worth filing now, later, or
+          not at all.
+        </p>
+      </div>
+
+      <div class="split-grid" style="margin-top:2.5rem;align-items:start">
+
+        <div>
+          <h3 class="h4">Or call, any hour</h3>
+          <p class="text-body" style="margin-top:.75rem;max-width:34rem">
+            Telephone enquiries are accepted 24/7 and the initial consultation
+            is free. If you believe a violation warrant may have been issued,
+            call rather than write — the options available before an arrest are
+            wider than the ones available after it.
+          </p>
+
+          <div class="btn-group" style="margin-top:1.5rem">
+            <a class="btn btn-primary btn-lg" href="tel:+19544594236">Call (954) 459-4236</a>
+          </div>
+
+          <ul class="checklist" style="margin-top:2rem;grid-template-columns:1fr">
+            <li>
+              <svg class="checklist-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>
+              <span>Free initial consultation</span>
+            </li>
+            <li>
+              <svg class="checklist-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>
+              <span>Telephone enquiries accepted 24/7</span>
+            </li>
+            <li>
+              <svg class="checklist-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-8"/></svg>
+              <span>Based in Dania Beach; Broward, Miami-Dade and Palm Beach counties</span>
+            </li>
+          </ul>
+
+          <p class="text-muted" style="margin-top:1.5rem;max-width:34rem">
+            Already have your sentencing documents to hand? The
+            <a href="/florida-probation-law/probation-eligibility-assessment/">full eligibility assessment</a>
+            asks the questions we would otherwise have to come back for.
           </p>
         </div>
-        <div class="btn-group">
-          <a class="btn btn-on-navy btn-lg" href="/florida-probation-law/contact/">Request a Consultation</a>
-          <a class="btn btn-ghost-on-navy btn-lg" href="/florida-probation-law/early-termination-of-probation/eligibility/">Check Your Eligibility</a>
+
+        <div class="form-panel">
+          <div class="disclaimer" style="margin-bottom:1.25rem">
+            <p class="disclaimer-title">Before you send this form</p>
+            <p>
+              Submitting this form does not create an attorney-client
+              relationship, and what you send is not confidential until one
+              exists. Please give enough to identify the matter and no more.
+              Representation begins only after Hoffman Legal confirms acceptance
+              in writing and a signed engagement agreement is completed.
+            </p>
+          </div>
+
+          <!-- @include:form-open -->
+      <form class="stack form-stack" data-validate novalidate action="https://formspree.io/f/mqpzkkqg" method="post">
+<!-- @end:form-open -->
+
+            <div class="form-errors" hidden role="alert" aria-labelledby="home-errors-title">
+              <p class="form-errors-title" id="home-errors-title">Please check the following</p>
+              <ul></ul>
+            </div>
+
+            <div class="field-row field-row-2">
+              <div class="field">
+                <label class="label label-required" for="h-name">Full name</label>
+                <input class="input" id="h-name" name="name" type="text" autocomplete="name" required>
+                <p class="field-error" id="h-name-error" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label class="label label-required" for="h-phone">Phone</label>
+                <input class="input" id="h-phone" name="phone" type="tel" autocomplete="tel" required>
+                <p class="field-error" id="h-phone-error" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label label-required" for="h-email">Email</label>
+              <input class="input" id="h-email" name="email" type="email" autocomplete="email" required>
+              <p class="field-error" id="h-email-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="label label-required" for="h-county">Florida county of sentencing</label>
+              <input class="input" id="h-county" name="county" type="text" required aria-describedby="h-county-hint">
+              <p class="field-hint" id="h-county-hint">The county that imposed the sentence, not where you live now.</p>
+              <p class="field-error" id="h-county-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="label label-required" for="h-goal">What are you asking about?</label>
+              <select class="select" id="h-goal" name="goal" required>
+                <option value="">Select one</option>
+                <option value="early-termination">Ending probation early</option>
+                <option value="administrative">Moving to non-reporting probation</option>
+                <option value="modification">Changing a condition of probation</option>
+                <option value="travel">Travel or relocation permission</option>
+                <option value="violation">A violation or possible warrant</option>
+                <option value="other">Something else</option>
+              </select>
+              <p class="field-error" id="h-goal-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="label" for="h-message">Anything else we should know? <span class="label-optional">(optional)</span></label>
+              <textarea class="textarea" id="h-message" name="message" rows="4" aria-describedby="h-message-hint"></textarea>
+              <p class="field-hint" id="h-message-hint">
+                A couple of sentences is enough — the sentence date and roughly
+                how much of the term is served are the most useful facts.
+              </p>
+            </div>
+
+            <label class="choice" for="h-consent">
+              <input class="choice-control" id="h-consent" name="consent" type="checkbox" required>
+              <span class="choice-label">
+                I understand that sending this form does not create an
+                attorney-client relationship and does not make it confidential.
+              </span>
+            </label>
+            <p class="field-error" id="h-consent-error" aria-live="polite"></p>
+
+            <div class="honeypot" aria-hidden="true">
+              <label for="h-company">Company</label>
+              <input id="h-company" name="_gotcha" type="text" tabindex="-1" autocomplete="off" data-honeypot>
+              <input type="hidden" name="elapsed_ms" value="" data-elapsed>
+            </div>
+
+            <div>
+              <!-- @include:form-submit -->
+        <input type="hidden" name="_subject" value="FloridaProbationLaw.com enquiry">
+        <input type="hidden" name="_next"
+               value="https://floridaprobationlaw.com/thank-you/"
+               data-redirect-path="/thank-you/"
+               data-redirect-base="/florida-probation-law">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Request My Free Consultation</button>
+<!-- @end:form-submit -->
+            </div>
+          </form>
         </div>
+
       </div>
     </div>
   </section>

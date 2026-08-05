@@ -16,12 +16,16 @@
   "disclosure": "FloridaProbationLaw.com is operated by Hoffman Legal, PLLC, a Florida law firm.",
   "disclosureLong": "FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal, PLLC.",
 
-  "formEndpoint": "",
-  "_formEndpoint": "TODO: URL that intake form submissions POST to. No service is configured and none has been signed up for, so this stays empty rather than being invented. While it is empty both forms validate client-side but the submit control is replaced by a visible notice giving the phone number and email instead, because a form that silently discards a prospective client's case details is worse than one that plainly says it is not connected yet. Set this and submissions post here, then redirect to /thank-you/. Recommendation: a first-party endpoint (e.g. a Cloudflare Pages Function) rather than a third-party form service, so prospective-client information is not held by an outside processor.",
+  "formEndpoint": "https://formspree.io/f/mqpzkkqg",
+  "_formEndpoint": "Formspree project endpoint. All three intake forms POST here. Two consequences to keep in view: prospective-client details now pass through a third-party processor before reaching the firm, which is why /privacy-policy/ names Formspree — the policy must stay accurate if the endpoint ever changes; and Formspree's free tier caps submissions per month, after which further enquiries are rejected rather than queued. Setting this back to \"\" replaces the submit control with a visible notice giving the phone number and email, rather than a button that silently discards a case description.",
 
   "formRedirect": "/thank-you/",
   "formRedirectField": "_next",
-  "_formRedirect": "Where a successful submission lands. The hidden field carrying it is emitted only once formEndpoint is set, since it means nothing without one. `formRedirectField` is the parameter name the endpoint reads: Formspree and Basin use `_next`, Netlify Forms uses `action` on the form itself, and a first-party endpoint can use whatever it likes — set it to match, or the visitor will see the endpoint's own response page instead of /thank-you/.",
+  "_formRedirect": "Where a successful submission lands. `formRedirectField` is the parameter name the endpoint reads — `_next` is what Formspree and Basin use. The value is written as an absolute URL built from `url` above, which is right for production; on a preview deploy js/main.js rewrites it to the origin actually being browsed, so a test submission does not bounce the visitor to a domain that is not live yet. With JavaScript off, the build-time production URL stands.",
+
+  "formSpamField": "_gotcha",
+  "formSubject": "FloridaProbationLaw.com enquiry",
+  "_formSpam": "`_gotcha` is the field name Formspree filters on server-side, so naming the honeypot that gets spam handling the client cannot provide — a bot posting directly to the endpoint never runs js/main.js. `_subject` sets the notification subject line so enquiries are identifiable in the inbox.",
 
   "phone": {
     "display": "(954) 459-4236",
