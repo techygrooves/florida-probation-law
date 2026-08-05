@@ -531,6 +531,32 @@ ${cards}
     </nav>`;
 }
 
+/* ---- analytics -----------------------------------------------------------
+ * The standard GA4 tag, emitted into the shared head so every route carries it
+ * — the six county pages included — without a page ever holding a copy.
+ *
+ * Clearing site.analytics.measurementId removes it everywhere on the next
+ * build, and js/main.js checks for gtag before firing, so the event calls
+ * become no-ops rather than errors when the tag is absent or blocked.
+ *
+ * `anonymize_ip` is not set: GA4 discards the full IP before storage as a
+ * matter of course, and the parameter is ignored. Passing it would only
+ * suggest a control that is not doing anything.
+ * ------------------------------------------------------------------------ */
+
+function renderAnalytics() {
+  const id = site.analytics?.measurementId;
+  if (!id) return "<!-- Analytics disabled: no measurementId in data/site.json. -->";
+
+  return `<script async src="https://www.googletagmanager.com/gtag/js?id=${esc(id)}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${esc(id)}');
+</script>`;
+}
+
 /* ---- form opening tag ----------------------------------------------------
  * The whole <form> tag is generated, not just its action attribute.
  *
@@ -551,11 +577,20 @@ ${cards}
  * details back to the page they were typed on.
  * ------------------------------------------------------------------------ */
 
-function renderFormOpen() {
+/* A stable name per form, so analytics can tell the three apart without
+   inferring anything from the URL. */
+const FORM_NAMES = {
+  "/": "homepage_consultation",
+  "/contact/": "contact",
+  "/probation-eligibility-assessment/": "eligibility_assessment",
+};
+
+function renderFormOpen(route) {
   const action = site.formEndpoint
     ? ` action="${esc(site.formEndpoint)}" method="post"`
     : "";
-  return `      <form class="stack form-stack" data-validate novalidate${action}>`;
+  const name = FORM_NAMES[route.href] || "form";
+  return `      <form class="stack form-stack" data-validate novalidate data-form-name="${esc(name)}"${action}>`;
 }
 
 /* ---- form submit control ------------------------------------------------
@@ -720,7 +755,10 @@ function regionsFor(route, ctx, source) {
     source,
     origin: site.url.replace(/\/$/, ""),
   });
-  const ctxWithSchema = { ...ctx, page: { ...ctx.page, schema } };
+  const ctxWithSchema = {
+    ...ctx,
+    page: { ...ctx.page, schema, analytics: renderAnalytics() },
+  };
 
   return {
     head: render(partials.head, ctxWithSchema),
@@ -737,7 +775,7 @@ function regionsFor(route, ctx, source) {
     "firm-identity": renderFirmIdentity(),
     "contact-details": renderContactDetails(),
     "form-submit": renderFormSubmit(route),
-    "form-open": renderFormOpen(),
+    "form-open": renderFormOpen(route),
     sitemap: route.href === "/sitemap/" ? renderSitemap() : null,
   };
 }

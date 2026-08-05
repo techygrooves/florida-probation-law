@@ -61,6 +61,52 @@ catch nothing. The elapsed-time field is recorded for a server to weigh rather
 than enforced here, since blocking on it client-side would only ever penalise
 fast humans and autofill.
 
+## Analytics
+
+Google Analytics 4, configured once in `site.analytics.measurementId` and
+emitted into the shared head, so every route carries it — the six county pages
+included. `check:seo` fails if any page loses the tag, because a page that
+drops out of reporting looks like a traffic dip rather than a bug.
+
+Clearing the measurement ID removes the tag everywhere on the next build.
+Nothing depends on it: `track()` in `js/main.js` returns immediately when
+`gtag` is missing, so a blocked tag, an ad blocker or a slow network degrades
+to silence. Verified with the tag blocked — no page errors, validation and
+navigation unaffected.
+
+Page views come from the tag. These come from `js/main.js`, because the tag
+cannot see them:
+
+| Event | Fires on | Parameters |
+| --- | --- | --- |
+| `phone_click` | any `tel:` link — the header "Call 24/7", the sticky mobile bar, body and footer | `link_placement`, `link_text`, `page_path` |
+| `cta_click` | a button to `/contact/`, `/probation-eligibility-assessment/` or the eligibility page | `link_placement`, `link_text`, `link_url`, `page_path` |
+| `email_click` | any `mailto:` link | `link_placement`, `page_path` |
+| `form_start` | first focus in any of the three forms | `form_name`, `page_path` |
+| `form_error` | a submit blocked by validation | `form_name`, `error_count`, `first_error_field`, `page_path` |
+| `generate_lead` | a submit that passed validation | `form_name`, `page_path` |
+| `faq_open` | an FAQ accordion opened | `faq_question`, `page_path` |
+
+`link_placement` distinguishes `header`, `sticky_call_bar`, `mobile_nav`,
+`footer`, `cta_band` and `page_body`, so the same CTA can be compared by
+position. CTAs are matched on destination rather than on button text, so
+rewording a button keeps its history.
+
+`form_error` and `form_start` exist as a pair with `generate_lead`: the gap
+between people starting a form and finishing one is a problem with the form,
+and `first_error_field` says which field to look at.
+
+**No event carries anything a visitor typed.** Field *names* are sent —
+knowing people stumble on "county of sentencing" is useful — but never field
+values, and never a name, phone number, email address or case detail. Sending
+personal information to Analytics breaches Google's terms, and on an attorney
+intake form it would put prospective-client information somewhere it has no
+business being.
+
+`/privacy-policy/` names Google Analytics, says the cookies it sets, and
+states that form contents are not sent to it. Keep that page in step with this
+configuration.
+
 ## Location pages
 
 County pages are the easiest thing on a legal site to get wrong. Two rules are

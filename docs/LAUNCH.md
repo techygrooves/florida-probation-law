@@ -71,7 +71,9 @@ number, county seat, circuit composition, bordering counties) are recorded, in
 | Server-side validation | — | Every rule in `js/main.js` must be re-implemented at the endpoint. Client-side checks stop honest mistakes and nothing else. |
 | Spam filtering | — | The honeypot is named `_gotcha`, which Formspree filters server-side — the only spam check that applies to a bot posting straight to the endpoint. The elapsed-time field is recorded for a server to weigh, not enforced client-side. |
 | Production domain | `site.url`, `site.basePath` | See deployment below. |
-| Analytics / call tracking | not present | None is configured. Anything added needs a privacy-policy update — `/privacy-policy/` currently describes a site that sets no cookies and runs no third-party scripts, which is true today. |
+| Analytics | `site.analytics.measurementId` | **Configured** — Google Analytics 4. Every route carries the tag, and `check:seo` fails if a page loses it. Two things to settle in the GA4 property itself: mark `generate_lead` as a key event so form submissions report as conversions, and register the custom parameters (`form_name`, `link_placement`, `link_text`, `first_error_field`, `faq_question`) as custom dimensions — they are collected either way, but will not appear in reports until they are registered. |
+| Analytics and cookies disclosure | `/privacy-policy/` | GA4 sets first-party cookies (`_ga`, `_ga_<id>`) and is not cookieless. The policy says so, names Google Analytics, and states that nothing typed into a form is sent to it. If the property or provider changes, that page changes with it. **No consent banner is implemented.** Florida has no general cookie-consent requirement, but if the site is ever marketed to visitors in the EU or UK, consent for analytics cookies becomes a live question. |
+| Pre-launch traffic | — | The tag is live now, so the preview deploy already reports into the property. Either accept that early data or add an internal-traffic filter in GA4 for the preview host before it matters. |
 
 ## 4. Deployment
 

@@ -194,6 +194,17 @@ for (const file of pages) {
   if (!/<main[\s>]/.test(html)) fail("no <main> landmark");
   if (!/<html lang="/.test(html)) fail("no lang on <html>");
   if (!html.includes('class="skip-link"')) fail("no skip link");
+
+  /* ---- analytics ----------------------------------------------------------
+   * A page that quietly loses the tag is invisible in reports and gives no
+   * sign of it — traffic simply appears lower. Checked per page rather than
+   * trusted to the shared head, since the head is only shared while the page
+   * stays in sync with it.
+   * ---------------------------------------------------------------------- */
+  const measurementId = site.analytics?.measurementId;
+  if (measurementId && !html.includes(measurementId)) {
+    fail(`analytics tag missing (expected ${measurementId})`);
+  }
 }
 
 /* ---- report --------------------------------------------------------------- */
