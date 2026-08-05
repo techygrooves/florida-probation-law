@@ -179,8 +179,13 @@ raw unstyled HTML.
 
 | Deploy target | `basePath` |
 | --- | --- |
-| GitHub Pages project site (current) | `/florida-probation-law` |
-| floridaprobationlaw.com, or Pages with a `CNAME` | `""` |
+| floridaprobationlaw.com — current, files in `public_html` | `""` |
+| A GitHub Pages *project* site | `/repo-name` |
+
+Getting this wrong is the one configuration mistake that breaks a deploy
+completely rather than partially: every asset request goes to a path that does
+not exist, and the site renders as unstyled HTML with the navigation as a bare
+bulleted list. It looks like a catastrophic failure and is a one-line fix.
 
 Change it and re-run `npm run build`; the rewrite is idempotent, so switching
 back and forth converges rather than stacking prefixes. A one-off build can
