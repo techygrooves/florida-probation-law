@@ -77,18 +77,53 @@ number, county seat, circuit composition, bordering counties) are recorded, in
 
 ## 4. Deployment
 
-### Choosing the target
+### Where it is served
 
-The site is authored with root-relative URLs and rewritten at build time.
-`data/site.json` → `basePath` decides which.
+The site is live at **floridaprobationlaw.com**, on Hostinger, with the built
+files sitting directly in `public_html`. Everything below follows from that.
+
+**`basePath` must stay `""`.** The site is authored with root-relative URLs
+and `data/site.json` → `basePath` prefixes every internal `href` and `src` at
+build time. Empty is correct for a domain root. Setting it to anything else
+sends every asset request to a path that does not exist — the stylesheet
+included — and the site renders as unstyled HTML with the navigation as a bare
+bulleted list. It is the one setting that breaks a deploy completely rather
+than partially, and it looks like a catastrophic failure when it is a one-line
+config mistake.
 
 | Target | `basePath` | Command |
 | --- | --- | --- |
-| floridaprobationlaw.com (or Pages with a `CNAME`) | `""` | `npm run build:production` |
-| GitHub Pages project site (current) | `/florida-probation-law` | `npm run build` |
+| floridaprobationlaw.com — current | `""` | `npm run build` |
+| A GitHub Pages *project* site | `"/repo-name"` | `BASE_PATH=/repo-name npm run build` |
 
-The rewrite is idempotent — switching back and forth converges rather than
-stacking prefixes — but the built pages must be committed after switching.
+The rewrite is idempotent, so switching back and forth converges rather than
+stacking prefixes — but the built pages have to be committed after switching,
+and re-uploaded.
+
+### What to upload
+
+Everything except the build inputs. `public_html` needs:
+
+```
+index.html  404.html  .htaccess  robots.txt  sitemap.xml
+css/  fonts/  js/
+about/  blog/  contact/  early-termination-of-probation/  florida-probation-law/
+locations/  privacy-policy/  probation-eligibility-assessment/
+probation-services/  probation-termination-process/  resources/  sitemap/
+terms-of-use/  thank-you/  legal-disclaimer/  accessibility/
+```
+
+Not needed on the server: `data/`, `scripts/`, `src/`, `partials/`,
+`templates/`, `docs/`, `node_modules/`, `package.json`, `_redirects`.
+Uploading them does no harm beyond clutter — they are not served as pages —
+but `src/input.css` and `data/` are build inputs and have no business being
+public.
+
+**`.htaccess` is generated and must be uploaded.** It carries the 301s from
+`data/redirects.json`, points 404s at the site's own `404.html` instead of
+Hostinger's default, and turns off directory listings. It starts with a dot,
+so file managers and FTP clients often hide it — check "show hidden files" if
+it appears to be missing.
 
 ### Before the first publish
 
@@ -104,19 +139,14 @@ stacking prefixes — but the built pages must be committed after switching.
    `robots.txt` drops its pre-launch note automatically.
 6. `npm run serve` and `npm run audit` to confirm nothing regressed.
 
-### Moving to the production domain
+### Notes on this host
 
-`robots.txt` and `sitemap.xml` are written to the repository root, which
-serves them at the domain root on a normal host. **On the current GitHub Pages
-project deploy they resolve under `/florida-probation-law/`, where crawlers do
-not look for them.** This does not matter while everything is `noindex`, but it
-means the project-site deploy is not a launch configuration. Move to the real
-domain, or add a `CNAME`, before publishing anything.
+`robots.txt` and `sitemap.xml` sit at the domain root and resolve where
+crawlers look for them. That was not true on the earlier GitHub Pages preview.
 
-`_redirects` is generated from `data/redirects.json` in Netlify/Cloudflare
-format and records the URL changes made during the build. GitHub Pages ignores
-it. None of those old paths was ever indexed, so nothing is lost either way —
-but a host that honours it costs nothing and keeps the map live.
+`_redirects` is the Netlify/Cloudflare format and is ignored here. It is
+generated from the same source as `.htaccess` so a move between hosts does not
+silently drop the redirect map.
 
 ### After publishing
 

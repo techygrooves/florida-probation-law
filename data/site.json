@@ -10,8 +10,8 @@
   "firmLegalName": "Hoffman Legal, PLLC",
   "_firm": "`firm` is the public name used in running copy. `firmLegalName` is the registered entity and is what appears in firm identification, legal pages, the copyright line and structured data. Florida Probation Law is the name of this website, not a law firm — never write it as one.",
 
-  "basePath": "/florida-probation-law",
-  "_basePath": "Sub-directory the site is served from. GitHub Pages project sites live at <user>.github.io/<repo>/, so every root-relative link needs this prefix or it resolves to the domain root and 404s. Set to \"\" when the site moves to floridaprobationlaw.com (or when a CNAME is added, which serves from the root), then re-run `npm run build`. Can also be overridden per-build with BASE_PATH=... npm run build. Canonical and og:url are absolute and always use `url` above, so previews never canonicalise to themselves.",
+  "basePath": "",
+  "_basePath": "Sub-directory the site is served from, or \"\" for a site at a domain root. It is empty because the site is served from floridaprobationlaw.com, where the files sit directly in public_html — so /css/styles.css is the correct path. Setting it wrongly is the one configuration mistake that breaks a deploy completely rather than partially: every internal href and src gets the prefix, the stylesheet 404s along with everything else, and the site renders as unstyled HTML. Only set it back to a path like \"/repo-name\" for a GitHub Pages *project* site, which serves from <user>.github.io/<repo>/. Can be overridden per build with BASE_PATH=... npm run build. Canonical and og:url are absolute and always use `url` above, so a preview never canonicalises to itself.",
 
   "disclosure": "FloridaProbationLaw.com is operated by Hoffman Legal, PLLC, a Florida law firm.",
   "disclosureLong": "FloridaProbationLaw.com is a legal information and legal services website operated by Hoffman Legal, PLLC.",
