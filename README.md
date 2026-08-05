@@ -25,32 +25,41 @@ are `draft`, awaiting review by a Florida attorney, so every page carries
 
 ## Forms
 
-Two intake forms: a short one on `/contact/` and the full
-`/probation-eligibility-assessment/`.
+Three intake forms: the free consultation form on the homepage, a short one
+on `/contact/`, and the full `/probation-eligibility-assessment/`. All three
+post to the Formspree endpoint in `site.formEndpoint` and share one generated
+opening tag and one generated submit control, so the endpoint is configured in
+exactly one place.
 
-**Neither is connected to anything.** `site.formEndpoint` is empty because no
-submission service is configured, and the build will not invent one. While it
-is empty the submit control is replaced by a visible notice explaining that
-nothing typed would reach the firm — a form that silently discards a
-prospective client's case details is worse than one that says it is not ready.
-Setting `formEndpoint` flips both forms to a live submit on the next build.
+Setting `formEndpoint` back to `""` replaces the submit button on all three
+with a visible notice giving the phone number and email. That fallback exists
+because a form that silently discards a prospective client's case details is
+worse than one that says plainly it is not ready.
 
-A successful submission is routed to `/thank-you/` by a hidden field carrying
-`site.formRedirect`, emitted only alongside a real endpoint. `formRedirectField`
-is the parameter name the endpoint reads — `_next` suits Formspree and Basin;
-set it to whatever a first-party endpoint expects, or the visitor lands on the
-endpoint's own response page instead. `/thank-you/` is permanently `noindex`,
-independent of the draft gate.
+**Form data passes through a third party.** Formspree receives what a
+prospective client types before the firm does, and retains a copy under its own
+policy. `/privacy-policy/` names it for that reason — if the endpoint ever
+changes, that page has to change with it. Formspree's free tier also caps
+submissions per month, after which enquiries are rejected rather than queued.
+
+A successful submission is routed to `/thank-you/` by a hidden `_next` field.
+Its value is built as the production URL, which is right on the live domain and
+wrong anywhere else — so `js/main.js` rewrites it to the origin actually being
+browsed before the POST, using the base path carried in `data-redirect-base`.
+With JavaScript off the production URL stands. `/thank-you/` is permanently
+`noindex`, independent of the draft gate.
 
 Validation in `js/main.js` is progressive enhancement: it sets `aria-invalid`,
 renders inline errors tied to each field, and focuses a summary of failures.
 Every rule must also be enforced server-side when an endpoint is added —
 client-side checks stop honest mistakes and nothing else.
 
-Spam handling follows the same logic. The honeypot and the elapsed-time field
-are recorded for a server to weigh; the client blocks only on the honeypot. A
-bot that POSTs directly never runs this script, so blocking client-side on
-elapsed time would only ever penalise fast humans.
+Spam handling follows the same logic. The honeypot is named `_gotcha`, which
+Formspree filters on server-side — that matters because a bot posting straight
+to the endpoint never runs `js/main.js`, so a client-side check alone would
+catch nothing. The elapsed-time field is recorded for a server to weigh rather
+than enforced here, since blocking on it client-side would only ever penalise
+fast humans and autofill.
 
 ## Location pages
 
@@ -64,10 +73,14 @@ enforced rather than trusted:
   Only stable public facts — circuit, county seat, which counties share the
   circuit, which counties border it — are recorded, and those are what make
   each page genuinely different.
-- **`areaServed` structured data is gated.** A county page emits it only if the
-  county slug appears in `site.servedCounties`, which is empty. Asserting a
-  service area the firm has not confirmed is both a Rule 4-7.13 problem and the
-  signal that turns a location page into a doorway page.
+- **No county page is a business entity.** The service area lives on the one
+  organisation node in the schema graph — one `LegalService`, one address,
+  `areaServed` listing Florida and the three confirmed counties. County pages
+  carry a generated visible statement instead: the primary-service-area wording
+  for the three in `site.servedCounties`, and an explicit "no office in this
+  county" for the rest. A per-county business entity would assert offices the
+  firm does not have, which is both a Rule 4-7.13 problem and the signal that
+  turns a location page into a doorway page.
 
 `templates/location.html` documents the required section order and carries
 both rules as comments for whoever adds the next county.

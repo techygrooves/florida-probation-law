@@ -1144,6 +1144,21 @@
      style — the spacing lives here instead. */
   .form-stack { margin-top: 0; }
 
+  /* The homepage consultation form sits on the mist section, so it needs its
+     own surface to read as a distinct panel rather than a floating stack of
+     inputs. Interior form pages already sit on white and need none of this. */
+  .form-panel {
+    padding: 1.75rem;
+    background-color: #fff;
+    border: 1px solid var(--color-line-200);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (min-width: 640px) {
+    .form-panel { padding: 2rem; }
+  }
+
   .form-errors {
     padding: 1rem 1.25rem;
     border: 1px solid var(--color-danger-200);

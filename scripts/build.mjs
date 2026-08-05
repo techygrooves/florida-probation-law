@@ -565,7 +565,16 @@ function renderFormOpen() {
  * Setting site.formEndpoint flips it to a live submit on the next build.
  * ------------------------------------------------------------------------ */
 
-function renderFormSubmit() {
+/* Each form asks for something different, so the button says what pressing it
+   does. Keyed on route rather than passed in from the page, because the page
+   cannot reach into a generated region. */
+const SUBMIT_LABELS = {
+  "/": "Request My Free Consultation",
+  "/contact/": "Send Message",
+  "/probation-eligibility-assessment/": "Send for Attorney Review",
+};
+
+function renderFormSubmit(route) {
   if (!site.formEndpoint) {
     // TODO: no submission endpoint is configured and none is invented here.
     // Set site.formEndpoint in data/site.json to a real endpoint and this
@@ -587,16 +596,30 @@ function renderFormSubmit() {
           </div>
         </div>`;
   }
-  // The redirect target rides with the submission so the visitor lands on
-  // /thank-you/ rather than on whatever the endpoint renders. Emitted only
-  // alongside a real endpoint, since on its own it does nothing.
+  /* The redirect target rides with the submission so the visitor lands on
+     /thank-you/ rather than on whatever the endpoint renders.
+
+     It is written as the production URL, which is correct once the site is on
+     its own domain. On a preview deploy that URL is not live yet, so js/main.js
+     rewrites this to the origin actually being browsed before the POST — the
+     path is carried in data-redirect-path for it to use. With JavaScript off,
+     the production URL stands, which is the right fallback. */
   const redirect = site.formRedirect
-    ? `        <input type="hidden" name="${esc(site.formRedirectField || "_next")}" value="${esc(
-        site.url.replace(/\/$/, "") + site.formRedirect
-      )}">\n`
+    ? `        <input type="hidden" name="${esc(site.formRedirectField || "_next")}"
+               value="${esc(site.url.replace(/\/$/, "") + site.formRedirect)}"
+               data-redirect-path="${esc(site.formRedirect)}"
+               data-redirect-base="${esc(BASE)}">\n`
     : "";
 
-  return `${redirect}        <button class="btn btn-primary btn-lg btn-block" type="submit">Send for review</button>`;
+  /* Identifies the enquiry in the firm's inbox. Without it every notification
+     arrives with the form service's generic subject. */
+  const subject = site.formSubject
+    ? `        <input type="hidden" name="_subject" value="${esc(site.formSubject)}">\n`
+    : "";
+
+  const label = SUBMIT_LABELS[route.href] || "Send for review";
+
+  return `${subject}${redirect}        <button class="btn btn-primary btn-lg btn-block" type="submit">${esc(label)}</button>`;
 }
 
 /* ---- HTML sitemap -------------------------------------------------------- */
@@ -713,7 +736,7 @@ function regionsFor(route, ctx, source) {
     "location-service-area": renderLocationServiceArea(route),
     "firm-identity": renderFirmIdentity(),
     "contact-details": renderContactDetails(),
-    "form-submit": renderFormSubmit(),
+    "form-submit": renderFormSubmit(route),
     "form-open": renderFormOpen(),
     sitemap: route.href === "/sitemap/" ? renderSitemap() : null,
   };

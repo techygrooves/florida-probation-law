@@ -2,7 +2,7 @@
 
 Everything on this page is blocking. The site is complete as a build and
 publishes nothing: all 47 routes carry `noindex`, `sitemap.xml` lists zero
-URLs, and both intake forms show a notice instead of a submit button. That is
+URLs, and nothing is indexable. That is
 deliberate — an unreviewed legal site that ranks is worse than one that does
 not exist — and it stays that way until the items below are cleared.
 
@@ -65,10 +65,11 @@ number, county seat, circuit composition, bordering counties) are recorded, in
 
 | Item | Where | Notes |
 | --- | --- | --- |
-| Form submission endpoint | `site.formEndpoint` | Empty. Both forms validate client-side but the submit control is replaced by a visible notice, so no case details are collected and silently dropped. Setting it switches both forms live on the next build. A first-party endpoint (e.g. a Cloudflare Pages Function) is preferable to a third-party form service, so prospective-client information is not held by an outside processor. |
-| Form redirect field name | `site.formRedirectField` | Defaults to `_next`, which suits Formspree and Basin. Set it to whatever the chosen endpoint reads, or the visitor lands on the endpoint's response page instead of `/thank-you/`. |
+| Form submission endpoint | `site.formEndpoint` | **Configured** — Formspree. All three forms post to it. Verify the Formspree project has the firm's notification address set, and confirm the monthly submission cap on the current plan: once it is reached, enquiries are rejected rather than queued, and a prospective client sees an error instead of `/thank-you/`. |
+| Third-party processing | `/privacy-policy/` | Prospective-client details reach Formspree before they reach the firm, and Formspree retains a copy. The privacy policy names it. If the endpoint ever changes, that page must change with it. A first-party endpoint (e.g. a Cloudflare Pages Function) would remove the intermediary entirely. |
+| Post-submit redirect | `site.formRedirect` | `_next` is written as the production URL and rewritten by `js/main.js` to the origin being browsed, so preview submissions do not bounce to a domain that is not live. Test one real submission end to end on the production domain before launch. |
 | Server-side validation | — | Every rule in `js/main.js` must be re-implemented at the endpoint. Client-side checks stop honest mistakes and nothing else. |
-| Spam filtering | — | The honeypot and the elapsed-time field are recorded for a server to weigh. Neither is enforced client-side beyond the honeypot, because a bot that POSTs directly never runs the script. |
+| Spam filtering | — | The honeypot is named `_gotcha`, which Formspree filters server-side — the only spam check that applies to a bot posting straight to the endpoint. The elapsed-time field is recorded for a server to weigh, not enforced client-side. |
 | Production domain | `site.url`, `site.basePath` | See deployment below. |
 | Analytics / call tracking | not present | None is configured. Anything added needs a privacy-policy update — `/privacy-policy/` currently describes a site that sets no cookies and runs no third-party scripts, which is true today. |
 
@@ -95,8 +96,8 @@ stacking prefixes — but the built pages must be committed after switching.
    passages.
 3. Remove `"draft": true` from `data/nav.json` for each reviewed route. Leave
    `"noindex": true` on `/thank-you/` — that one is permanent.
-4. Configure the form endpoint (§3) and test a real submission end to end,
-   including the redirect to `/thank-you/`.
+4. Test a real submission end to end on the production domain, including the
+   redirect to `/thank-you/` and arrival in the firm's inbox (§3).
 5. `npm run build` — `sitemap.xml` now lists the published routes and
    `robots.txt` drops its pre-launch note automatically.
 6. `npm run serve` and `npm run audit` to confirm nothing regressed.

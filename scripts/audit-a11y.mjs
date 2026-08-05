@@ -226,6 +226,20 @@ if (!skip.targetExists) fail("/ [keyboard]", `skip link points at ${skip.href}, 
 /* Tab through the whole page and confirm focus is never invisible or trapped
    (WCAG 2.2 SC 2.4.11 Focus Not Obscured). */
 const trace = await page.evaluate(() => {
+  /* Visually-hidden content still reports layout geometry: `clip-path` and the
+     1px-box idiom change what is painted, not what is measured. A honeypot
+     field sits inside exactly that, and its tabindex="-1" is deliberate — it
+     must stay out of the tab order. Checking getBoundingClientRect() alone
+     reports it as "visible but unreachable", which is backwards. */
+  const isClipped = (el) => {
+    for (let n = el; n && n !== document.body; n = n.parentElement) {
+      const cs = getComputedStyle(n);
+      if (cs.clipPath && cs.clipPath !== "none") return true;
+      if (cs.overflow === "hidden" && (n.clientWidth <= 1 || n.clientHeight <= 1)) return true;
+    }
+    return false;
+  };
+
   const focusable = [
     ...document.querySelectorAll(
       'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select, textarea, summary, [tabindex]:not([tabindex="-1"])'
@@ -233,7 +247,11 @@ const trace = await page.evaluate(() => {
   ].filter((el) => {
     const r = el.getBoundingClientRect();
     const cs = getComputedStyle(el);
-    return cs.display !== "none" && cs.visibility !== "hidden" && !el.closest("[hidden]") && (r.width > 0 || el.classList.contains("skip-link"));
+    if (cs.display === "none" || cs.visibility === "hidden" || el.closest("[hidden]")) return false;
+    // The skip link is deliberately off-screen until focused.
+    if (el.classList.contains("skip-link")) return true;
+    if (isClipped(el)) return false;
+    return r.width > 0;
   });
   const bad = [];
   for (const el of focusable) {
