@@ -290,4 +290,168 @@
       }
     });
   });
+
+  /* ======================================================================
+     Analytics events
+
+     Page views are handled by the GA4 tag in the head; this adds the things
+     the tag cannot see on its own — which button was pressed, from where, and
+     whether a form submission actually went through.
+
+     Two rules govern everything below.
+
+     First, nothing here is required for the site to work. `track` returns
+     immediately when gtag is missing, so a blocked tag, an ad blocker, a
+     cleared measurement ID or a slow network all degrade to silence rather
+     than to a broken page.
+
+     Second, and more important on an attorney intake form: no event carries
+     anything a visitor typed. Field *names* are sent — knowing that people
+     stumble on "county of sentencing" is useful — but never field values, and
+     never a name, phone number, email address or case detail. Sending
+     personal information to Analytics breaches Google's terms, and here it
+     would also put prospective-client information somewhere it has no
+     business being.
+     ====================================================================== */
+
+  function track(name, params) {
+    if (typeof window.gtag !== "function") return;
+    try {
+      window.gtag("event", name, params || {});
+    } catch (error) {
+      /* Analytics must never break a page. */
+    }
+  }
+
+  /** Where on the page a control lives, so the same CTA can be compared by position. */
+  function placementOf(el) {
+    if (el.closest(".call-bar")) return "sticky_call_bar";
+    if (el.closest(".mobile-nav")) return "mobile_nav";
+    if (el.closest(".site-header")) return "header";
+    if (el.closest(".site-footer")) return "footer";
+    if (el.closest(".section-navy")) return "cta_band";
+    return "page_body";
+  }
+
+  var label = function (el) {
+    return (el.textContent || "").replace(/\s+/g, " ").trim().slice(0, 100);
+  };
+
+  /* ---- clicks -------------------------------------------------------------
+   * Delegated from the document, so controls inside generated regions — the
+   * header phone link, the sticky call bar, the shared CTA — are covered
+   * without each one carrying its own hook.
+   * ---------------------------------------------------------------------- */
+
+  // Routes that represent an intent to make contact rather than to read on.
+  var CONVERSION_PATHS = [
+    "/contact/",
+    "/probation-eligibility-assessment/",
+    "/early-termination-of-probation/eligibility/",
+  ];
+
+  document.addEventListener("click", function (event) {
+    var link = event.target.closest && event.target.closest("a[href]");
+    if (!link) return;
+
+    var href = link.getAttribute("href") || "";
+
+    // The "Call 24/7" header link, the sticky mobile call bar, and every other
+    // number on the site. On mobile this is the highest-value action there is.
+    if (href.indexOf("tel:") === 0) {
+      track("phone_click", {
+        link_placement: placementOf(link),
+        link_text: label(link),
+        page_path: window.location.pathname,
+      });
+      return;
+    }
+
+    if (href.indexOf("mailto:") === 0) {
+      track("email_click", {
+        link_placement: placementOf(link),
+        page_path: window.location.pathname,
+      });
+      return;
+    }
+
+    // "Request a Free Consultation" and the other contact CTAs, wherever they
+    // appear. Matched on destination rather than on button text, so a reworded
+    // button keeps reporting against the same event.
+    var isConversion = CONVERSION_PATHS.some(function (path) {
+      return href === path || href.slice(-path.length) === path;
+    });
+    if (isConversion && link.className.indexOf("btn") !== -1) {
+      track("cta_click", {
+        link_placement: placementOf(link),
+        link_text: label(link),
+        link_url: href,
+        page_path: window.location.pathname,
+      });
+    }
+  });
+
+  /* ---- FAQ engagement ------------------------------------------------------
+   * Which questions people actually open is the most useful thing this site
+   * can learn about what visitors do not understand — it says what to write
+   * next. The question text is site copy, not anything a visitor typed.
+   * ---------------------------------------------------------------------- */
+
+  Array.prototype.forEach.call(document.querySelectorAll("details.faq-item"), function (item) {
+    item.addEventListener("toggle", function () {
+      if (!item.open) return;
+      var question = item.querySelector("summary");
+      track("faq_open", {
+        faq_question: question ? label(question).slice(0, 100) : "",
+        page_path: window.location.pathname,
+      });
+    });
+  });
+
+  /* ---- forms ---------------------------------------------------------------
+   * Three signals, and the gap between them is the point: how many people
+   * begin a form, how many are turned back by validation and where, and how
+   * many actually submit. A drop between the first and the last is a problem
+   * with the form, not with demand.
+   * ---------------------------------------------------------------------- */
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-validate]"), function (form) {
+    var formName = form.getAttribute("data-form-name") || "form";
+    var started = false;
+
+    form.addEventListener(
+      "focusin",
+      function () {
+        if (started) return;
+        started = true;
+        track("form_start", { form_name: formName, page_path: window.location.pathname });
+      },
+      true
+    );
+
+    /* Runs after the validation handler registered above, so defaultPrevented
+       is already settled and tells us which of the two outcomes happened. */
+    form.addEventListener("submit", function (event) {
+      var invalid = form.querySelectorAll('[aria-invalid="true"]');
+
+      if (event.defaultPrevented) {
+        track("form_error", {
+          form_name: formName,
+          error_count: invalid.length,
+          // The field's name attribute, never its value.
+          first_error_field: invalid.length ? invalid[0].name || "" : "",
+          page_path: window.location.pathname,
+        });
+        return;
+      }
+
+      // GA4's recommended event for an enquiry, so it reports as a conversion
+      // without custom configuration. Sent as the browser leaves for the form
+      // endpoint; gtag uses sendBeacon, which survives the navigation.
+      track("generate_lead", {
+        form_name: formName,
+        page_path: window.location.pathname,
+      });
+    });
+  });
 })();

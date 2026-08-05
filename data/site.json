@@ -23,6 +23,12 @@
   "formRedirectField": "_next",
   "_formRedirect": "Where a successful submission lands. `formRedirectField` is the parameter name the endpoint reads — `_next` is what Formspree and Basin use. The value is written as an absolute URL built from `url` above, which is right for production; on a preview deploy js/main.js rewrites it to the origin actually being browsed, so a test submission does not bounce the visitor to a domain that is not live yet. With JavaScript off, the build-time production URL stands.",
 
+  "analytics": {
+    "provider": "Google Analytics 4",
+    "measurementId": "G-ST4J41S90R",
+    "_analytics": "Clearing measurementId removes the tag from every page and turns every event call into a no-op — js/main.js checks for gtag before firing, so nothing breaks when the tag is absent, blocked, or still loading. Two things this brings that were not true before: the site now loads a third-party script and sets cookies (_ga and _ga_<id>), which is why /privacy-policy/ names Google Analytics and describes what it stores. Keep that page in step with this field. No event carries a form value, a name, a phone number, an email address or any case detail — only which form, on which page. Sending personal information to Analytics breaches Google's terms and, on an attorney intake form, would put prospective-client information somewhere it has no business being."
+  },
+
   "formSpamField": "_gotcha",
   "formSubject": "FloridaProbationLaw.com enquiry",
   "_formSpam": "`_gotcha` is the field name Formspree filters on server-side, so naming the honeypot that gets spam handling the client cannot provide — a bot posting directly to the endpoint never runs js/main.js. `_subject` sets the notification subject line so enquiries are identifiable in the inbox.",
