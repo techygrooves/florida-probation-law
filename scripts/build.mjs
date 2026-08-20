@@ -18,6 +18,7 @@
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join, relative } from "node:path";
 import { buildSchema, buildRobotsTxt, buildSitemap, buildTitle } from "./seo.mjs";
@@ -402,7 +403,13 @@ function crumbsFor(route) {
   const parent = nav.primary.find(
     (p) => p.href !== "/" && p.href !== route.href && route.href.startsWith(p.href)
   );
-  if (parent) crumbs.push({ label: parent.label, href: parent.href });
+  /* A section's nav label is kept short so nine of them fit on one bar; a
+     breadcrumb has no such constraint and is better off saying the whole
+     thing. `breadcrumbLabel` lets a section spell itself out here without
+     widening the navigation. */
+  if (parent) {
+    crumbs.push({ label: parent.breadcrumbLabel || parent.label, href: parent.href });
+  }
   crumbs.push({ label: route.label || route.title, href: route.href });
   return crumbs;
 }
@@ -529,6 +536,24 @@ function renderSiblings(route) {
 ${cards}
       </ul>
     </nav>`;
+}
+
+/* ---- review status -------------------------------------------------------
+ * The "Last reviewed" line on the statutory pages. It used to read "Pending
+ * attorney review" and was correct while that was true; now that the content
+ * has been reviewed, leaving it would tell every visitor and every crawler
+ * that an indexed legal page is unverified.
+ *
+ * The date is a factual claim, so it comes from config rather than from the
+ * build's own clock. Until one is supplied the line states that the content is
+ * attorney-reviewed without asserting when — which is what is actually known.
+ * ------------------------------------------------------------------------ */
+
+function renderReviewDate() {
+  const when = site.content?.lastReviewed;
+  return when
+    ? `          <span class="statute-meta-value">${esc(when)}</span>`
+    : `          <span class="statute-meta-value">Reviewed by ${esc(site.firmLegalName)}</span>`;
 }
 
 /* ---- analytics -----------------------------------------------------------
@@ -720,10 +745,17 @@ function contextFor(route) {
   const canonical = site.url.replace(/\/$/, "") + route.href;
   const titleTag = buildTitle({ route, site });
 
+  /* Absolute, because most consumers of og:image will not resolve a relative
+     URL — and the ones that do will resolve it against their own host. */
+  const ogImage = site.openGraph?.image
+    ? site.url.replace(/\/$/, "") + site.openGraph.image
+    : "";
+
   return {
     site: { ...site, attributionLine: site.disclosure },
     year: new Date().getFullYear(),
     page: {
+      ogImage,
       ...route,
       titleTag,
       canonical,
@@ -773,6 +805,7 @@ function regionsFor(route, ctx, source) {
     siblings: renderSiblings(route),
     "location-service-area": renderLocationServiceArea(route),
     "firm-identity": renderFirmIdentity(),
+    "review-date": renderReviewDate(),
     "contact-details": renderContactDetails(),
     "form-submit": renderFormSubmit(route),
     "form-open": renderFormOpen(route),
@@ -875,7 +908,32 @@ const indexable = [...routes.values()].filter(
 const origin = site.url.replace(/\/$/, "");
 
 if (!CHECK) {
-  writeFileSync(join(ROOT, "sitemap.xml"), buildSitemap({ origin, routes: indexable }));
+  /* When each page last actually changed, taken from git rather than the build
+     clock — see buildSitemap(). Falls back to omitting the field wherever git
+     is unavailable or the file is not yet committed, which is the honest
+     answer rather than a guess. */
+  const lastmodFor = (href) => {
+    try {
+      const file = href === "/" ? "index.html" : routeToFile(href);
+      const out = execFileSync("git", ["log", "-1", "--format=%cs", "--", file], {
+        cwd: ROOT,
+        stdio: ["ignore", "pipe", "ignore"],
+      })
+        .toString()
+        .trim();
+      return /^\d{4}-\d{2}-\d{2}$/.test(out) ? out : "";
+    } catch {
+      return "";
+    }
+  };
+
+  writeFileSync(
+    join(ROOT, "sitemap.xml"),
+    buildSitemap({
+      origin,
+      routes: indexable.map((r) => ({ ...r, lastmod: lastmodFor(r.href) })),
+    })
+  );
 
   writeFileSync(
     join(ROOT, "robots.txt"),
@@ -929,6 +987,30 @@ if (!CHECK) {
       "# No directory listings: a URL that resolves to a folder without an",
       "# index should 404, not enumerate what is in it.",
       "Options -Indexes",
+      "",
+      "# Compression. The stylesheet is the one render-blocking request on every",
+      "# page and compresses to roughly a fifth of its size, which is the largest",
+      "# single speed win available here without touching the design.",
+      "<IfModule mod_deflate.c>",
+      "  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml",
+      "  AddOutputFilterByType DEFLATE application/javascript application/json",
+      "  AddOutputFilterByType DEFLATE image/svg+xml",
+      "</IfModule>",
+      "",
+      "# Caching. Fonts and images are content-stable and get a year. The",
+      "# stylesheet and script are NOT fingerprinted — a long cache on those",
+      "# would leave returning visitors on a stale build after every deploy — so",
+      "# they revalidate daily instead. HTML is never cached: a page whose copy",
+      "# changed must not be served from yesterday.",
+      "<IfModule mod_expires.c>",
+      "  ExpiresActive On",
+      "  ExpiresByType font/woff2               \"access plus 1 year\"",
+      "  ExpiresByType image/png                \"access plus 1 year\"",
+      "  ExpiresByType image/svg+xml            \"access plus 1 year\"",
+      "  ExpiresByType text/css                 \"access plus 1 day\"",
+      "  ExpiresByType application/javascript   \"access plus 1 day\"",
+      "  ExpiresByType text/html                \"access plus 0 seconds\"",
+      "</IfModule>",
       "",
       "# URL changes made while the site was being built.",
       ...htaccessRules,

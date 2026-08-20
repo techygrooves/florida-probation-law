@@ -21,7 +21,8 @@
     "audit": "node scripts/audit-responsive.mjs && node scripts/audit-a11y.mjs",
     "audit:responsive": "node scripts/audit-responsive.mjs",
     "audit:a11y": "node scripts/audit-a11y.mjs",
-    "serve": "node scripts/serve.mjs"
+    "serve": "node scripts/serve.mjs",
+    "build:assets": "node scripts/make-social-assets.mjs"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",

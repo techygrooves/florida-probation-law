@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Florida Probation Law">
+  <rect width="64" height="64" rx="12" fill="#142b4a"/>
+  <rect x="8" y="46" width="48" height="4" rx="2" fill="#268d86"/>
+  <text x="32" y="40" text-anchor="middle" fill="#ffffff"
+        font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="30">FP</text>
+</svg>

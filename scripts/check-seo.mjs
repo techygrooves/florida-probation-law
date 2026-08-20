@@ -10,7 +10,7 @@
  *   node scripts/check-seo.mjs
  */
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, relative } from "node:path";
 import { plain, extractFaqs } from "./seo.mjs";
@@ -128,10 +128,31 @@ for (const file of pages) {
   else if (!canonical.startsWith(site.url)) fail(`canonical is not absolute: ${canonical}`);
 
   if (!/<meta name="robots"/.test(html)) fail("no robots directive");
-  for (const tag of ["og:title", "og:description", "og:url", "og:type", "og:site_name"]) {
+  for (const tag of [
+    "og:title", "og:description", "og:url", "og:type", "og:site_name",
+    "og:image", "og:image:width", "og:image:height", "og:locale",
+  ]) {
     if (!html.includes(`property="${tag}"`)) fail(`missing ${tag}`);
   }
-  if (!html.includes('name="twitter:card"')) fail("missing twitter:card");
+  for (const tag of ["twitter:card", "twitter:title", "twitter:description", "twitter:image"]) {
+    if (!html.includes(`name="${tag}"`)) fail(`missing ${tag}`);
+  }
+
+  /* og:image must be absolute and must exist on disk. A card image that 404s
+     is worse than none: the platform caches the failure and the link keeps
+     rendering bare long after the file is fixed. */
+  const ogImage = attr(html, /<meta property="og:image" content="([^"]*)"/);
+  if (ogImage) {
+    if (!ogImage.startsWith("https://")) fail(`og:image is not absolute: ${ogImage}`);
+    const local = ogImage.replace(site.url.replace(/\/$/, ""), "");
+    if (!existsSync(join(ROOT, local.replace(/^\//, "")))) {
+      fail(`og:image file is missing: ${local}`);
+    }
+  }
+
+  /* Icons. A missing favicon is not a ranking factor, but it is the single
+     most visible sign of an unfinished site in a tab strip or a bookmark bar. */
+  if (!html.includes('rel="icon"')) fail("no favicon link");
 
   /* ---- headings ---------------------------------------------------------- */
   const main = html.slice(html.indexOf("<main"), html.indexOf("</main>") + 7);

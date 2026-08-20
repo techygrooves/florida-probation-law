@@ -5,293 +5,308 @@
     {
       "label": "Home",
       "href": "/",
-      "title": "Early Termination of Probation Attorneys in Florida",
-      "titleTag": "Early Termination of Probation in Florida | Hoffman Legal",
-      "description": "Hoffman Legal helps eligible people in Florida seek early termination, modification or conversion of probation. Request a consultation to review your eligibility.",
-      "draft": true
+      "title": "Florida Early Termination of Probation Lawyer",
+      "titleTag": "Florida Early Termination of Probation Lawyer | Hoffman Legal",
+      "description": "Attorney David Hoffman helps people across Florida ask the court to end probation early. Free initial consultation, telephone enquiries accepted 24/7."
     },
     {
       "label": "Early Termination",
       "href": "/early-termination-of-probation/",
       "title": "Early Termination of Probation in Florida",
-      "description": "How early termination of probation works in Florida, who may be eligible, and how a motion is presented to the sentencing court.",
-      "draft": true,
+      "description": "How early termination of probation works in Florida: who may be eligible, what the court weighs, and how a motion reaches the sentencing judge.",
       "children": [
         {
           "label": "Overview",
           "href": "/early-termination-of-probation/",
-          "description": "Overview of early termination of probation in Florida."
+          "description": "How early termination of probation works in Florida: who may be eligible, what the court weighs, and how a motion reaches the sentencing judge.",
+          "title": "Early Termination of Probation in Florida",
+          "titleTag": "Early Termination of Probation in Florida | Hoffman Legal"
         },
         {
           "label": "Eligibility",
           "href": "/early-termination-of-probation/eligibility/",
-          "title": "Early Termination of Probation: Eligibility",
-          "description": "The factors a Florida court weighs when deciding whether probation may be terminated early, from time served to restitution and plea terms.",
-          "draft": true
+          "title": "Early Termination of Probation Eligibility in Florida",
+          "description": "The factors a Florida court weighs before ending probation early, from time served and completed conditions to restitution, plea terms and violations.",
+          "titleTag": "Early Termination of Probation Eligibility in Florida"
         },
         {
           "label": "Florida 50% Rule",
           "href": "/early-termination-of-probation/50-percent-rule/",
-          "title": "The Florida 50% Rule for Probation",
-          "description": "What the halfway point of a probation term means in Florida, what it does not mean, and why it is not a guarantee of early termination.",
-          "draft": true
+          "title": "Florida 50% Probation Rule Explained",
+          "description": "What the halfway point of a Florida probation term actually means, what it does not mean, and why reaching it never guarantees early termination.",
+          "titleTag": "Florida 50% Probation Rule Explained | Hoffman Legal"
         },
         {
           "label": "Benefits",
           "href": "/early-termination-of-probation/benefits/",
-          "title": "Potential Benefits of Early Termination of Probation",
-          "description": "How ending probation early may affect employment, housing, travel, reporting obligations and exposure to technical violations.",
-          "draft": true
+          "title": "Benefits of Early Termination of Probation in Florida",
+          "description": "How ending Florida probation early can affect employment, housing, travel and reporting duties, and how it reduces exposure to technical violations.",
+          "titleTag": "Benefits of Early Termination of Probation in Florida"
         },
         {
           "label": "Reasons for Denial",
           "href": "/early-termination-of-probation/reasons-for-denial/",
-          "title": "Why Early Termination Requests Are Denied",
-          "description": "The reasons a Florida court most often denies a motion to terminate probation early, and what can be done about each.",
-          "draft": true
+          "title": "Why Florida Early Termination Motions Are Denied",
+          "description": "The reasons a Florida judge most often refuses to end probation early, from unpaid restitution to violation history, and what can be done about each.",
+          "titleTag": "Why Florida Early Termination Motions Are Denied"
         },
         {
           "label": "Frequently Asked Questions",
           "href": "/early-termination-of-probation/faqs/",
-          "title": "Early Termination of Probation: FAQs",
-          "description": "Answers to common questions about ending Florida probation early, including timing, restitution, records and hearings.",
-          "draft": true
+          "title": "Early Termination of Probation FAQs",
+          "description": "Answers to common questions about ending Florida probation early: timing, restitution balances, criminal records, hearings and what a judge decides.",
+          "titleTag": "Early Termination of Probation FAQs | Hoffman Legal"
         }
-      ]
+      ],
+      "titleTag": "Early Termination of Probation in Florida | Hoffman Legal"
     },
     {
       "label": "Process",
       "href": "/probation-termination-process/",
-      "title": "The Probation Termination Process in Florida",
-      "description": "What happens between deciding to ask for early termination and a judge ruling on it: review, records, motion, filing, service, objections, hearing and decision.",
-      "draft": true,
+      "title": "Florida Probation Termination Process, Step by Step",
+      "description": "Every stage between deciding to ask for early termination and a Florida judge ruling: case review, records, the motion, filing, service and any hearing.",
       "children": [
         {
           "label": "Overview",
           "href": "/probation-termination-process/",
-          "description": "Overview of the probation termination process in Florida."
+          "description": "Every stage between deciding to ask for early termination and a Florida judge ruling: case review, records, the motion, filing, service and any hearing.",
+          "title": "Florida Probation Termination Process, Step by Step",
+          "titleTag": "Florida Probation Termination Process, Step by Step"
         },
         {
           "label": "Filing a Motion",
           "href": "/probation-termination-process/filing-a-motion/",
-          "title": "Filing a Motion to Terminate Probation",
-          "description": "How a motion to terminate probation early is prepared, filed in the sentencing court, and served on the State.",
-          "draft": true
+          "title": "Motion for Early Termination of Probation in Florida",
+          "description": "How a motion to terminate Florida probation early is prepared, filed in the court that imposed the sentence, and served on the State Attorney's office.",
+          "titleTag": "Motion for Early Termination of Probation in Florida"
         },
         {
           "label": "Documents Required",
           "href": "/probation-termination-process/documents-required/",
-          "title": "Documents Required to Terminate Probation Early",
-          "description": "The records a Florida court expects to see with a motion to terminate probation early, and where to obtain each one.",
-          "draft": true
+          "title": "Documents for a Florida Early Termination Motion",
+          "description": "The records a Florida court expects with a motion to end probation early — judgment, conditions, proof of completion, clerk balances — and where to get them.",
+          "titleTag": "Documents for a Florida Early Termination Motion"
         },
         {
           "label": "Court Hearing",
           "href": "/probation-termination-process/court-hearing/",
-          "title": "The Early Termination Court Hearing",
-          "description": "What happens if a Florida judge sets a hearing on a motion to terminate probation early, and what the court is deciding.",
-          "draft": true
+          "title": "The Florida Early Termination Probation Hearing",
+          "description": "What happens when a Florida judge sets a hearing on a motion to end probation early, what the court is deciding, and how the State's position matters.",
+          "titleTag": "The Florida Early Termination Probation Hearing"
         },
         {
           "label": "Timeline",
           "href": "/probation-termination-process/timeline/",
-          "title": "Early Termination Timeline",
-          "description": "The sequence of steps in an early termination request, and why the elapsed time cannot be predicted.",
-          "draft": true
+          "title": "How Long Early Termination of Probation Takes",
+          "description": "The sequence of steps in a Florida early termination request, what controls the pace at each one, and why no honest attorney predicts a finish date.",
+          "titleTag": "How Long Early Termination of Probation Takes in Florida"
         },
         {
           "label": "Possible Outcomes",
           "href": "/probation-termination-process/possible-outcomes/",
-          "title": "Possible Outcomes of an Early Termination Motion",
-          "description": "The range of rulings a Florida court may make on a motion to terminate probation early, and what follows each.",
-          "draft": true
+          "title": "Outcomes of a Florida Early Termination Motion",
+          "description": "The rulings a Florida court can make on a motion to end probation early — granted, denied, converted, modified or deferred — and what follows each one.",
+          "titleTag": "Outcomes of a Florida Early Termination Motion"
         }
-      ]
+      ],
+      "titleTag": "Florida Probation Termination Process, Step by Step",
+      "breadcrumbLabel": "Probation Termination Process"
     },
     {
       "label": "Probation Services",
       "href": "/probation-services/",
-      "title": "Florida Probation Services",
-      "description": "Probation matters handled by Hoffman Legal: administrative probation, changes to conditions, travel, relocation, transfer, community control and violations.",
-      "draft": true,
+      "title": "Florida Probation Lawyer Services",
+      "description": "Florida probation matters handled by Hoffman Legal: early termination, administrative probation, condition changes, travel, transfers and violations.",
       "children": [
         {
           "label": "Overview",
           "href": "/probation-services/",
-          "description": "All Florida probation matters handled by the firm."
+          "description": "Florida probation matters handled by Hoffman Legal: early termination, administrative probation, condition changes, travel, transfers and violations.",
+          "title": "Florida Probation Lawyer Services",
+          "titleTag": "Florida Probation Lawyer Services | Hoffman Legal"
         },
         {
           "label": "Administrative Probation",
           "href": "/probation-services/administrative-probation/",
           "title": "Administrative Probation in Florida",
-          "description": "Moving from reporting supervision to non-reporting administrative probation in Florida, and what a court considers.",
-          "draft": true
+          "description": "Moving from reporting supervision to non-reporting administrative probation in Florida, what a court considers, and how it differs from ending probation.",
+          "titleTag": "Administrative Probation in Florida | Hoffman Legal"
         },
         {
           "label": "Modification of Probation",
           "href": "/probation-services/modification-of-probation/",
-          "title": "Modification of Probation Conditions",
-          "description": "Asking a Florida court to change a condition of probation that no longer fits, without ending supervision.",
-          "draft": true
+          "title": "Probation Modification in Florida",
+          "description": "Asking a Florida court to change a condition of probation that no longer fits your circumstances, without asking to end supervision altogether.",
+          "titleTag": "Probation Modification in Florida | Hoffman Legal"
         },
         {
           "label": "Travel Permission",
           "href": "/probation-services/travel-permission/",
-          "title": "Travel Permission While on Probation in Florida",
-          "description": "How permission to travel out of county or out of state is requested while under Florida probation supervision.",
-          "draft": true
+          "title": "Travel Permission on Florida Probation",
+          "description": "How permission to travel out of county or out of state is requested while on Florida probation, and why unapproved travel becomes a technical violation.",
+          "titleTag": "Travel Permission on Florida Probation | Hoffman Legal"
         },
         {
           "label": "Relocation",
           "href": "/probation-services/relocation/",
           "title": "Relocating While on Probation in Florida",
-          "description": "Changing your approved residence while under Florida supervision, and what has to be approved first.",
-          "draft": true
+          "description": "Changing your approved residence while under Florida probation supervision: what has to be approved first, and what happens if you move without it.",
+          "titleTag": "Relocating While on Probation in Florida | Hoffman Legal"
         },
         {
           "label": "Interstate Transfer",
           "href": "/probation-services/interstate-transfer/",
           "title": "Interstate Transfer of Florida Probation",
-          "description": "Transferring Florida probation supervision to another state under the Interstate Compact.",
-          "draft": true
+          "description": "Transferring Florida probation supervision to another state under the Interstate Compact: who qualifies, how long it takes, and what stays with Florida.",
+          "titleTag": "Interstate Transfer of Florida Probation | Hoffman Legal"
         },
         {
           "label": "Community Control Termination",
           "href": "/probation-services/community-control-termination/",
           "title": "Ending Community Control in Florida",
-          "description": "Community control is not probation. What ending or modifying it involves, and how it differs from ordinary supervision.",
-          "draft": true
+          "description": "Community control is not probation. What ending or modifying Florida community control involves, and how house arrest differs from ordinary supervision.",
+          "titleTag": "Ending Community Control in Florida | Hoffman Legal"
         },
         {
           "label": "Probation Violations",
           "href": "/probation-services/probation-violations/",
-          "title": "Florida Probation Violations",
-          "description": "What happens after an alleged violation of Florida probation, including no-bond warrants and the revocation process.",
-          "draft": true
+          "title": "Florida Probation Violation Lawyer",
+          "description": "What happens after an alleged violation of Florida probation, including no-bond warrants, the revocation process, and why acting before arrest matters.",
+          "titleTag": "Florida Probation Violation Lawyer | Hoffman Legal"
         }
-      ]
+      ],
+      "titleTag": "Florida Probation Lawyer Services | Hoffman Legal",
+      "breadcrumbLabel": "Probation Services"
     },
     {
       "label": "Florida Law",
       "href": "/florida-probation-law/",
-      "title": "Florida Probation Law",
-      "description": "Plain-language summaries of the Florida statutes that govern probation and community control, with links to the official text.",
-      "draft": true,
+      "title": "Florida Probation Law Explained",
+      "description": "Plain-language summaries of the Florida statutes governing probation and community control, and which provision an early termination request turns on.",
       "children": [
         {
           "label": "Overview",
           "href": "/florida-probation-law/",
-          "description": "Guide to the Florida statutes governing probation."
+          "description": "Plain-language summaries of the Florida statutes governing probation and community control, and which provision an early termination request turns on.",
+          "title": "Florida Probation Law Explained",
+          "titleTag": "Florida Probation Law Explained | Hoffman Legal"
         },
         {
           "label": "Florida Statute 948.04",
           "href": "/florida-probation-law/statute-948-04/",
-          "title": "Florida Statute 948.04",
-          "description": "A plain-language summary of Fla. Stat. § 948.04, which addresses the term of probation and the probationer's duties.",
-          "draft": true
+          "title": "Florida Statute 948.04 – Early Termination of Probation",
+          "description": "A plain-language summary of Fla. Stat. § 948.04, covering the term of probation, a probationer's duties, and where early termination sits within it.",
+          "titleTag": "Florida Statute 948.04 – Early Termination of Probation"
         },
         {
           "label": "Florida Statute 948.05",
           "href": "/florida-probation-law/statute-948-05/",
-          "title": "Florida Statute 948.05",
-          "description": "A plain-language summary of Fla. Stat. § 948.05, which addresses the court's authority over a person under supervision.",
-          "draft": true
+          "title": "Florida Statute 948.05 – Court Authority Over Probation",
+          "description": "A plain-language summary of Fla. Stat. § 948.05 and the authority it gives a Florida court over a person already under probation supervision.",
+          "titleTag": "Florida Statute 948.05 – Court Authority Over Probation"
         },
         {
           "label": "948.04 versus 948.05",
           "href": "/florida-probation-law/948-04-vs-948-05/",
-          "title": "Florida Statute 948.04 Compared With 948.05",
-          "description": "A side-by-side comparison of Fla. Stat. §§ 948.04 and 948.05, and which one an early termination request turns on.",
-          "draft": true
+          "title": "Florida Statute 948.04 vs 948.05 Compared",
+          "description": "A side-by-side comparison of Fla. Stat. §§ 948.04 and 948.05, what each section governs, and which one an early termination request actually turns on.",
+          "titleTag": "Florida Statute 948.04 vs 948.05 Compared | Hoffman Legal"
         },
         {
           "label": "Types of Probation",
           "href": "/florida-probation-law/types-of-probation/",
           "title": "Types of Probation in Florida",
-          "description": "Standard probation, administrative probation, drug offender probation, sex offender probation and community control, and how they differ.",
-          "draft": true
+          "description": "Standard, administrative, drug offender and sex offender probation, plus community control: how Florida's supervision types differ and why it matters.",
+          "titleTag": "Types of Probation in Florida | Hoffman Legal"
         },
         {
           "label": "Glossary",
           "href": "/florida-probation-law/glossary/",
-          "title": "Florida Probation Glossary",
-          "description": "Definitions of the terms used in Florida probation orders, violation reports and hearings.",
-          "draft": true
+          "title": "Florida Probation Terms Glossary",
+          "description": "Definitions of the terms that appear in Florida probation orders, violation reports and revocation hearings, written for people reading their own file.",
+          "titleTag": "Florida Probation Terms Glossary | Hoffman Legal"
         }
-      ]
+      ],
+      "titleTag": "Florida Probation Law Explained | Hoffman Legal",
+      "breadcrumbLabel": "Florida Probation Law"
     },
     {
       "label": "Locations",
       "href": "/locations/",
-      "title": "Florida Counties We Cover",
-      "description": "Early termination of probation is filed in the court that imposed the sentence, so local practice matters. The Florida counties covered so far, by region.",
-      "draft": true,
+      "title": "Florida Counties We Serve",
+      "description": "Early termination is filed in the court that imposed the sentence, so local practice matters. The Florida counties Hoffman Legal covers, listed by region.",
       "children": [
         {
           "label": "Overview",
           "href": "/locations/",
-          "description": "All Florida counties covered."
+          "description": "Early termination is filed in the court that imposed the sentence, so local practice matters. The Florida counties Hoffman Legal covers, listed by region.",
+          "title": "Florida Counties We Serve",
+          "titleTag": "Florida Probation Lawyer by County | Hoffman Legal"
         },
         {
           "label": "Broward County",
           "href": "/locations/broward-county/",
-          "title": "Early Termination of Probation in Broward County",
-          "description": "Broward County sits alone in the Seventeenth Judicial Circuit. What that means for filing an early termination motion in Fort Lauderdale.",
-          "draft": true
+          "title": "Early Termination of Probation Lawyer in Broward County",
+          "description": "Broward County sits alone in the Seventeenth Judicial Circuit. What that means for filing a motion to end probation early in Fort Lauderdale courts.",
+          "titleTag": "Early Termination of Probation Lawyer in Broward County"
         },
         {
           "label": "Miami-Dade County",
           "href": "/locations/miami-dade-county/",
-          "title": "Early Termination of Probation in Miami-Dade County",
-          "description": "Miami-Dade is Florida's most populous county and its own judicial circuit. How that shapes an early termination request filed in Miami.",
-          "draft": true
+          "title": "Early Termination of Probation Lawyer in Miami-Dade",
+          "description": "Miami-Dade is Florida's most populous county and its own judicial circuit. How that shapes an early termination motion filed in the Miami courts.",
+          "titleTag": "Early Termination of Probation Lawyer in Miami-Dade County"
         },
         {
           "label": "Palm Beach County",
           "href": "/locations/palm-beach-county/",
-          "title": "Early Termination of Probation in Palm Beach County",
-          "description": "Palm Beach County is geographically large and its own circuit. What that means for reporting, travel and filing in West Palm Beach.",
-          "draft": true
+          "title": "Early Termination of Probation Lawyer in Palm Beach",
+          "description": "Palm Beach County forms the Fifteenth Judicial Circuit. What filing a motion to end probation early looks like in the West Palm Beach courthouse.",
+          "titleTag": "Early Termination of Probation Lawyer in Palm Beach County"
         },
         {
           "label": "Orange County",
           "href": "/locations/orange-county/",
-          "title": "Early Termination of Probation in Orange County",
-          "description": "Orange County shares the Ninth Judicial Circuit with Osceola. Why the county your sentence came from matters more than where you live.",
-          "draft": true
+          "title": "Early Termination of Probation Lawyer in Orange County",
+          "description": "Orange County shares the Ninth Judicial Circuit with Osceola. What that means for an early termination motion filed in the Orlando courts.",
+          "titleTag": "Early Termination of Probation Lawyer in Orange County"
         },
         {
           "label": "Hillsborough County",
           "href": "/locations/hillsborough-county/",
-          "title": "Early Termination of Probation in Hillsborough County",
-          "description": "Hillsborough County is its own circuit at the centre of a four-county metro. What that means if you live in Pinellas, Pasco or Polk.",
-          "draft": true
+          "title": "Early Termination of Probation Lawyer in Hillsborough",
+          "description": "Hillsborough County is the Thirteenth Judicial Circuit on its own. What that means for filing a motion to end probation early in the Tampa courts.",
+          "titleTag": "Early Termination of Probation Lawyer in Hillsborough County"
         },
         {
           "label": "Duval County",
           "href": "/locations/duval-county/",
-          "title": "Early Termination of Probation in Duval County",
-          "description": "Duval shares the Fourth Judicial Circuit with Clay and Nassau. Which county your case belongs to, and why it is not always the one you live in.",
-          "draft": true
+          "title": "Early Termination of Probation Lawyer in Duval County",
+          "description": "Duval County anchors the Fourth Judicial Circuit alongside Clay and Nassau. What that means for an early termination motion in Jacksonville courts.",
+          "titleTag": "Early Termination of Probation Lawyer in Duval County"
         },
         {
           "label": "All Locations",
           "href": "/locations/",
-          "description": "All Florida counties covered."
+          "description": "Early termination is filed in the court that imposed the sentence, so local practice matters. The Florida counties Hoffman Legal covers, listed by region.",
+          "title": "Florida Counties We Serve",
+          "titleTag": "Florida Probation Lawyer by County | Hoffman Legal"
         }
-      ]
+      ],
+      "titleTag": "Florida Probation Lawyer by County | Hoffman Legal"
     },
     {
       "label": "Resources",
       "href": "/resources/",
       "title": "Florida Probation Resources",
-      "description": "Guides and reference material for people on probation in Florida, organised by the question you are trying to answer.",
-      "draft": true,
+      "description": "Guides, definitions and reference pages for people serving Florida probation: where to start, what each section covers, and what to read in what order.",
       "children": [
         {
           "label": "Overview",
           "href": "/resources/",
-          "description": "All Florida probation resources."
+          "description": "Guides, definitions and reference pages for people serving Florida probation: where to start, what each section covers, and what to read in what order.",
+          "title": "Florida Probation Resources",
+          "titleTag": "Florida Probation Resources | Hoffman Legal"
         },
         {
           "label": "Blog",
@@ -300,42 +315,45 @@
           "description": "Notes on Florida probation law and practice. Articles are added as they are written and reviewed.",
           "draft": true
         }
-      ]
+      ],
+      "titleTag": "Florida Probation Resources | Hoffman Legal"
     },
     {
       "label": "About",
       "href": "/about/",
-      "title": "About Hoffman Legal",
-      "description": "FloridaProbationLaw.com is operated by Hoffman Legal. Who runs the site, and how the firm approaches probation matters.",
-      "draft": true,
+      "title": "About Hoffman Legal, PLLC",
+      "description": "FloridaProbationLaw.com is operated by Hoffman Legal, PLLC, a Dania Beach firm handling Florida probation matters. Who runs this site and how it is written.",
       "children": [
         {
           "label": "Overview",
           "href": "/about/",
-          "description": "About the firm behind this site."
+          "description": "FloridaProbationLaw.com is operated by Hoffman Legal, PLLC, a Dania Beach firm handling Florida probation matters. Who runs this site and how it is written.",
+          "title": "About Hoffman Legal, PLLC",
+          "titleTag": "About Hoffman Legal, PLLC | Florida Probation Law"
         },
         {
           "label": "Attorney Profile",
           "href": "/about/attorney-profile/",
-          "title": "David Hoffman, Esq.",
-          "description": "David Hoffman, attorney and lead counsel at Hoffman Legal, PLLC in Dania Beach. A former public defender representing Florida probation and criminal-defense clients.",
-          "draft": true
+          "title": "Florida Probation Attorney David Hoffman",
+          "description": "David Hoffman is a Florida-licensed attorney and lead counsel at Hoffman Legal, PLLC. A former public defender representing probation clients statewide.",
+          "titleTag": "Florida Probation Attorney David Hoffman | Hoffman Legal"
         },
         {
           "label": "Why Choose Us",
           "href": "/about/why-choose-us/",
-          "title": "How We Work",
-          "description": "How Hoffman Legal approaches a probation matter, and what we will not tell you about your outcome.",
-          "draft": true
+          "title": "How Hoffman Legal Handles Probation Cases",
+          "description": "How a Florida probation matter is actually run at Hoffman Legal: what is reviewed first, what is said plainly, and what this firm will not claim.",
+          "titleTag": "How Hoffman Legal Handles Probation Cases"
         }
-      ]
+      ],
+      "titleTag": "About Hoffman Legal, PLLC | Florida Probation Law"
     },
     {
       "label": "Contact",
       "href": "/contact/",
-      "title": "Contact Florida Probation Law",
-      "description": "Contact attorney David Hoffman about a Florida probation matter. Free initial consultation, telephone enquiries accepted 24/7 on (954) 459-4236.",
-      "draft": true
+      "title": "Contact a Florida Probation Lawyer",
+      "description": "Contact attorney David Hoffman about a Florida probation matter. The initial consultation is free and telephone enquiries are accepted 24/7.",
+      "titleTag": "Contact a Florida Probation Lawyer | Hoffman Legal"
     }
   ],
   "legal": [
@@ -343,36 +361,31 @@
       "label": "Privacy Policy",
       "href": "/privacy-policy/",
       "title": "Privacy Policy",
-      "description": "How FloridaProbationLaw.com handles information submitted through this website.",
-      "draft": true
+      "description": "How FloridaProbationLaw.com handles information submitted through this website."
     },
     {
       "label": "Terms of Use",
       "href": "/terms-of-use/",
       "title": "Terms of Use",
-      "description": "The terms that govern use of FloridaProbationLaw.com, including the limits of the information published here and the absence of any attorney-client relationship.",
-      "draft": true
+      "description": "The terms that govern use of FloridaProbationLaw.com, including the limits of the information published here and the absence of any attorney-client relationship."
     },
     {
       "label": "Legal Disclaimer",
       "href": "/legal-disclaimer/",
       "title": "Legal Disclaimer",
-      "description": "Information on this site is not legal advice and does not create an attorney-client relationship.",
-      "draft": true
+      "description": "Information on this site is not legal advice and does not create an attorney-client relationship."
     },
     {
       "label": "Accessibility",
       "href": "/accessibility/",
       "title": "Accessibility Statement",
-      "description": "Our approach to accessibility on FloridaProbationLaw.com and how to report a barrier.",
-      "draft": true
+      "description": "Our approach to accessibility on FloridaProbationLaw.com and how to report a barrier."
     },
     {
       "label": "HTML Sitemap",
       "href": "/sitemap/",
       "title": "Sitemap",
-      "description": "A complete index of FloridaProbationLaw.com: early termination, the court process, Florida probation law, probation services, county pages and contact routes.",
-      "draft": true
+      "description": "A complete index of FloridaProbationLaw.com: early termination, the court process, Florida probation law, probation services, county pages and contact routes."
     }
   ],
   "_footerColumns": "A `source` must match the href of a primary nav item that has children, or be the literal \"legal\". build.mjs fails the build on anything else — a mistyped source previously rendered a heading with no links underneath it, which is invisible unless you go looking.",
@@ -424,9 +437,9 @@
     {
       "label": "Eligibility Assessment",
       "href": "/probation-eligibility-assessment/",
-      "title": "Probation Eligibility Assessment",
-      "description": "Send the details of your Florida probation sentence for review. This form makes no eligibility determination — an attorney must read the case first.",
-      "draft": true
+      "title": "Free Florida Probation Eligibility Assessment",
+      "description": "Send the details of your Florida probation sentence for attorney review. The form makes no eligibility decision — an attorney reads the case first.",
+      "titleTag": "Free Florida Probation Eligibility Assessment"
     },
     {
       "label": "Thank You",
