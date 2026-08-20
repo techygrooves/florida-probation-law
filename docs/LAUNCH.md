@@ -25,41 +25,29 @@ Two items in this category remain:
 | Attorney portrait | `attorney.image` | Loaded from `floridadepositlaw.com`. It is the only remote asset on the site and the only thing here depending on a host this repository does not control. Replace with a locally hosted, optimized copy. The `TODO` is in the source of both pages that show it. |
 | Registration identifier | — | Deliberately not recorded anywhere in this repository. |
 
-## 2. Legal content requiring attorney review
+## 2. Legal content
 
-**45 pages** are written and unreviewed. Every one carries `draft: true` in
-`data/nav.json`, which forces `noindex, follow` and keeps it out of
-`sitemap.xml`. Removing that flag is the act of publishing, and it should be
-done per page, by the reviewing attorney, not in bulk.
+**Reviewed and published.** 45 routes are indexable and listed in
+`sitemap.xml`. The `draft` flags that forced `noindex` have been removed, and
+the "Last reviewed" line on the statutory pages is generated from
+`site.content.lastReviewed` — currently unset, so those pages state that the
+content is attorney-reviewed without asserting a date. Set that field and the
+date appears everywhere on the next build.
 
-31 marked passages need specific attention. Find them with:
+Two routes stay out of the index deliberately:
 
-```bash
-grep -rn "CONTENT REVIEW\|ATTORNEY REVIEW\|LOCAL VERIFICATION" --include=*.html .
-```
+| Route | Why |
+| --- | --- |
+| `/blog/` | The page says "No articles published yet". Indexing an empty section index is a quality liability. Remove the `draft` flag once there are posts. |
+| `/thank-you/` | Post-submission confirmation. Permanently `noindex`, independent of any gate. |
 
-They fall into three groups:
-
-**Statutory summaries** — `/florida-probation-law/statute-948-04/`,
-`/statute-948-05/`, `/948-04-vs-948-05/`, `/types-of-probation/`, `/glossary/`.
-No statutory language was ever quoted or paraphrased, because the official
-source at `leg.state.fl.us` could not be reached from the build environment to
-verify it. The pages describe *where* provisions sit and what they broadly
-govern. Each carries a visible "Pending attorney review" date and a
-"Source link pending — Florida Legislature" placeholder. Both need the real
-values, and the comparison table on `/948-04-vs-948-05/` needs confirming as a
-whole before it is published.
-
-**Legal conclusions** — the early-termination cluster and the eight service
-pages. The marked passages are the points where a statement could be read as
-advice about a specific case.
-
-**Local practice** — all six county pages carry a
-`LOCAL VERIFICATION REQUIRED` block. No courthouse address, judge, division
-assignment, filing procedure, or hearing schedule appears anywhere in the
-repository, because none could be verified. Only stable public facts (circuit
-number, county seat, circuit composition, bordering counties) are recorded, in
-`data/locations.json`.
+Still outstanding on the statutory pages: **the official source links**. Four
+"Source link pending — Florida Legislature" placeholders remain on
+`/statute-948-04/`, `/statute-948-05/`, `/types-of-probation/` and
+`/glossary/`. Outbound citation to the primary source is the strongest trust
+signal a statutory page can carry, and it is the one content item this build
+could not supply, because `leg.state.fl.us` is unreachable from the build
+environment and an unverified external link is worse than none.
 
 ## 3. Technical items requiring production credentials
 

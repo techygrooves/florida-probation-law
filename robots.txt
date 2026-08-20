@@ -1,9 +1,5 @@
 # FloridaProbationLaw.com
 
-# Pre-launch: every page currently carries `noindex` in its markup while
-# content awaits review by a Florida attorney. Crawling is deliberately
-# left open so that directive can actually be read.
-
 User-agent: *
 Allow: /
 

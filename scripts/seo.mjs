@@ -226,6 +226,25 @@ export function buildSchema({ site, route, source, origin }) {
     });
   }
 
+  /* Service, for the pages describing a specific thing the firm does — not the
+     section index, which describes several. `provider` points at the one
+     organisation node rather than restating the firm, so a consumer resolves a
+     single entity across the whole site. No `offers` or price: none is
+     published, and inventing one would be a Rule 4-7.14 cost-disclosure
+     problem rather than a missing field. */
+  if (/^\/probation-services\/.+\//.test(route.href)) {
+    graph.push({
+      "@type": "Service",
+      "@id": `${url}#service`,
+      name: route.title,
+      description: route.description,
+      serviceType: route.title,
+      provider: { "@id": orgId },
+      areaServed: { "@type": "State", name: "Florida" },
+      mainEntityOfPage: { "@id": `${url}#webpage` },
+    });
+  }
+
   /* Article, for blog posts only — not the blog index. `author` is omitted
      until a real one is supplied; an invented byline is worse than none. */
   if (route.href.startsWith("/blog/") && route.href !== "/blog/") {
@@ -290,8 +309,18 @@ export function buildRobotsTxt({ site, origin, indexableCount }) {
  * ------------------------------------------------------------------------ */
 
 export function buildSitemap({ origin, routes }) {
+  /* `lastmod` is included only where a real date is known — it comes from the
+     page file's last commit, so it reflects when the content actually changed.
+     A date stamped from the build clock would mark all 40-odd pages as modified
+     on every deploy, which is worse than omitting the field: Google learns to
+     ignore a lastmod that is always today. */
   const body = routes.length
-    ? routes.map((r) => `  <url><loc>${origin}${r.href}</loc></url>`).join("\n")
+    ? routes
+        .map((r) => {
+          const lastmod = r.lastmod ? `<lastmod>${r.lastmod}</lastmod>` : "";
+          return `  <url><loc>${origin}${r.href}</loc>${lastmod}</url>`;
+        })
+        .join("\n")
     : "  <!-- No publishable routes yet: every page carries noindex until a\n" +
       "       Florida attorney has reviewed its content. -->";
 

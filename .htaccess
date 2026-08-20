@@ -11,6 +11,30 @@ ErrorDocument 404 /404.html
 # index should 404, not enumerate what is in it.
 Options -Indexes
 
+# Compression. The stylesheet is the one render-blocking request on every
+# page and compresses to roughly a fifth of its size, which is the largest
+# single speed win available here without touching the design.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Caching. Fonts and images are content-stable and get a year. The
+# stylesheet and script are NOT fingerprinted — a long cache on those
+# would leave returning visitors on a stale build after every deploy — so
+# they revalidate daily instead. HTML is never cached: a page whose copy
+# changed must not be served from yesterday.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType font/woff2               "access plus 1 year"
+  ExpiresByType image/png                "access plus 1 year"
+  ExpiresByType image/svg+xml            "access plus 1 year"
+  ExpiresByType text/css                 "access plus 1 day"
+  ExpiresByType application/javascript   "access plus 1 day"
+  ExpiresByType text/html                "access plus 0 seconds"
+</IfModule>
+
 # URL changes made while the site was being built.
 Redirect 301 /early-termination/eligibility-requirements/ /early-termination-of-probation/eligibility/
 Redirect 301 /early-termination/florida-50-percent-rule/ /early-termination-of-probation/50-percent-rule/
